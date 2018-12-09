@@ -79,14 +79,17 @@
 
 
 
+<meta name="description" content="Models通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现包含一些基本字段以及数据的一些行为  ORM对象关系映射，实现了对象和数据库之间的映射隐藏了数据访问的细节，不需要编写 SQL 语句  Models 创建    在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建） 创建类，继承 models.Mod">
 <meta property="og:type" content="website">
-<meta property="og:title" content="web安全">
-<meta property="og:url" content="http://wcute.github.io/web安全/index.html">
+<meta property="og:title" content="Hexo Test">
+<meta property="og:url" content="http://wcute.github.io/python/Django--（Models）.html">
 <meta property="og:site_name" content="Hexo Test">
+<meta property="og:description" content="Models通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现包含一些基本字段以及数据的一些行为  ORM对象关系映射，实现了对象和数据库之间的映射隐藏了数据访问的细节，不需要编写 SQL 语句  Models 创建    在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建） 创建类，继承 models.Mod">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-03T06:48:33.477Z">
+<meta property="og:updated_time" content="2018-12-09T03:49:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="web安全">
+<meta name="twitter:title" content="Hexo Test">
+<meta name="twitter:description" content="Models通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现包含一些基本字段以及数据的一些行为  ORM对象关系映射，实现了对象和数据库之间的映射隐藏了数据访问的细节，不需要编写 SQL 语句  Models 创建    在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建） 创建类，继承 models.Mod">
 
 
 
@@ -116,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/web安全/">
+  <link rel="canonical" href="http://wcute.github.io/python/Django--（Models）.html">
 
 
 
 
 
-  <title>web安全 | Hexo Test</title>
+  <title> | Hexo Test</title>
   
 
 
@@ -242,7 +245,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">web安全</h1>
+	<h1 class="post-title" itemprop="name headline"></h1>
 
 
 
@@ -254,7 +257,43 @@
       <div class="post-body">
         
         
-          
+          <ul>
+<li><p>Models<br>通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现<br>包含一些基本字段以及数据的一些行为</p>
+</li>
+<li><p>ORM<br>对象关系映射，实现了对象和数据库之间的映射<br>隐藏了数据访问的细节，不需要编写 SQL 语句</p>
+</li>
+<li><p>Models 创建</p>
+</li>
+</ul>
+<ol>
+<li>在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建）</li>
+<li>创建类，继承 models.Model ，该类即是一张数据表</li>
+<li>在类中创建字段，字段即类里面的属性（变量）</li>
+<li>生成数据表<blockquote>
+<p>cmd 进入 manage.py 同级目录<br>执行 python manage.py makemigrations app名（可选）<br>执行 python manage.py migrate</p>
+</blockquote>
+</li>
+<li>数据表查看 sql 语句<blockquote>
+<p>Django 会自动在 app/migrations/ 目录下生成移植文件<br>python manage.py sqlmigrate 应用名 移植文件id </p>
+</blockquote>
+</li>
+<li>页面呈现数据</li>
+</ol>
+<ul>
+<li><p>后台</p>
+<blockquote>
+<p>views.py 中 import models<br>article = models.Article.objects.get(pk=1)<br>render(request,page,{‘article’:article})</p>
+</blockquote>
+</li>
+<li><p>前端</p>
+<blockquote>
+<p>index.html</p>
+
+<p> 显示数据<br>此时访问 <a href="http://127.0.0.1:8000/blog/" target="_blank" rel="noopener">http://127.0.0.1:8000/blog/</a> 显示id=1的 title 和 content 内容 </p>
+</blockquote>
+</li>
+</ul>
+
         
       </div>
       

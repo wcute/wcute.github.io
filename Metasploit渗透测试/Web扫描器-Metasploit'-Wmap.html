@@ -79,14 +79,27 @@
 
 
 
+<meta name="description" content="Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库    启动 metasploit root@kaili:~# msfconsole 进入控制台，加载wmap模块 msf &amp;gt; load_wmap成功加载如下图  help 查看 wmap 参数 msf &amp;gt; help  添加扫描站点 msf &amp;gt; wmap_sites -a http://X.X.X.X">
 <meta property="og:type" content="website">
-<meta property="og:title" content="web安全">
-<meta property="og:url" content="http://wcute.github.io/web安全/index.html">
+<meta property="og:title" content="Hexo Test">
+<meta property="og:url" content="http://wcute.github.io/Metasploit渗透测试/Web扫描器-Metasploit'-Wmap.html">
 <meta property="og:site_name" content="Hexo Test">
+<meta property="og:description" content="Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库    启动 metasploit root@kaili:~# msfconsole 进入控制台，加载wmap模块 msf &amp;gt; load_wmap成功加载如下图  help 查看 wmap 参数 msf &amp;gt; help  添加扫描站点 msf &amp;gt; wmap_sites -a http://X.X.X.X">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-03T06:48:33.477Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-8567c6c0bd2769bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9a444a6cbbad26b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2c272a073a60d745.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-8938c9110e5ab067.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4e208dc3d0843da4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0ea5b511fb7c882b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-32a1da0ed10680b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-f944b66d16b640d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-b9719ee091d9e6a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-12-09T03:49:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="web安全">
+<meta name="twitter:title" content="Hexo Test">
+<meta name="twitter:description" content="Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库    启动 metasploit root@kaili:~# msfconsole 进入控制台，加载wmap模块 msf &amp;gt; load_wmap成功加载如下图  help 查看 wmap 参数 msf &amp;gt; help  添加扫描站点 msf &amp;gt; wmap_sites -a http://X.X.X.X">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-8567c6c0bd2769bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -116,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/web安全/">
+  <link rel="canonical" href="http://wcute.github.io/Metasploit渗透测试/Web扫描器-Metasploit'-Wmap.html">
 
 
 
 
 
-  <title>web安全 | Hexo Test</title>
+  <title> | Hexo Test</title>
   
 
 
@@ -242,7 +255,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">web安全</h1>
+	<h1 class="post-title" itemprop="name headline"></h1>
 
 
 
@@ -254,7 +267,35 @@
       <div class="post-body">
         
         
-          
+          <h3 id="Metasploit’Wmap-Web扫描器使用"><a href="#Metasploit’Wmap-Web扫描器使用" class="headerlink" title="Metasploit’Wmap Web扫描器使用"></a>Metasploit’Wmap Web扫描器使用</h3><p>第一次使用需要初始化并启动数据库</p>
+<p> <img src="https://upload-images.jianshu.io/upload_images/12585049-8567c6c0bd2769bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<ol>
+<li>启动 metasploit<br> <code>root@kaili:~# msfconsole</code></li>
+<li><p>进入控制台，加载wmap模块<br> <code>msf &gt; load_wmap</code><br>成功加载如下图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9a444a6cbbad26b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+</li>
+<li><p>help 查看 wmap 参数<br> <code>msf &gt; help</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-2c272a073a60d745.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+</li>
+<li><p>添加扫描站点<br> <code>msf &gt; wmap_sites -a http://X.X.X.X</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-8938c9110e5ab067.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+</li>
+<li><p>查看扫描站点<br> <code>msf &gt; wmap_sites -l</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-4e208dc3d0843da4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+</li>
+</ol>
+<p>若添加错误，删除站点可以用<br>    <code>msf &gt; wmap_sites -d &lt;Id&gt;</code></p>
+<ol start="6">
+<li><p>设置扫描站点<br> <code>msf &gt; wmap_targets -d &lt;Id&gt;</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-0ea5b511fb7c882b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+</li>
+<li><p>查看扫描目标列表<br> <code>msf &gt; wmap_targets -l</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-32a1da0ed10680b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+</li>
+<li><p>载入扫描需要使用的 EXP 模块<br> <code>msf &gt; wmap_run -t</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-f944b66d16b640d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
+<p> -m 参数和正则表达式使用可以选择使用模块</p>
+</li>
+<li><p>开始进行扫描<br> <code>msf &gt; wmap_run -e</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-b9719ee091d9e6a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
+</li>
+<li><p>查看扫描结果汇总<br><code>msf &gt; wmap_vluns -l</code><br>或者可以直接使用 vluns 结果一样</p>
+</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><hr> Wmap借助于Metasploit的模块扫描目标应用和主机的漏洞。它从Metasploit的数据库和模块中获取目标主机和应用的信息并将扫描结果返回给数据库。允许用户使用和配置Metasploit中的辅助模块，对网站进行集中扫描。</p>
+
         
       </div>
       
@@ -296,8 +337,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -330,6 +380,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Metasploit’Wmap-Web扫描器使用"><span class="nav-number">1.</span> <span class="nav-text">Metasploit’Wmap Web扫描器使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

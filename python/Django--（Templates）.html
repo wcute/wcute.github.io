@@ -79,14 +79,17 @@
 
 
 
+<meta name="description" content="在APP的根目录（应用）下创建名叫 Templates 的目录 在 Templates 目录下创建 HTML 文件 在 views.py 中返回 render（）   views.py12345678from django.shortcuts import renderfrom django.http import HttpResponsedef index(request):return re">
 <meta property="og:type" content="website">
-<meta property="og:title" content="web安全">
-<meta property="og:url" content="http://wcute.github.io/web安全/index.html">
+<meta property="og:title" content="Hexo Test">
+<meta property="og:url" content="http://wcute.github.io/python/Django--（Templates）.html">
 <meta property="og:site_name" content="Hexo Test">
+<meta property="og:description" content="在APP的根目录（应用）下创建名叫 Templates 的目录 在 Templates 目录下创建 HTML 文件 在 views.py 中返回 render（）   views.py12345678from django.shortcuts import renderfrom django.http import HttpResponsedef index(request):return re">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-03T06:48:33.477Z">
+<meta property="og:updated_time" content="2018-12-09T03:49:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="web安全">
+<meta name="twitter:title" content="Hexo Test">
+<meta name="twitter:description" content="在APP的根目录（应用）下创建名叫 Templates 的目录 在 Templates 目录下创建 HTML 文件 在 views.py 中返回 render（）   views.py12345678from django.shortcuts import renderfrom django.http import HttpResponsedef index(request):return re">
 
 
 
@@ -116,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/web安全/">
+  <link rel="canonical" href="http://wcute.github.io/python/Django--（Templates）.html">
 
 
 
 
 
-  <title>web安全 | Hexo Test</title>
+  <title> | Hexo Test</title>
   
 
 
@@ -242,7 +245,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">web安全</h1>
+	<h1 class="post-title" itemprop="name headline"></h1>
 
 
 
@@ -254,7 +257,18 @@
       <div class="post-body">
         
         
-          
+          <ol>
+<li>在APP的根目录（应用）下创建名叫 Templates 的目录</li>
+<li>在 Templates 目录下创建 HTML 文件</li>
+<li>在 views.py 中返回 render（）</li>
+</ol>
+<ul>
+<li>views.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">return render(request,&apos;index.html&apos;)</span><br><span class="line"></span><br><span class="line">render(request,&apos;模板文件&apos;,context)</span><br><span class="line"># 前两个参数为必须，第三个参数作用是传送数据到前端，支持dict类型参数，该字典是后台传递到模板的参数，键为参数名，在模板中使用&#123;&#123;参数名&#125;&#125;来直接使用</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Django 查找 Templates 规则：<br><code>Django</code> 按照 <code>INSTALLED_APPS</code>中的添加顺序查找 <code>Templates</code><br>不同APP下<code>Template</code>目录中的同名<code>.html</code>文件会造成冲突</p>
+<p>解决方案：<br>在 APP 的<code>Templates</code>目录下创建以 <code>APP</code>名为名称的目录，将<code>HTML</code> 文件放入新创建的目录下</p>
+
         
       </div>
       
