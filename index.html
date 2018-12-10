@@ -249,6 +249,498 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（Models）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/10/Django--（Models）/" itemprop="url">Django--（Models）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>Models<br>通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现<br>包含一些基本字段以及数据的一些行为</p>
+</li>
+<li><p>ORM<br>对象关系映射，实现了对象和数据库之间的映射<br>隐藏了数据访问的细节，不需要编写 SQL 语句</p>
+</li>
+<li><p>Models 创建</p>
+</li>
+</ul>
+<ol>
+<li>在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建）</li>
+<li>创建类，继承 models.Model ，该类即是一张数据表</li>
+<li>在类中创建字段，字段即类里面的属性（变量）</li>
+<li>生成数据表<blockquote>
+<p>cmd 进入 manage.py 同级目录<br>执行 python manage.py makemigrations app名（可选）<br>执行 python manage.py migrate</p>
+</blockquote>
+</li>
+<li>数据表查看 sql 语句<blockquote>
+<p>Django 会自动在 app/migrations/ 目录下生成移植文件<br>python manage.py sqlmigrate 应用名 移植文件id </p>
+</blockquote>
+</li>
+<li>页面呈现数据</li>
+</ol>
+<ul>
+<li><p>后台</p>
+<blockquote>
+<p>views.py 中 import models<br>article = models.Article.objects.get(pk=1)<br>render(request,page,{‘article’:article})</p>
+</blockquote>
+</li>
+<li><p>前端</p>
+<blockquote>
+<p>index.html</p>
+
+<p> 显示数据<br>此时访问 <a href="http://127.0.0.1:8000/blog/" target="_blank" rel="noopener">http://127.0.0.1:8000/blog/</a> 显示id=1的 title 和 content 内容 </p>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（Templates）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/10/Django--（Templates）/" itemprop="url">Django--（Templates）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>在APP的根目录（应用）下创建名叫 Templates 的目录</li>
+<li>在 Templates 目录下创建 HTML 文件</li>
+<li>在 views.py 中返回 render（）</li>
+</ol>
+<ul>
+<li>views.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">return render(request,&apos;index.html&apos;)</span><br><span class="line"></span><br><span class="line">render(request,&apos;模板文件&apos;,context)</span><br><span class="line"># 前两个参数为必须，第三个参数作用是传送数据到前端，支持dict类型参数，该字典是后台传递到模板的参数，键为参数名，在模板中使用&#123;&#123;参数名&#125;&#125;来直接使用</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Django 查找 Templates 规则：<br><code>Django</code> 按照 <code>INSTALLED_APPS</code>中的添加顺序查找 <code>Templates</code><br>不同APP下<code>Template</code>目录中的同名<code>.html</code>文件会造成冲突</p>
+<p>解决方案：<br>在 APP 的<code>Templates</code>目录下创建以 <code>APP</code>名为名称的目录，将<code>HTML</code> 文件放入新创建的目录下</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/10/Django--（admin）/" itemprop="url">Django--（admin）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>Admin 简介</p>
+<blockquote>
+<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
+</blockquote>
+</li>
+<li><p>Admin 配置</p>
+<blockquote>
+<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
+</blockquote>
+</li>
+<li><p>配置应用</p>
+<blockquote>
+<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
+</blockquote>
+</li>
+<li><p>修改数据默认显示名称</p>
+<blockquote>
+<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -393,183 +885,6 @@
 </li>
 </ol>
 <p><img src="https://upload-images.jianshu.io/upload_images/12585049-926ca534e06b2225.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
-<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
-<li>文章标题列表，超链接</li>
-<li>取出数据库中所有文章对象</li>
-<li>将文章对象打包成列表，传递到前端</li>
-<li>前端页面把文章以标题超链接的形式逐个列出</li>
-</ol>
-<ul>
-<li><p>后端 views.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>前端 index.html</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
-<li>利用文章 ID 获取单个文章对象</li>
-</ol>
-<ul>
-<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="2">
-<li>编写显示文章内容页面的前端</li>
-</ol>
-<ul>
-<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="3">
-<li>修改 URL 配置</li>
-</ol>
-<ul>
-<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
 
           
         
@@ -823,7 +1138,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django--（Models）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -842,7 +1157,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Django--（Models）/" itemprop="url">Django--（Models）</a></h1>
+                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
         
 
         <div class="post-meta">
@@ -916,355 +1231,40 @@
       
         
           
-            <ul>
-<li><p>Models<br>通常一个 Model 对应数据库的一张数据表，Django 中 Models 以类的形式表现<br>包含一些基本字段以及数据的一些行为</p>
-</li>
-<li><p>ORM<br>对象关系映射，实现了对象和数据库之间的映射<br>隐藏了数据访问的细节，不需要编写 SQL 语句</p>
-</li>
-<li><p>Models 创建</p>
-</li>
-</ul>
-<ol>
-<li>在应用根目录下创建 models.py ，并引入 models 模块（一般django自动创建）</li>
-<li>创建类，继承 models.Model ，该类即是一张数据表</li>
-<li>在类中创建字段，字段即类里面的属性（变量）</li>
-<li>生成数据表<blockquote>
-<p>cmd 进入 manage.py 同级目录<br>执行 python manage.py makemigrations app名（可选）<br>执行 python manage.py migrate</p>
-</blockquote>
-</li>
-<li>数据表查看 sql 语句<blockquote>
-<p>Django 会自动在 app/migrations/ 目录下生成移植文件<br>python manage.py sqlmigrate 应用名 移植文件id </p>
-</blockquote>
-</li>
-<li>页面呈现数据</li>
+            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
+<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
+<li>文章标题列表，超链接</li>
+<li>取出数据库中所有文章对象</li>
+<li>将文章对象打包成列表，传递到前端</li>
+<li>前端页面把文章以标题超链接的形式逐个列出</li>
 </ol>
 <ul>
-<li><p>后台</p>
-<blockquote>
-<p>views.py 中 import models<br>article = models.Article.objects.get(pk=1)<br>render(request,page,{‘article’:article})</p>
-</blockquote>
+<li><p>后端 views.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>前端</p>
-<blockquote>
-<p>index.html</p>
-
-<p> 显示数据<br>此时访问 <a href="http://127.0.0.1:8000/blog/" target="_blank" rel="noopener">http://127.0.0.1:8000/blog/</a> 显示id=1的 title 和 content 内容 </p>
-</blockquote>
+<li><p>前端 index.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django--（Templates）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Django--（Templates）/" itemprop="url">Django--（Templates）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>在APP的根目录（应用）下创建名叫 Templates 的目录</li>
-<li>在 Templates 目录下创建 HTML 文件</li>
-<li>在 views.py 中返回 render（）</li>
+<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
+<li>利用文章 ID 获取单个文章对象</li>
 </ol>
 <ul>
-<li>views.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">return render(request,&apos;index.html&apos;)</span><br><span class="line"></span><br><span class="line">render(request,&apos;模板文件&apos;,context)</span><br><span class="line"># 前两个参数为必须，第三个参数作用是传送数据到前端，支持dict类型参数，该字典是后台传递到模板的参数，键为参数名，在模板中使用&#123;&#123;参数名&#125;&#125;来直接使用</span><br></pre></td></tr></table></figure>
+<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>Django 查找 Templates 规则：<br><code>Django</code> 按照 <code>INSTALLED_APPS</code>中的添加顺序查找 <code>Templates</code><br>不同APP下<code>Template</code>目录中的同名<code>.html</code>文件会造成冲突</p>
-<p>解决方案：<br>在 APP 的<code>Templates</code>目录下创建以 <code>APP</code>名为名称的目录，将<code>HTML</code> 文件放入新创建的目录下</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django--（admin）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Django--（admin）/" itemprop="url">Django--（admin）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>Admin 简介</p>
-<blockquote>
-<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
-</blockquote>
+<ol start="2">
+<li>编写显示文章内容页面的前端</li>
+</ol>
+<ul>
+<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Admin 配置</p>
-<blockquote>
-<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
-</blockquote>
-</li>
-<li><p>配置应用</p>
-<blockquote>
-<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
-</blockquote>
-</li>
-<li><p>修改数据默认显示名称</p>
-<blockquote>
-<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
-</blockquote>
+</ul>
+<ol start="3">
+<li>修改 URL 配置</li>
+</ol>
+<ul>
+<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
