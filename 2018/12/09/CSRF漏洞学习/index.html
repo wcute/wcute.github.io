@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="title: CSRF漏洞学习date: 2018-12-09 12:33:03tags:  categories: 漏洞学习CSRF 定义跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。 CSRF攻击攻击原理及过程 用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器">
+<meta name="description" content="CSRF 定义跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。 CSRF攻击攻击原理及过程 用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A； 用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B； 网站B接">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo Test">
-<meta property="og:url" content="http://wcute.github.io/2018/12/10/CSRF漏洞学习/index.html">
+<meta property="og:title" content="CSRF漏洞学习">
+<meta property="og:url" content="http://wcute.github.io/2018/12/09/CSRF漏洞学习/index.html">
 <meta property="og:site_name" content="Hexo Test">
-<meta property="og:description" content="title: CSRF漏洞学习date: 2018-12-09 12:33:03tags:  categories: 漏洞学习CSRF 定义跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。 CSRF攻击攻击原理及过程 用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器">
+<meta property="og:description" content="CSRF 定义跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。 CSRF攻击攻击原理及过程 用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A； 用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B； 网站B接">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-10T13:54:57.203Z">
+<meta property="og:updated_time" content="2018-12-10T14:08:20.602Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo Test">
-<meta name="twitter:description" content="title: CSRF漏洞学习date: 2018-12-09 12:33:03tags:  categories: 漏洞学习CSRF 定义跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。 CSRF攻击攻击原理及过程 用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器">
+<meta name="twitter:title" content="CSRF漏洞学习">
+<meta name="twitter:description" content="CSRF 定义跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。 CSRF攻击攻击原理及过程 用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A； 用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B； 网站B接">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/12/10/CSRF漏洞学习/">
+  <link rel="canonical" href="http://wcute.github.io/2018/12/09/CSRF漏洞学习/">
 
 
 
 
 
-  <title> | Hexo Test</title>
+  <title>CSRF漏洞学习 | Hexo Test</title>
   
 
 
@@ -252,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/CSRF漏洞学习/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/CSRF漏洞学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -269,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">CSRF漏洞学习</h1>
         
 
         <div class="post-meta">
@@ -281,8 +281,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T21:17:41+08:00">
-                2018-12-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
               </time>
             
 
@@ -291,6 +291,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -319,10 +341,7 @@
       
 
       
-        <a id="more"></a>
-<hr>
-<p>title: CSRF漏洞学习<br>date: 2018-12-09 12:33:03<br>tags: </p>
-<h2 id="categories-漏洞学习"><a href="#categories-漏洞学习" class="headerlink" title="categories: 漏洞学习"></a>categories: 漏洞学习</h2><h4 id="CSRF-定义"><a href="#CSRF-定义" class="headerlink" title="CSRF 定义"></a>CSRF 定义</h4><p>跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。</p>
+        <h4 id="CSRF-定义"><a href="#CSRF-定义" class="headerlink" title="CSRF 定义"></a>CSRF 定义</h4><p>跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。</p>
 <h4 id="CSRF攻击攻击原理及过程"><a href="#CSRF攻击攻击原理及过程" class="headerlink" title="CSRF攻击攻击原理及过程"></a>CSRF攻击攻击原理及过程</h4><ol>
 <li>用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；</li>
 <li>在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；</li>
@@ -335,7 +354,7 @@
 <li>第二种：<br>请求是个POST请求，post请求中没有<code>token</code>参数，然后请求也没有验证<code>referer</code>信息。这种是存在CSRF情况最多的一种。<br>检测方法：<br>网页操作某功能，抓包后，如果发现没有<code>token</code>等参数，然后就将<code>referer</code>信息设置为空，再次发包请求，如果请求成功了，就说明这里有CSRF漏洞。如果有token等参数，可以尝试将token去掉，然后再将<code>referer</code>也去掉，进行验证。这种CSRF漏洞的利用，是需要在自己服务器构造一个<code>form</code>表单的，然后将服务器<code>form</code>表单的<code>URL</code>作为CSRF攻击进行利用的，或者用<code>js</code>代码生成<code>form</code>表单，或者用<code>ajax</code>实现。</li>
 <li>第三种：<br>请求是POST，<code>post</code>请求中没有<code>token</code>参数，但是验证了<code>referer</code>信息。然而可以将<code>post</code>请求改写为<code>get</code>请求，然后通过第一种情况下的那个方法利用。<br>检测方法：<br>就是先执行了第二种的验证后，发现有对CSRF进行防御。然后将post请求改写为GET请求，发现仍然可以成功执行。漏洞成因是因为服务器端接收请求参数的时候，没有严格的用<code>$_POST</code>而是用的类似于<code>$_REQUEST</code>这种<code>post</code>，<code>get</code>请求的参数都可以接收的写法。</li>
 </ul>
-
+<a id="more"></a>
       
     </div>
     
@@ -359,8 +378,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/10/Django--（admin）/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2018/12/09/Weblogic-SSRF-漏洞复现/" rel="next" title="Weblogic-SSRF-漏洞复现">
+                <i class="fa fa-chevron-left"></i> Weblogic-SSRF-漏洞复现
               </a>
             
           </div>
@@ -368,6 +387,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/09/SSRF漏洞学习/" rel="prev" title="SSRF漏洞学习">
+                SSRF漏洞学习 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -490,7 +513,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#categories-漏洞学习"><span class="nav-number">1.</span> <span class="nav-text">categories: 漏洞学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF-定义"><span class="nav-number">1.0.1.</span> <span class="nav-text">CSRF 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF攻击攻击原理及过程"><span class="nav-number">1.0.2.</span> <span class="nav-text">CSRF攻击攻击原理及过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF漏洞的分类及检测挖掘方法"><span class="nav-number">1.0.3.</span> <span class="nav-text">CSRF漏洞的分类及检测挖掘方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF-定义"><span class="nav-number">1.</span> <span class="nav-text">CSRF 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF攻击攻击原理及过程"><span class="nav-number">2.</span> <span class="nav-text">CSRF攻击攻击原理及过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF漏洞的分类及检测挖掘方法"><span class="nav-number">3.</span> <span class="nav-text">CSRF漏洞的分类及检测挖掘方法</span></a></li></ol></div>
             
 
           </div>

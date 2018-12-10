@@ -643,7 +643,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（Django安装）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/CSRF漏洞学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -662,7 +662,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（Django安装）/" itemprop="url">Django---简单博客搭建（Django安装）</a></h1>
+                <a class="post-title-link" href="/2018/12/09/CSRF漏洞学习/" itemprop="url">CSRF漏洞学习</a></h1>
         
 
         <div class="post-meta">
@@ -697,8 +697,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
                   </a>
                 </span>
 
@@ -735,73 +735,26 @@
 
       
         
-          
-            <h4 id="Django-安装"><a href="#Django-安装" class="headerlink" title="Django 安装"></a>Django 安装</h4><ol>
-<li>安装<blockquote>
-<p>pip install Django==1.10.2</p>
-</blockquote>
-</li>
-<li>查看是否安装成功<blockquote>
-<p>python -m django version</p>
-</blockquote>
-</li>
-<li>创建新项目<blockquote>
-<p>D:\python&gt;django-admin startproject myblog</p>
-</blockquote>
-</li>
+          <h4 id="CSRF-定义"><a href="#CSRF-定义" class="headerlink" title="CSRF 定义"></a>CSRF 定义</h4><p>跨站请求伪造，是一种“挟持用户”在当前已登录的Web应用程序上执行“非本意的操作”的攻击方法。</p>
+<h4 id="CSRF攻击攻击原理及过程"><a href="#CSRF攻击攻击原理及过程" class="headerlink" title="CSRF攻击攻击原理及过程"></a>CSRF攻击攻击原理及过程</h4><ol>
+<li>用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A；</li>
+<li>在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；</li>
+<li>用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B；</li>
+<li>网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A；</li>
+<li>浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行。 </li>
 </ol>
-<p>此时自建项目目录生成</p>
-<ul>
-<li><p>目录结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">manage.py            与项目进行交互的命令行工具集的入口</span><br><span class="line"></span><br><span class="line">myblog               项目容器，包含项目最基本的一些配置，目录名不建议修改</span><br><span class="line"></span><br><span class="line">__init__.py          python 中声名模块的文件，默认内容为空</span><br><span class="line"></span><br><span class="line">settings.py          项目总配置文件（数据库、Web应用、时间等配置）</span><br><span class="line"></span><br><span class="line">urls.py              url 配置文件</span><br><span class="line"></span><br><span class="line">wsgi.py              python 与web服务器网关接口</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动django自带的服务器</p>
-<blockquote>
-<p>python manage.py runserver 【端口】</p>
-</blockquote>
-</li>
+<h4 id="CSRF漏洞的分类及检测挖掘方法"><a href="#CSRF漏洞的分类及检测挖掘方法" class="headerlink" title="CSRF漏洞的分类及检测挖掘方法"></a>CSRF漏洞的分类及检测挖掘方法</h4><ul>
+<li>第一种：<br>请求直接是个GET请求，然后请求中没有token验证参数，然后还有一个固定的变量可以被控制。这种是比较常见的一种CSRF漏洞。<br>检测方法：<br>网页操作某功能，抓包后，如果发现满足上面条件，然后再去页面测试下，基本就可以确定存在不存在CSRF漏洞了。</li>
+<li>第二种：<br>请求是个POST请求，post请求中没有<code>token</code>参数，然后请求也没有验证<code>referer</code>信息。这种是存在CSRF情况最多的一种。<br>检测方法：<br>网页操作某功能，抓包后，如果发现没有<code>token</code>等参数，然后就将<code>referer</code>信息设置为空，再次发包请求，如果请求成功了，就说明这里有CSRF漏洞。如果有token等参数，可以尝试将token去掉，然后再将<code>referer</code>也去掉，进行验证。这种CSRF漏洞的利用，是需要在自己服务器构造一个<code>form</code>表单的，然后将服务器<code>form</code>表单的<code>URL</code>作为CSRF攻击进行利用的，或者用<code>js</code>代码生成<code>form</code>表单，或者用<code>ajax</code>实现。</li>
+<li>第三种：<br>请求是POST，<code>post</code>请求中没有<code>token</code>参数，但是验证了<code>referer</code>信息。然而可以将<code>post</code>请求改写为<code>get</code>请求，然后通过第一种情况下的那个方法利用。<br>检测方法：<br>就是先执行了第二种的验证后，发现有对CSRF进行防御。然后将post请求改写为GET请求，发现仍然可以成功执行。漏洞成因是因为服务器端接收请求参数的时候，没有严格的用<code>$_POST</code>而是用的类似于<code>$_REQUEST</code>这种<code>post</code>，<code>get</code>请求的参数都可以接收的写法。</li>
 </ul>
-<p>显示默认web地址和端口 ，更改端口只需在命令后面加上使用的端口号</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-19607cf2914561ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<h4 id="应用创建"><a href="#应用创建" class="headerlink" title="应用创建"></a>应用创建</h4><p>创建步骤：</p>
-<ol>
-<li>打开命令行，进入manage.py 的同级目录</li>
-<li>输入：python manage.py startapp blog</li>
-<li>添加应用名到 settings.py 中的 INSTALLED_APPS里</li>
-</ol>
-<ul>
-<li><p>应用目录结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">migrations     数据移植模块，内容自动生成</span><br><span class="line"></span><br><span class="line">admin.py       后台管理系统配置</span><br><span class="line"></span><br><span class="line">apps.py        该应用的一些配置，Django-1.9以后自动生成</span><br><span class="line"></span><br><span class="line">models.py      数据模块</span><br><span class="line"></span><br><span class="line">tests.py       自动化测试模块，可在此编写测试脚本</span><br><span class="line"></span><br><span class="line">views.py       执行响应的代码所在模块，代码逻辑处理主要地点，大部分代码在此编写</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建第一个响应页面</p>
-</li>
-</ul>
-<ol>
-<li>在 blog 的 views.py 编写代码并保存<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line"></span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line"></span><br><span class="line">return HttpResponse(&apos;hello&apos;)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>注：每个响应对应一个函数，函数必须返回一个响应<br>函数必须存在一个参数，一般约定为 request<br>每一个响应函数对应一个URL</p>
-<ol start="2">
-<li>进入 myblog 的配置文件 settings.py，在 INSTALLED_APPS 中添加 blog 应用</li>
-<li>进入 myblog 的url配置文件 urls.py，导入模块并配置url</li>
-</ol>
-<ul>
-<li>URL 配置一<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import blog.views as asd</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line"></span><br><span class="line">url(r&apos;^index/&apos;, asd.index),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>注：URL函数有三个参数：URL（正则），对应方法，名称<br>URL函数存放在 urlpatterns 列表中</p>
-<ul>
-<li>URL配置二</li>
-</ul>
-<p>(1)  在 myblog 的 urls.py 中导入 include 模块，并在urlpatterns中添加url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url,include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^index/&apos;, include(&apos;blog.urls&apos;)),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>(2) blog目录下创建urls.py 编写 url 访问方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url</span><br><span class="line"></span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^$&apos;, views.index),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<ol start="4">
-<li>启动服务器python manage.py runserver</li>
-<li>打开浏览器，访问 <a href="http://127.0.0.1:8000/index/" target="_blank" rel="noopener">http://127.0.0.1:8000/index/</a></li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4b20e6314620a2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/CSRF漏洞学习/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
