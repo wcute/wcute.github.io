@@ -384,6 +384,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo Test">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/10/Django--（admin）/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T21:10:34+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+<hr>
+<p>title: Django–（admin）<br>date: 2018-12-10 12:33:03<br>tags: </p>
+<h2 id="categories-Python"><a href="#categories-Python" class="headerlink" title="categories: Python"></a>categories: Python</h2><ul>
+<li><p>Admin 简介</p>
+<blockquote>
+<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
+</blockquote>
+</li>
+<li><p>Admin 配置</p>
+<blockquote>
+<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
+</blockquote>
+</li>
+<li><p>配置应用</p>
+<blockquote>
+<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
+</blockquote>
+</li>
+<li><p>修改数据默认显示名称</p>
+<blockquote>
+<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（Models）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -665,169 +809,6 @@
 </ul>
 <p>Django 查找 Templates 规则：<br><code>Django</code> 按照 <code>INSTALLED_APPS</code>中的添加顺序查找 <code>Templates</code><br>不同APP下<code>Template</code>目录中的同名<code>.html</code>文件会造成冲突</p>
 <p>解决方案：<br>在 APP 的<code>Templates</code>目录下创建以 <code>APP</code>名为名称的目录，将<code>HTML</code> 文件放入新创建的目录下</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo Test">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/10/Django--（admin）/" itemprop="url">Django--（admin）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
-                2018-12-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>Admin 简介</p>
-<blockquote>
-<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
-</blockquote>
-</li>
-<li><p>Admin 配置</p>
-<blockquote>
-<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
-</blockquote>
-</li>
-<li><p>配置应用</p>
-<blockquote>
-<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
-</blockquote>
-</li>
-<li><p>修改数据默认显示名称</p>
-<blockquote>
-<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
-</blockquote>
-</li>
-</ul>
 
           
         
