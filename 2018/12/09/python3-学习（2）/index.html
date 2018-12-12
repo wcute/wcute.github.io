@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="鸡翅儿">
 <meta property="og:description" content="python类的继承实例：  class people:     name=&amp;apos;&amp;apos;     age=0     __weight=0    #定义私有属性,私有属性在类外部无法直接进行访问      def __init__(self,n,a,w):         self.name=n         self.age=a         self.__weight=w">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-12T00:23:08.509Z">
+<meta property="og:updated_time" content="2018-12-12T00:26:13.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python3-学习（2）">
 <meta name="twitter:description" content="python类的继承实例：  class people:     name=&amp;apos;&amp;apos;     age=0     __weight=0    #定义私有属性,私有属性在类外部无法直接进行访问      def __init__(self,n,a,w):         self.name=n         self.age=a         self.__weight=w">
@@ -368,7 +368,7 @@ i.speak()        # wu 说,我 45 岁
 
 s=student(&quot;liu&quot;,65,&quot;58kg&quot;,&quot;6&quot;)
 s.speak()      # liu 说,我 65 岁,我在读6年级
-</code></pre><h4 id="args-和-args用法"><a href="#args-和-args用法" class="headerlink" title="*args 和 **args用法"></a>*args 和 **args用法</h4><pre><code>def printinfo(name,age,**args):        #输入多余参数有变量名，就保存在**args中，保存方式为字典
+</code></pre><h5 id="args-和-args用法"><a href="#args-和-args用法" class="headerlink" title="*args 和 **args用法"></a>*args 和 **args用法</h5><pre><code>def printinfo(name,age,**args):        #输入多余参数有变量名，就保存在**args中，保存方式为字典
     # 打印任何传入的字符串
     print (&quot;name:&quot;,name)
     print (&quot;age:&quot;,age)
@@ -722,7 +722,7 @@ with request.urlopen(&apos;https://www.baidu.com&apos;) as f:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#python类的继承"><span class="nav-number">1.</span> <span class="nav-text">python类的继承</span></a></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#args-和-args用法"><span class="nav-number"></span> <span class="nav-text">*args 和 **args用法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#base64"><span class="nav-number">1.</span> <span class="nav-text">base64</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#正则表达式"><span class="nav-number">2.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#re-compile-函数"><span class="nav-number">3.</span> <span class="nav-text">re.compile()函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#re-match-函数"><span class="nav-number">4.</span> <span class="nav-text">re.match() 函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#re-search（）函数"><span class="nav-number">5.</span> <span class="nav-text">re.search（）函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#序列化-反序列化"><span class="nav-number">6.</span> <span class="nav-text">序列化 反序列化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JSON-用法"><span class="nav-number">7.</span> <span class="nav-text">JSON 用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络编程"><span class="nav-number">8.</span> <span class="nav-text">网络编程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#urllib"><span class="nav-number">9.</span> <span class="nav-text">urllib</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#python类的继承"><span class="nav-number">1.</span> <span class="nav-text">python类的继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#args-和-args用法"><span class="nav-number">2.</span> <span class="nav-text">*args 和 **args用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#base64"><span class="nav-number">3.</span> <span class="nav-text">base64</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#正则表达式"><span class="nav-number">4.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#re-compile-函数"><span class="nav-number">5.</span> <span class="nav-text">re.compile()函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#re-match-函数"><span class="nav-number">6.</span> <span class="nav-text">re.match() 函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#re-search（）函数"><span class="nav-number">7.</span> <span class="nav-text">re.search（）函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#序列化-反序列化"><span class="nav-number">8.</span> <span class="nav-text">序列化 反序列化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JSON-用法"><span class="nav-number">9.</span> <span class="nav-text">JSON 用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络编程"><span class="nav-number">10.</span> <span class="nav-text">网络编程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#urllib"><span class="nav-number">11.</span> <span class="nav-text">urllib</span></a></li></ol></div>
             
 
           </div>
