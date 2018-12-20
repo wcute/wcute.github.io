@@ -361,7 +361,7 @@
 <li>使用 <code>Dirbuster</code> 工具进行敏感目录扫描</li>
 </ol>
 <ul>
-<li>方法一<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4eaec0f613623e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"><br>其中通过访问<code>vendor</code>目录发现<code>PHPMailerAutoload.php</code>文件，查询后发现<code>CVE-2016-10033</code>是<code>PHPMailer</code>中存在的高危安全漏洞，攻击者只需巧妙地构造出一个恶意邮箱地址，即可写入任意文件，造成远程命令执行的危害。（见方法二）</li>
+<li>方法一<h6 id="上传大马获取信息提权"><a href="#上传大马获取信息提权" class="headerlink" title="上传大马获取信息提权"></a>上传大马获取信息提权</h6><img src="https://upload-images.jianshu.io/upload_images/12585049-4eaec0f613623e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"><br>其中通过访问<code>vendor</code>目录发现<code>PHPMailerAutoload.php</code>文件，查询后发现<code>CVE-2016-10033</code>是<code>PHPMailer</code>中存在的高危安全漏洞，攻击者只需巧妙地构造出一个恶意邮箱地址，即可写入任意文件，造成远程命令执行的危害。（见方法二）</li>
 </ul>
 <p><img src="https://upload-images.jianshu.io/upload_images/12585049-3c88f4f47b440312.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"><br>通过访问<code>service.html</code>查看源代码发现flag</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/12585049-832e8161ea9e72b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
