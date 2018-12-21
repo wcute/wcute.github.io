@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/SSRF漏洞学习/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/SSRF漏洞学习/" itemprop="url">SSRF漏洞学习</a></h1>
+                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
         
 
         <div class="post-meta">
@@ -303,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞学习</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -342,13 +342,20 @@
       
         
           
-          什么是 SSRF ？简介：SSRF(Server-Side Request Forgery)服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞，一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。
-SSRF危害即可以实现的攻击行为
-主机本地敏感信息读取， 对外网、服务器所在内
+          博客页面分类：1.博客主页面2.博客文章内容页面3.博客撰写页面
+主页面内容：
+文章标题列表，超链接
+取出数据库中所有文章对象
+将文章对象打包成列表，传递到前端
+前端页面把文章以标题超链接的形式逐个列出
+
+
+后端 views.py
+123456789# -*- coding:utf-8 -*-fro
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/SSRF漏洞学习/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/Django---简单博客搭建（2）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -554,7 +561,7 @@ h
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Weblogic-SSRF-漏洞复现/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -573,7 +580,7 @@ h
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Weblogic-SSRF-漏洞复现/" itemprop="url">Weblogic-SSRF-漏洞复现</a></h1>
+                <a class="post-title-link" href="/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/" itemprop="url">Samba远程Shell命令注入执行漏洞（CVE-2007-2447）</a></h1>
         
 
         <div class="post-meta">
@@ -647,16 +654,14 @@ h
       
         
           
-          关于SSRF漏洞的原理以及利用已经记录过了，可以访问https://www.jianshu.com/p/6bf7700139fa查看，这次复现一下这个漏洞
-本次还是利用vulhub进行漏洞复现
-测试环境搭建
-docker-compose builddocker-compose up -d
-
-访问ht
+          usermap_script：CVE-2007-2447Samba用户名映射脚本命令执行
+漏洞产生原因传递通过MS-RPC提供的未过滤的用户输入在调用定义的外部脚本时调用/bin/sh，在smb.conf中，导致允许远程命令执行。
+msf 中模块位置
+exploit/multi/samba/user
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Weblogic-SSRF-漏洞复现/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1178,7 +1183,7 @@ C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/数据库信息/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -1197,7 +1202,7 @@ C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/数据库信息/" itemprop="url">数据库信息</a></h1>
+                <a class="post-title-link" href="/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/" itemprop="url">JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现</a></h1>
         
 
         <div class="post-meta">
@@ -1232,8 +1237,8 @@ C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库学习/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库学习</span>
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
                   </a>
                 </span>
 
@@ -1271,11 +1276,14 @@ C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd
       
         
           
-          一些 CMS 数据库安装配置信息123dedecms			/data/common.inc.phpDiscuz			/config_global_default.php、config /config_ucenter.php、config.inc.phpPHPCMS V9		caches/config
+          漏洞描述该漏洞为 Java反序列化错误类型，存在于 Jboss 的 HttpInvoker组件中的 ReadOnlyAccessFilter过滤器中。该过滤器在没有进行任何安全检查的情况下尝试将来自客户端的数据流进行反序列化，从而导致了漏洞。
+复现过程
+运行测试环境
+cd /vulhub-maste
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/数据库信息/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1628,7 +1636,7 @@ IIS 6.0解析漏洞
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/渗透测试-靶机Bulldog2/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/MS17-010漏洞复现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -1647,7 +1655,7 @@ IIS 6.0解析漏洞
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/渗透测试-靶机Bulldog2/" itemprop="url">渗透测试-靶机Bulldog2</a></h1>
+                <a class="post-title-link" href="/2018/12/09/MS17-010漏洞复现/" itemprop="url">MS17-010漏洞复现</a></h1>
         
 
         <div class="post-meta">
@@ -1682,8 +1690,8 @@ IIS 6.0解析漏洞
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/靶机测试/" itemprop="url" rel="index">
-                    <span itemprop="name">靶机测试</span>
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
                   </a>
                 </span>
 
@@ -1721,18 +1729,28 @@ IIS 6.0解析漏洞
       
         
           
-          参考链接：https://www.anquanke.com/post/id/160755
-攻击机 ip：192.168.60.230靶机 ip：192.168.30.231
-端口扫描这里仍然使用 nmap
+          复现环境攻击机 kali靶机 Windows7（需要关闭防火墙）
+漏洞复现过程
+启动msf终端
+msfconsole
 
-nmap -sV -p- 192.168.60.231
 
-查看到只开放了一个 80端口
-访问
+
+
+
+搜索与ms17-010漏洞有关的代码库
+search ms17_010
+
+
+
+
+
+使用exp代码
+use exploit/windows/smb/ms17_010_eter
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/渗透测试-靶机Bulldog2/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/MS17-010漏洞复现/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
