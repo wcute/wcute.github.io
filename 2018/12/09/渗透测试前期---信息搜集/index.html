@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Web 信息搜集： Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作 Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（">
+<meta name="description" content="Web 信息搜集 Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作 Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="渗透测试前期--信息搜集">
 <meta property="og:url" content="http://wcute.github.io/2018/12/09/渗透测试前期---信息搜集/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="Web 信息搜集： Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作 Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（">
+<meta property="og:description" content="Web 信息搜集 Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作 Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（A">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ab635edd3371c5f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-12-21T07:06:33.323Z">
+<meta property="og:updated_time" content="2018-12-21T07:12:27.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="渗透测试前期--信息搜集">
-<meta name="twitter:description" content="Web 信息搜集： Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作 Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（">
+<meta name="twitter:description" content="Web 信息搜集 Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作 Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（A">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-ab635edd3371c5f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -375,12 +375,12 @@
       
 
       
-        <h2 id="Web-信息搜集："><a href="#Web-信息搜集：" class="headerlink" title="Web 信息搜集："></a>Web 信息搜集：</h2><ol>
+        <h2 id="Web-信息搜集"><a href="#Web-信息搜集" class="headerlink" title="Web 信息搜集"></a>Web 信息搜集</h2><ol>
 <li>Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作</li>
 <li>Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、postgresql等）、Web 容器（iis、Apache、nginx、tomcat等）、脚本类型（ASP、php/jsp、aspx等）、域名信息、网站目录、CMS、WAF等</li>
-<li>Web 信息搜集涉及搜索引擎、网站扫描、域名遍历、指纹识别等工作<h2 id="外围信息搜集"><a href="#外围信息搜集" class="headerlink" title="外围信息搜集"></a>外围信息搜集</h2></li>
+<li>Web 信息搜集涉及搜索引擎、网站扫描、域名遍历、指纹识别等工作</li>
 </ol>
-<h4 id="通过DNS和IP挖掘目标网络信息"><a href="#通过DNS和IP挖掘目标网络信息" class="headerlink" title="通过DNS和IP挖掘目标网络信息"></a>通过DNS和IP挖掘目标网络信息</h4><pre><code>1. whois域名注册信息查询
+<h2 id="外围信息搜集"><a href="#外围信息搜集" class="headerlink" title="外围信息搜集"></a>外围信息搜集</h2><h4 id="通过DNS和IP挖掘目标网络信息"><a href="#通过DNS和IP挖掘目标网络信息" class="headerlink" title="通过DNS和IP挖掘目标网络信息"></a>通过DNS和IP挖掘目标网络信息</h4><pre><code>1. whois域名注册信息查询
   msf &gt; whois testfire.net
     nslookup与dig域名查询IP2Location地理位置查询    
         dig @&lt;DNS 服务器&gt; &lt;待查询的域名&gt;
@@ -667,7 +667,7 @@ Nmap 扫描 -sV 参数对其服务版本进行识别
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-信息搜集："><span class="nav-number">1.</span> <span class="nav-text">Web 信息搜集：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外围信息搜集"><span class="nav-number">2.</span> <span class="nav-text">外围信息搜集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过DNS和IP挖掘目标网络信息"><span class="nav-number">2.0.1.</span> <span class="nav-text">通过DNS和IP挖掘目标网络信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过搜索引擎进行信息搜集"><span class="nav-number">2.0.2.</span> <span class="nav-text">通过搜索引擎进行信息搜集</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#主机探测与端口扫描"><span class="nav-number">3.</span> <span class="nav-text">主机探测与端口扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#活跃主机扫描"><span class="nav-number">3.0.1.</span> <span class="nav-text">活跃主机扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作系统辨识"><span class="nav-number">3.0.2.</span> <span class="nav-text">操作系统辨识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#端口扫描与服务类型探测"><span class="nav-number">3.0.3.</span> <span class="nav-text">端口扫描与服务类型探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-指纹识别"><span class="nav-number">3.0.4.</span> <span class="nav-text">4. 指纹识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器扫描与查点"><span class="nav-number">4.</span> <span class="nav-text">服务器扫描与查点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常见网络服务扫描"><span class="nav-number">4.0.1.</span> <span class="nav-text">常见网络服务扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#口令猜测与嗅探"><span class="nav-number">4.0.2.</span> <span class="nav-text">口令猜测与嗅探</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台查找"><span class="nav-number">5.</span> <span class="nav-text">后台查找</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-信息搜集"><span class="nav-number">1.</span> <span class="nav-text">Web 信息搜集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外围信息搜集"><span class="nav-number">2.</span> <span class="nav-text">外围信息搜集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过DNS和IP挖掘目标网络信息"><span class="nav-number">2.0.1.</span> <span class="nav-text">通过DNS和IP挖掘目标网络信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过搜索引擎进行信息搜集"><span class="nav-number">2.0.2.</span> <span class="nav-text">通过搜索引擎进行信息搜集</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#主机探测与端口扫描"><span class="nav-number">3.</span> <span class="nav-text">主机探测与端口扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#活跃主机扫描"><span class="nav-number">3.0.1.</span> <span class="nav-text">活跃主机扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作系统辨识"><span class="nav-number">3.0.2.</span> <span class="nav-text">操作系统辨识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#端口扫描与服务类型探测"><span class="nav-number">3.0.3.</span> <span class="nav-text">端口扫描与服务类型探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-指纹识别"><span class="nav-number">3.0.4.</span> <span class="nav-text">4. 指纹识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器扫描与查点"><span class="nav-number">4.</span> <span class="nav-text">服务器扫描与查点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常见网络服务扫描"><span class="nav-number">4.0.1.</span> <span class="nav-text">常见网络服务扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#口令猜测与嗅探"><span class="nav-number">4.0.2.</span> <span class="nav-text">口令猜测与嗅探</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台查找"><span class="nav-number">5.</span> <span class="nav-text">后台查找</span></a></li></div>
             
 
           </div>
