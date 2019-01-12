@@ -79,17 +79,35 @@
 
 
 
-<meta name="description" content="参考链接：https://xz.aliyun.com/t/1991 前端验证  一般在网页上写一段javascript脚本，检验上传文件的后缀名，白名单或者黑名单形式　　判断方法：浏览加载文件，但还未点击上传按钮时便弹出对话框，例：只允许上传.jpg .jpeg .png后缀名的文件，而此时并没有发送数据包　　绕过方法：先上传 .jpg，burpsuite 抓包，将.jpg修改为 .php .as">
+<meta name="description" content="本篇主要讲利用MSF获取靶机shell后可进行的操作及利用方式前提：已经通过Samba服务漏洞获取了Meterpreter shell，利用方式可参考https://www.jianshu.com/p/839ac7af5e4c 后渗透攻击：信息搜集进程迁移刚获取的Meterpreter shell非常脆弱易受攻击，例如攻击者可以利用浏览器漏洞攻陷目标机器，攻击渗透后浏览器有可能被用户关闭。所以第一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="上传绕过">
-<meta property="og:url" content="http://wcute.github.io/2018/12/09/上传绕过/index.html">
+<meta property="og:title" content="利用MSF进行后渗透攻击">
+<meta property="og:url" content="http://wcute.github.io/2018/12/23/利用MSF进行后渗透攻击/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="参考链接：https://xz.aliyun.com/t/1991 前端验证  一般在网页上写一段javascript脚本，检验上传文件的后缀名，白名单或者黑名单形式　　判断方法：浏览加载文件，但还未点击上传按钮时便弹出对话框，例：只允许上传.jpg .jpeg .png后缀名的文件，而此时并没有发送数据包　　绕过方法：先上传 .jpg，burpsuite 抓包，将.jpg修改为 .php .as">
+<meta property="og:description" content="本篇主要讲利用MSF获取靶机shell后可进行的操作及利用方式前提：已经通过Samba服务漏洞获取了Meterpreter shell，利用方式可参考https://www.jianshu.com/p/839ac7af5e4c 后渗透攻击：信息搜集进程迁移刚获取的Meterpreter shell非常脆弱易受攻击，例如攻击者可以利用浏览器漏洞攻陷目标机器，攻击渗透后浏览器有可能被用户关闭。所以第一">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-10T13:34:00.957Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ba58e2c18c7daac1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0b915b98a1ae0d78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0e80dfd8092ea714.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-cb984862792c0144.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-80d569f10a47592c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-30484ce3946239b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-3707adcd605291a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e5a0057f7b32546a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-3b71b14151d549d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-f814ec506ec3acc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a00d926df73b94b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ee76d1a2a52360f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a0db08820433ae63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-faa711f4941e2988.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-1b0bbc4fc1bc6825.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-6d3660604189b09e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-90110730928f75dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-12T13:31:45.499Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="上传绕过">
-<meta name="twitter:description" content="参考链接：https://xz.aliyun.com/t/1991 前端验证  一般在网页上写一段javascript脚本，检验上传文件的后缀名，白名单或者黑名单形式　　判断方法：浏览加载文件，但还未点击上传按钮时便弹出对话框，例：只允许上传.jpg .jpeg .png后缀名的文件，而此时并没有发送数据包　　绕过方法：先上传 .jpg，burpsuite 抓包，将.jpg修改为 .php .as">
+<meta name="twitter:title" content="利用MSF进行后渗透攻击">
+<meta name="twitter:description" content="本篇主要讲利用MSF获取靶机shell后可进行的操作及利用方式前提：已经通过Samba服务漏洞获取了Meterpreter shell，利用方式可参考https://www.jianshu.com/p/839ac7af5e4c 后渗透攻击：信息搜集进程迁移刚获取的Meterpreter shell非常脆弱易受攻击，例如攻击者可以利用浏览器漏洞攻陷目标机器，攻击渗透后浏览器有可能被用户关闭。所以第一">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-ba58e2c18c7daac1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -119,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/12/09/上传绕过/">
+  <link rel="canonical" href="http://wcute.github.io/2018/12/23/利用MSF进行后渗透攻击/">
 
 
 
 
 
-  <title>上传绕过 | 鸡翅儿</title>
+  <title>利用MSF进行后渗透攻击 | 鸡翅儿</title>
   
 
 
@@ -284,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/上传绕过/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/23/利用MSF进行后渗透攻击/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -301,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">上传绕过</h1>
+          <h1 class="post-title" itemprop="name headline">利用MSF进行后渗透攻击</h1>
         
 
         <div class="post-meta">
@@ -313,8 +331,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-23T12:23:03+08:00">
+                2018-12-23
               </time>
             
 
@@ -336,8 +354,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞学习</span>
+                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Metasploit 渗透测试</span>
                   </a>
                 </span>
 
@@ -373,29 +391,54 @@
       
 
       
-        <p>参考链接：<a href="https://xz.aliyun.com/t/1991" target="_blank" rel="noopener">https://xz.aliyun.com/t/1991</a></p>
-<h4 id="前端验证"><a href="#前端验证" class="headerlink" title="前端验证"></a>前端验证</h4><hr>
-
-<p>一般在网页上写一段<code>javascript</code>脚本，检验上传文件的后缀名，白名单或者黑名单形式<br>　　判断方法：浏览加载文件，但还未点击上传按钮时便弹出对话框，例：只允许上传<code>.jpg</code> <code>.jpeg</code> <code>.png</code>后缀名的文件，而此时并没有发送数据包<br>　　绕过方法：先上传 <code>.jpg</code>，burpsuite 抓包，将<code>.jpg</code>修改为 <code>.php</code> <code>.asp</code>等</p>
-<h4 id="服务端验证"><a href="#服务端验证" class="headerlink" title="服务端验证"></a>服务端验证</h4><hr>
-
+        <p>本篇主要讲利用MSF获取靶机shell后可进行的操作及利用方式<br>前提：已经通过Samba服务漏洞获取了Meterpreter shell，利用方式可参考<a href="https://www.jianshu.com/p/839ac7af5e4c" target="_blank" rel="noopener">https://www.jianshu.com/p/839ac7af5e4c</a></p>
+<h3 id="后渗透攻击：信息搜集"><a href="#后渗透攻击：信息搜集" class="headerlink" title="后渗透攻击：信息搜集"></a>后渗透攻击：信息搜集</h3><h4 id="进程迁移"><a href="#进程迁移" class="headerlink" title="进程迁移"></a>进程迁移</h4><p>刚获取的Meterpreter shell非常脆弱易受攻击，例如攻击者可以利用浏览器漏洞攻陷目标机器，攻击渗透后浏览器有可能被用户关闭。所以第一步就是要移动进程，将它和目标机中一个稳定的进程绑在一起，而不需要对磁盘进行任何写入操作。（渗透更难被检测）</p>
 <ol>
-<li><p>文件名验证</p>
-<ul>
-<li>白名单绕过方法<br>　　一般通过解析漏洞构造，如 <code>%00截断</code>，<code>0x00截断</code>等。<br>　　参考链接： <a href="https://www.jianshu.com/p/224ac688d135" target="_blank" rel="noopener">https://www.jianshu.com/p/224ac688d135</a></li>
-<li>黑名单绕过方法<br>　　a. 找容易忽视的后缀名，例 <code>.cer</code> 等<br>　　b. 上传 <code>.htaccess</code><br>　　c. 后缀大小写绕过<br>　　d. 点绕过<br>　　e. 空格绕过<br>　　f. <code>::$DATA</code>绕过<br>　　g. 配合解析漏洞</li>
-</ul>
+<li><p>使用 <code>ps</code>命令获取靶机正在运行的进程<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ba58e2c18c7daac1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
 </li>
-<li><p>文件内容验证<br>　　  a. 针对文件头 <code>content-type</code> 字段校验<code>（image/gif）</code>绕过方法<br>　　  b. 突破<code>getimagesize()</code><br>　　  c. 突破<code>exif_imagetype()</code><br>　　  d. 二次渲染</p>
+<li><p>使用<code>getpid</code>命令查看Meterpreter Shell 的进程号<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0b915b98a1ae0d78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
 </li>
-<li><p>WAF 设备验证</p>
+<li><p>使用<code>migrate PID</code>命令迁移进程,进程迁移后会自动关闭原来进程，没有关闭可使用 kill pid 命令关闭进程。或者使用自动迁移进程（<code>run post/windows/manage/migrate</code>）命令，系统会自动寻找合适的进程然后迁移<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0e80dfd8092ea714.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+</li>
+</ol>
+<h4 id="系统命令"><a href="#系统命令" class="headerlink" title="系统命令"></a>系统命令</h4><p>获得稳定进程后，收集系统信息</p>
+<ol>
+<li><p>使用<code>sysinfo</code> 命令查看目标机的系统信息<br><img src="https://upload-images.jianshu.io/upload_images/12585049-cb984862792c0144.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+</li>
+<li><p>输入<code>run post/windows/gather/checkvm</code> 命令查看靶机是否允许在虚拟机上<br><img src="https://upload-images.jianshu.io/upload_images/12585049-80d569f10a47592c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+</li>
+<li><p>检查靶机是否正在运行，使用 <code>idletime</code>查看靶机最近运行的时间<br><img src="https://upload-images.jianshu.io/upload_images/12585049-30484ce3946239b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+</li>
+<li><p>使用<code>route</code>命令查看靶机完整的网络设置<br><img src="https://upload-images.jianshu.io/upload_images/12585049-3707adcd605291a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+</li>
+<li><p>background 命令可将当前会话放置后台，适合在多个Meterpreter 会话的场景下使用。使用 getuid 命令查看当前靶机已经渗透成功的用户名<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e5a0057f7b32546a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
+</li>
+<li><p>使用<code>run post/windows/manage/killav</code>命令关闭靶机系统杀毒软件<br><img src="https://upload-images.jianshu.io/upload_images/12585049-3b71b14151d549d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"></p>
+</li>
+<li><p>使用<code>run post/windows/manage/enable_rdp</code>命令启动靶机远程桌面协议<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f814ec506ec3acc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="10.png"></p>
+</li>
+<li><p>使用<code>background</code>命令将当前<code>Meterpreter</code>终端隐藏在后台</p>
+</li>
+<li><p><code>sessions -i</code> 重新调用终端<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a00d926df73b94b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="11.png"></p>
+</li>
+<li><p>使用 <code>run post/windows/gather/enum_logged_on_users</code>列举当前登录靶机用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ee76d1a2a52360f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="12.png"></p>
+</li>
+<li><p>使用 <code>run post/windows/gather/enum_applications</code> 列举安装在靶机上的应用程序<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a0db08820433ae63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="13.png"></p>
+</li>
+<li><p>很多用户习惯将计算机设置自动登录，可以使用 <code>run windows/gather/credentials/windows_autologin</code> 抓取自动登录的用户名和密码<br><img src="https://upload-images.jianshu.io/upload_images/12585049-faa711f4941e2988.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="14.png"></p>
 </li>
 </ol>
 <ul>
-<li>垃圾数据<br>　　有些主机<code>WAF</code>软件为了不影响<code>web</code>服务器的性能，会对校验的用户数据设置大小上限，比如<code>1M</code>。此种情况可以构造一个大文件，前面<code>1M</code>的内容为垃圾内容，后面才是真正的木马内容，便可绕过WAF对文件内容的校验，也可将垃圾数据放在数据包最开头，绕过对文件名的校验</li>
-<li>filename<br>　　  可以参考文件名绕过方法，包括路径等等形式来对这个方法的限制进行绕过。可以考虑的点还有多个文件名，加入路径，利用重名命等。</li>
-<li>提交方法混淆<br>　　  有些<code>WAF</code>的规则是：如果数据包为<code>POST</code>类型，则校验数据包内容。<br>　　  此种情况可以上传一个<code>POST</code>型的数据包，抓包将<code>POST</code>改为<code>GET</code>。然后仍然传输<code>POST</code>的数据。<br>　　  利用<code>waf</code>本身缺陷删除实体里面的<code>Conten-Type</code>字段<br>　　  可以参考基与文件内容的绕过方法，可以利用多种形式对<code>Conten-Type</code>进行绕过。</li>
+<li>Mimikatz 抓取密码<br>使用<code>load mimikatz</code>命令加载模块,<code>msv</code>抓取<br><img src="https://upload-images.jianshu.io/upload_images/12585049-1b0bbc4fc1bc6825.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="15.png"><br>解密一下成功获取密码<br><img src="https://upload-images.jianshu.io/upload_images/12585049-6d3660604189b09e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="16.png"></li>
 </ul>
+<ol start="13">
+<li>没有抓取到，此时可利用扩展插件Espia 抓取靶机屏幕截图。使用 <code>load espia</code> 命令加载插件，<code>screengrab</code>或者 <code>screenshot</code> 命令抓取截图<br><img src="https://upload-images.jianshu.io/upload_images/12585049-90110730928f75dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="16.png"></li>
+</ol>
+<p>一些其他可利用的命令</p>
+<blockquote>
+<p>webcam_list<br>查看靶机是否有摄像头<br>webcam_snap<br>打开靶机摄像头拍一张照片<br>webcam_stream<br>开启直播模式，抓取视频</p>
+</blockquote>
+<p>参考链接：<br><a href="https://www.cnblogs.com/bmjoker/p/10151708.html" target="_blank" rel="noopener">https://www.cnblogs.com/bmjoker/p/10151708.html</a></p>
 
       
     </div>
@@ -420,8 +463,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/09/XSS漏洞学习/" rel="next" title="XSS漏洞学习">
-                <i class="fa fa-chevron-left"></i> XSS漏洞学习
+              <a href="/2018/12/23/Node.js 反序列化漏洞(CVE-2017-5941)/" rel="next" title="Node.js 反序列化漏洞(CVE-2017-5941)">
+                <i class="fa fa-chevron-left"></i> Node.js 反序列化漏洞(CVE-2017-5941)
               </a>
             
           </div>
@@ -430,8 +473,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/09/数据库信息/" rel="prev" title="数据库信息">
-                数据库信息 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/24/SQLMAP 命令操作/" rel="prev" title="SQLMAP命令操作">
+                SQLMAP命令操作 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -555,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前端验证"><span class="nav-number">1.</span> <span class="nav-text">前端验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务端验证"><span class="nav-number">2.</span> <span class="nav-text">服务端验证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#后渗透攻击：信息搜集"><span class="nav-number">1.</span> <span class="nav-text">后渗透攻击：信息搜集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程迁移"><span class="nav-number">1.1.</span> <span class="nav-text">进程迁移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统命令"><span class="nav-number">1.2.</span> <span class="nav-text">系统命令</span></a></li></ol></li></ol></div>
             
 
           </div>

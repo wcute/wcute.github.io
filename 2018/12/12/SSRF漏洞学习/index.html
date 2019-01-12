@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="鸡翅儿">
 <meta property="og:description" content="什么是 SSRF ？简介：SSRF(Server-Side Request Forgery)服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞，一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。 SSRF危害即可以实现的攻击行为 主机本地敏感信息读取， 对外网、服务器所在内网、本地进行端口扫描，获取一些服务的Banner信息 攻击运行在内外网主机的应用程序 通过访问默认文">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-21T06:54:09.018Z">
+<meta property="og:updated_time" content="2018-12-27T03:32:57.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSRF漏洞学习">
 <meta name="twitter:description" content="什么是 SSRF ？简介：SSRF(Server-Side Request Forgery)服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞，一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。 SSRF危害即可以实现的攻击行为 主机本地敏感信息读取， 对外网、服务器所在内网、本地进行端口扫描，获取一些服务的Banner信息 攻击运行在内外网主机的应用程序 通过访问默认文">
@@ -419,6 +419,15 @@
 <p>例 2<br><code>ssrf2.php</code><br>    限制协议为HTTP、HTTPS<br>    设置跳转重定向为True（默认不跳转）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function curl($url)&#123;</span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, True);</span><br><span class="line">    // 限制为HTTPS、HTTP协议</span><br><span class="line">    curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, 0);</span><br><span class="line">    curl_exec($ch);</span><br><span class="line">    curl_close($ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$url = $_GET[&apos;url&apos;];</span><br><span class="line">curl($url);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
 <p>此时使用<code>dict</code>协议已经不成功，可以利用<code>302跳转</code>的方式来绕过http协议限制</p>
 <p><hr></p>
+<h4 id="漏洞寻找"><a href="#漏洞寻找" class="headerlink" title="漏洞寻找"></a>漏洞寻找</h4><h5 id="分享功能，通过-URL-地址分享网页内容"><a href="#分享功能，通过-URL-地址分享网页内容" class="headerlink" title="分享功能，通过 URL 地址分享网页内容"></a>分享功能，通过 URL 地址分享网页内容</h5><p>早期分享应用中，为了更好的提供用户体验，WEB应用在分享功能中，通常会获取目标URL地址网页内容中的<code>&lt;tilte&gt;&lt;/title&gt;</code>标签或者<code>&lt;meta name=&quot;description&quot; content=“”/&gt;</code>标签中<code>content</code>的文本内容作为显示以提供更好的用户体验</p>
+<h5 id="转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览"><a href="#转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览" class="headerlink" title="转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览"></a>转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览</h5><p>由于手机屏幕大小的关系，直接浏览网页内容的时候会造成许多不便，因此有些公司提供了转码功能，把网页内容通过相关手段转为适合手机屏幕浏览的样式。例如百度、腾讯、搜狗等公司都有提供在线转码服务</p>
+<h5 id="在线翻译：通过URL地址翻译对应文本的内容。"><a href="#在线翻译：通过URL地址翻译对应文本的内容。" class="headerlink" title="在线翻译：通过URL地址翻译对应文本的内容。"></a>在线翻译：通过URL地址翻译对应文本的内容。</h5><p>提供此功能的国内公司有百度、有道等</p>
+<h5 id="图片加载与下载：通过URL地址加载或下载图片"><a href="#图片加载与下载：通过URL地址加载或下载图片" class="headerlink" title="图片加载与下载：通过URL地址加载或下载图片"></a>图片加载与下载：通过URL地址加载或下载图片</h5><p>图片加载远程图片地址此功能用到的地方很多，但大多都是比较隐秘，比如在有些公司中的加载自家图片服务器上的图片用于展示。（开发者为了有更好的用户体验通常对图片做些微小调整例如加水印、压缩等，所以就可能造成SSRF问题）</p>
+<h5 id="图片、文章收藏功能"><a href="#图片、文章收藏功能" class="headerlink" title="图片、文章收藏功能"></a>图片、文章收藏功能</h5><p>此处的图片、文章收藏中的文章收藏就类似于功能一、分享功能中获取URL地址中<code>title</code>以及文本的内容作为显示，目的还是为了更好的用户体验，而图片收藏就类似于功能四、图片加载</p>
+<h5 id="从URL关键字中寻找"><a href="#从URL关键字中寻找" class="headerlink" title="从URL关键字中寻找"></a>从URL关键字中寻找</h5><p>share，url，link，src，source，target，sourceURl，imageURL，domain…</p>
+<h5 id="未公开的api实现以及其他调用URL的功能"><a href="#未公开的api实现以及其他调用URL的功能" class="headerlink" title="未公开的api实现以及其他调用URL的功能"></a>未公开的api实现以及其他调用URL的功能</h5><p>此处类似的功能有360提供的网站评分，以及有些网站通过api获取远程地址xml文件来加载内容。</p>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><p>数据库内置功能，比如mongodb的copyDatabase函数<br>接收邮件服务器地址的邮件系统</p>
+<p><hr></p>
 <h4 id="漏洞防护"><a href="#漏洞防护" class="headerlink" title="漏洞防护"></a>漏洞防护</h4><ol>
 <li>限制协议为HTTP、HTTPS</li>
 <li>限制302跳转次数</li>
@@ -427,7 +436,7 @@
 </ol>
 <hr>
 
-<p>参考链接：<br><a href="https://joychou.org/web/phpssrf.html" target="_blank" rel="noopener">https://joychou.org/web/phpssrf.html</a><br><a href="http://www.mottoin.com/tech/115007.html" target="_blank" rel="noopener">http://www.mottoin.com/tech/115007.html</a><br><a href="https://feei.cn/ssrf" target="_blank" rel="noopener">https://feei.cn/ssrf</a></p>
+<p>参考链接：<br><a href="https://joychou.org/web/phpssrf.html" target="_blank" rel="noopener">https://joychou.org/web/phpssrf.html</a><br><a href="http://www.mottoin.com/tech/115007.html" target="_blank" rel="noopener">http://www.mottoin.com/tech/115007.html</a><br><a href="https://feei.cn/ssrf" target="_blank" rel="noopener">https://feei.cn/ssrf</a><br><a href="https://www.jianshu.com/p/24ca56a2f5f5" target="_blank" rel="noopener">https://www.jianshu.com/p/24ca56a2f5f5</a></p>
 
       
     </div>
@@ -452,8 +461,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/12/Linux-提权/" rel="next" title="Linux-提权">
-                <i class="fa fa-chevron-left"></i> Linux-提权
+              <a href="/2018/12/11/CSRF漏洞学习/" rel="next" title="CSRF漏洞学习">
+                <i class="fa fa-chevron-left"></i> CSRF漏洞学习
               </a>
             
           </div>
@@ -462,8 +471,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/13/Weblogic-SSRF-漏洞复现/" rel="prev" title="Weblogic-SSRF-漏洞复现">
-                Weblogic-SSRF-漏洞复现 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/12/Linux-提权/" rel="prev" title="Linux-提权">
+                Linux-提权 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -541,7 +550,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -552,7 +561,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -587,7 +596,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是-SSRF-？"><span class="nav-number">1.</span> <span class="nav-text">什么是 SSRF ？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSRF危害即可以实现的攻击行为"><span class="nav-number">2.</span> <span class="nav-text">SSRF危害即可以实现的攻击行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可进行利用的协议"><span class="nav-number">3.</span> <span class="nav-text">可进行利用的协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP中容易造成漏洞的函数"><span class="nav-number">4.</span> <span class="nav-text">PHP中容易造成漏洞的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞利用"><span class="nav-number">5.</span> <span class="nav-text">漏洞利用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞防护"><span class="nav-number">6.</span> <span class="nav-text">漏洞防护</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是-SSRF-？"><span class="nav-number">1.</span> <span class="nav-text">什么是 SSRF ？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSRF危害即可以实现的攻击行为"><span class="nav-number">2.</span> <span class="nav-text">SSRF危害即可以实现的攻击行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可进行利用的协议"><span class="nav-number">3.</span> <span class="nav-text">可进行利用的协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP中容易造成漏洞的函数"><span class="nav-number">4.</span> <span class="nav-text">PHP中容易造成漏洞的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞利用"><span class="nav-number">5.</span> <span class="nav-text">漏洞利用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞寻找"><span class="nav-number">6.</span> <span class="nav-text">漏洞寻找</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分享功能，通过-URL-地址分享网页内容"><span class="nav-number">6.1.</span> <span class="nav-text">分享功能，通过 URL 地址分享网页内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览"><span class="nav-number">6.2.</span> <span class="nav-text">转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在线翻译：通过URL地址翻译对应文本的内容。"><span class="nav-number">6.3.</span> <span class="nav-text">在线翻译：通过URL地址翻译对应文本的内容。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图片加载与下载：通过URL地址加载或下载图片"><span class="nav-number">6.4.</span> <span class="nav-text">图片加载与下载：通过URL地址加载或下载图片</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图片、文章收藏功能"><span class="nav-number">6.5.</span> <span class="nav-text">图片、文章收藏功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#从URL关键字中寻找"><span class="nav-number">6.6.</span> <span class="nav-text">从URL关键字中寻找</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#未公开的api实现以及其他调用URL的功能"><span class="nav-number">6.7.</span> <span class="nav-text">未公开的api实现以及其他调用URL的功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#其他"><span class="nav-number">6.8.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞防护"><span class="nav-number">7.</span> <span class="nav-text">漏洞防护</span></a></li></ol></div>
             
 
           </div>
@@ -607,7 +616,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
