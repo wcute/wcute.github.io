@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Web扫描器-Metasploit'-Wmap/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -300,7 +300,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/" itemprop="url">Web扫描器-Metasploit'-Wmap</a></h1>
+                <a class="post-title-link" href="/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/" itemprop="url">JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现</a></h1>
         
 
         <div class="post-meta">
@@ -335,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">Metasploit 渗透测试</span>
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
                   </a>
                 </span>
 
@@ -374,17 +374,14 @@
       
         
           
-          Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库
- 
-
-启动 metasploit root@kaili:~# msfconsole
-进入控制台，加载wmap模块 msf &gt; load_wmap成功加载如下图
-
-help 查看 wmap 参数 msf &gt; 
+          漏洞描述该漏洞为 Java反序列化错误类型，存在于 Jboss 的 HttpInvoker组件中的 ReadOnlyAccessFilter过滤器中。该过滤器在没有进行任何安全检查的情况下尝试将来自客户端的数据流进行反序列化，从而导致了漏洞。
+复现过程
+运行测试环境
+cd /vulhub-maste
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/JBoss-5-x-6-x-反序列化漏洞（CVE-2017-12149）复现/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -586,6 +583,160 @@ IIS 6.0解析漏洞
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Web扫描器-Metasploit'-Wmap/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/" itemprop="url">Web扫描器-Metasploit'-Wmap</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Metasploit 渗透测试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库
+ 
+
+启动 metasploit root@kaili:~# msfconsole
+进入控制台，加载wmap模块 msf &gt; load_wmap成功加载如下图
+
+help 查看 wmap 参数 msf &gt; 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Windows-Sever-2003-提权/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -689,162 +840,6 @@ C:\Documents and Settings\Administrator&gt;at 10:31 /interactive cmd
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/12/09/Windows-Sever-2003-提权/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python3-学习（2）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/python3-学习（2）/" itemprop="url">python3-学习（2）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          python类的继承实例：
-
-class people:
-    name=&apos;&apos;
-    age=0
-    __weight=0    #定义私有属性,私有属性在类外部无法直接进行访问
-
-    def __init__(self,n,a,w):
-        self.na
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/python3-学习（2）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1656,7 +1651,7 @@ h
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python3-学习（2）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -1675,7 +1670,7 @@ h
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/" itemprop="url">Samba远程Shell命令注入执行漏洞（CVE-2007-2447）</a></h1>
+                <a class="post-title-link" href="/2018/12/09/python3-学习（2）/" itemprop="url">python3-学习（2）</a></h1>
         
 
         <div class="post-meta">
@@ -1710,8 +1705,8 @@ h
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞复现</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1749,14 +1744,19 @@ h
       
         
           
-          usermap_script：CVE-2007-2447Samba用户名映射脚本命令执行
-漏洞产生原因传递通过MS-RPC提供的未过滤的用户输入在调用定义的外部脚本时调用/bin/sh，在smb.conf中，导致允许远程命令执行。
-msf 中模块位置
-exploit/multi/samba/user
+          python类的继承实例：
+
+class people:
+    name=&apos;&apos;
+    age=0
+    __weight=0    #定义私有属性,私有属性在类外部无法直接进行访问
+
+    def __init__(self,n,a,w):
+        self.na
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Samba远程Shell命令注入执行漏洞（CVE-2007-2447）/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/python3-学习（2）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1844,7 +1844,7 @@ exploit/multi/samba/user
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1855,7 +1855,7 @@ exploit/multi/samba/user
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

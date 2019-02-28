@@ -79,17 +79,25 @@
 
 
 
-<meta name="description" content="Admin 简介  Admin 是 Django 自带的一个功能强大的自动化数据管理界面被授权的用户可直接在 Admin 中管理数据库Django 提供许多针对 Admin 的定制功能   Admin 配置  cmd 创建 admin 用户执行 python manage.py createsuperuser密码：admin123..admin 入口：localhost:8000/admin/默">
+<meta name="description" content="Docker 简介Docker 是一个开源的应用容器引擎，通过将运行环境和应用程序打包到一起，解决部署的环境依赖问题，做到跨平台的分布和使用 一个完整的Docker有以下几个部分组成  Docker Client 客户端Docker Daemon 守护进程Docker Image 镜像Docker Container 容器  Docker 安装在Centos下安装Docker安装条件：内核版本高于">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Django--（admin）">
-<meta property="og:url" content="http://wcute.github.io/2018/12/10/Django--（admin）/index.html">
+<meta property="og:title" content="Docker（一） 入门及安装">
+<meta property="og:url" content="http://wcute.github.io/2019/01/10/Docker（一） 入门及安装/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="Admin 简介  Admin 是 Django 自带的一个功能强大的自动化数据管理界面被授权的用户可直接在 Admin 中管理数据库Django 提供许多针对 Admin 的定制功能   Admin 配置  cmd 创建 admin 用户执行 python manage.py createsuperuser密码：admin123..admin 入口：localhost:8000/admin/默">
+<meta property="og:description" content="Docker 简介Docker 是一个开源的应用容器引擎，通过将运行环境和应用程序打包到一起，解决部署的环境依赖问题，做到跨平台的分布和使用 一个完整的Docker有以下几个部分组成  Docker Client 客户端Docker Daemon 守护进程Docker Image 镜像Docker Container 容器  Docker 安装在Centos下安装Docker安装条件：内核版本高于">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-10T14:11:20.215Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-14fe7355263988e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-bde87438eb24de9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4bdbc69ac7e0475e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4d107b479c97e999.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-35ef970bd267aa7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-61ebbfa07c37ea5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-36ee4bd7a82d8d5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-02-28T05:00:24.112Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django--（admin）">
-<meta name="twitter:description" content="Admin 简介  Admin 是 Django 自带的一个功能强大的自动化数据管理界面被授权的用户可直接在 Admin 中管理数据库Django 提供许多针对 Admin 的定制功能   Admin 配置  cmd 创建 admin 用户执行 python manage.py createsuperuser密码：admin123..admin 入口：localhost:8000/admin/默">
+<meta name="twitter:title" content="Docker（一） 入门及安装">
+<meta name="twitter:description" content="Docker 简介Docker 是一个开源的应用容器引擎，通过将运行环境和应用程序打包到一起，解决部署的环境依赖问题，做到跨平台的分布和使用 一个完整的Docker有以下几个部分组成  Docker Client 客户端Docker Daemon 守护进程Docker Image 镜像Docker Container 容器  Docker 安装在Centos下安装Docker安装条件：内核版本高于">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-14fe7355263988e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -119,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
+  <link rel="canonical" href="http://wcute.github.io/2019/01/10/Docker（一） 入门及安装/">
 
 
 
 
 
-  <title>Django--（admin） | 鸡翅儿</title>
+  <title>Docker（一） 入门及安装 | 鸡翅儿</title>
   
 
 
@@ -284,7 +292,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（admin）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/01/10/Docker（一） 入门及安装/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -301,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Django--（admin）</h1>
+          <h1 class="post-title" itemprop="name headline">Docker（一） 入门及安装</h1>
         
 
         <div class="post-meta">
@@ -313,8 +321,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
-                2018-12-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-10T12:59:04+08:00">
+                2019-01-10
               </time>
             
 
@@ -336,8 +344,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
                   </a>
                 </span>
 
@@ -373,28 +381,73 @@
       
 
       
-        <ul>
-<li><p>Admin 简介</p>
+        <h3 id="Docker-简介"><a href="#Docker-简介" class="headerlink" title="Docker 简介"></a>Docker 简介</h3><p>Docker 是一个开源的应用容器引擎，通过将运行环境和应用程序打包到一起，解决部署的环境依赖问题，做到跨平台的分布和使用</p>
+<p>一个完整的Docker有以下几个部分组成</p>
 <blockquote>
-<p>Admin 是 Django 自带的一个功能强大的自动化数据管理界面<br>被授权的用户可直接在 Admin 中管理数据库<br>Django 提供许多针对 Admin 的定制功能</p>
+<p>Docker Client 客户端<br>Docker Daemon 守护进程<br>Docker Image 镜像<br>Docker Container 容器</p>
+</blockquote>
+<h3 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h3><p>在<code>Centos</code>下安装<code>Docker</code><br>安装条件：内核版本高于3.10的64位系统</p>
+<ol>
+<li>查看内核版本<blockquote>
+<p>uname -r </p>
 </blockquote>
 </li>
-<li><p>Admin 配置</p>
-<blockquote>
-<p>cmd 创建 admin 用户<br>执行 python manage.py createsuperuser<br>密码：admin123..<br>admin 入口：localhost:8000/admin/<br>默认英文界面，修改 settings.py 中的 LANGUAGE_CODE = ‘zh_Hans’ 可变更中文界面</p>
+<li>更新<code>yum</code>源<blockquote>
+<p>yum update</p>
 </blockquote>
 </li>
-<li><p>配置应用</p>
-<blockquote>
-<p>在应用下 admin.py 中引入应用自身的 models 模块（或里面的模型类）<br>编辑 admin.py :<br>from django.contrib import admin<br>from models import Article<br>admin.site.register(Article)</p>
+<li>安装需要的软件包<blockquote>
+<p>yum install -y yum-utils device-mapper-persistent-data lvm2</p>
 </blockquote>
 </li>
-<li><p>修改数据默认显示名称</p>
-<blockquote>
-<p>在 models.py 的 Article 类中添加一个方法<br>python3 使用 def <strong>str</strong>(self):<br>return self.title<br>python2 使用 def <strong>unicode</strong>(self):<br>return self.title</p>
+<li>设置<code>yum</code>源<blockquote>
+<p>yum-config-manager –add-repo <a href="https://download.docker.com/linux/centos/docker-ce.repo" target="_blank" rel="noopener">https://download.docker.com/linux/centos/docker-ce.repo</a></p>
 </blockquote>
 </li>
-</ul>
+<li>查看仓库中docker版本<blockquote>
+<p>yum list docker-ce –showduplicates | sort -r</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-14fe7355263988e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<ol start="6">
+<li>安装<code>docker</code><blockquote>
+<p>yum install docker-ce<br>sudo yum install docker-ce-17.12.0.ce</p>
+</blockquote>
+</li>
+<li>启动<code>docker</code><blockquote>
+<p>service docker start</p>
+</blockquote>
+</li>
+<li>测试是否安装成功<blockquote>
+<p>docker version</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-bde87438eb24de9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<h3 id="运行一个交互式容器"><a href="#运行一个交互式容器" class="headerlink" title="运行一个交互式容器"></a>运行一个交互式容器</h3><p>docker 镜像是分层的，使用时需要从一个基础镜像开始，可以使用 docker pull 从docker hub 进行拉取，已经存在命令会直接返回，否则自行下载</p>
+<blockquote>
+<p>docker run -i -t ubuntu:15.10 /bin/bash<br>-i 启动一个可交互的容器<br>-t 在新容器内指定一个伪终端或终端<br>/bin/bash 表示启动容器时要运行的命令</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-4bdbc69ac7e0475e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<p>此时已经进入ubuntu15.10系统的容器<br>可以通过<code>exit</code>命令或者使用<code>CTRL+D</code>来退出容器<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4d107b479c97e999.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"><br>如果需要退出交互式模式且不影响容器运行，可以使用<code>CTRL+PQ</code>命令</p>
+<h3 id="启动容器（后台模式）"><a href="#启动容器（后台模式）" class="headerlink" title="启动容器（后台模式）"></a>启动容器（后台模式）</h3><p>创建一个以进程方式运行的容器</p>
+<blockquote>
+<p>docker run -d ubuntu:15.10 /bin/sh -c “while true; do echo hello world; sleep 1; done”<br>-d 让容器在后台运行，不关联到当前终端的shell上</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-35ef970bd267aa7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+<p>输出的一串长字符是容器的id（唯一），docker ps 可进行查看<br>查看容器的标准输出日志</p>
+<blockquote>
+<p>docker logs &lt;CONTAINER ID/NAMES&gt; </p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-61ebbfa07c37ea5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+<h3 id="容器停止"><a href="#容器停止" class="headerlink" title="容器停止"></a>容器停止</h3><blockquote>
+<p>docker stop <names><br>docker stop <container id=""></container></names></p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-36ee4bd7a82d8d5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+<h3 id="常用-Docker-命令"><a href="#常用-Docker-命令" class="headerlink" title="常用 Docker 命令"></a>常用 Docker 命令</h3><blockquote>
+<p>docker pull 拉取镜像<br>docker run 运行容器<br>docker images 列出所有镜像<br>docker ps 查看容器<br>docker start/stop/restart/kill 容器的启动停止<br>docker logs 查看容器日志</p>
+</blockquote>
 
       
     </div>
@@ -419,8 +472,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/10/Django--（Templates）/" rel="next" title="Django--（Templates）">
-                <i class="fa fa-chevron-left"></i> Django--（Templates）
+              <a href="/2018/12/24/SQLMAP 命令操作/" rel="next" title="SQLMAP命令操作">
+                <i class="fa fa-chevron-left"></i> SQLMAP命令操作
               </a>
             
           </div>
@@ -429,8 +482,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/11/CSRF漏洞学习/" rel="prev" title="CSRF漏洞学习">
-                CSRF漏洞学习 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/13/Android-静态分析/" rel="prev" title="Android-静态分析">
+                Android-静态分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -483,8 +536,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -535,6 +597,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-简介"><span class="nav-number">1.</span> <span class="nav-text">Docker 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-安装"><span class="nav-number">2.</span> <span class="nav-text">Docker 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行一个交互式容器"><span class="nav-number">3.</span> <span class="nav-text">运行一个交互式容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动容器（后台模式）"><span class="nav-number">4.</span> <span class="nav-text">启动容器（后台模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器停止"><span class="nav-number">5.</span> <span class="nav-text">容器停止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用-Docker-命令"><span class="nav-number">6.</span> <span class="nav-text">常用 Docker 命令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
