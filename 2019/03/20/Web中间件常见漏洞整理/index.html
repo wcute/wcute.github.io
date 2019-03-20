@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0短文件名猜解IIS 短文件名漏洞远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代">
+<meta name="description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0  短文件名猜解IIS 短文件名漏洞 远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web中间件常见漏洞整理">
 <meta property="og:url" content="http://wcute.github.io/2019/03/20/Web中间件常见漏洞整理/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0短文件名猜解IIS 短文件名漏洞远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代">
+<meta property="og:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0  短文件名猜解IIS 短文件名漏洞 远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-20T05:34:58.424Z">
+<meta property="og:updated_time" content="2019-03-20T05:37:59.424Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web中间件常见漏洞整理">
-<meta name="twitter:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0短文件名猜解IIS 短文件名漏洞远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代">
+<meta name="twitter:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0  短文件名猜解IIS 短文件名漏洞 远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致">
 
 
 
@@ -376,14 +376,20 @@
         <p>本篇主要方便自己以后查找作为记录</p>
 <h4 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h4><h5 id="PUT漏洞"><a href="#PUT漏洞" class="headerlink" title="PUT漏洞"></a>PUT漏洞</h5><ul>
 <li>成因：<br>IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。</li>
-<li>版本：<br>IIS6.0<h5 id="短文件名猜解"><a href="#短文件名猜解" class="headerlink" title="短文件名猜解"></a>短文件名猜解</h5><a href="https://www.jianshu.com/p/89d1826ecf07" target="_blank" rel="noopener">IIS 短文件名漏洞</a><h5 id="远程代码执行"><a href="#远程代码执行" class="headerlink" title="远程代码执行"></a>远程代码执行</h5></li>
+<li>版本：<br>IIS6.0</li>
+</ul>
+<h5 id="短文件名猜解"><a href="#短文件名猜解" class="headerlink" title="短文件名猜解"></a>短文件名猜解</h5><p><a href="https://www.jianshu.com/p/89d1826ecf07" target="_blank" rel="noopener">IIS 短文件名漏洞</a></p>
+<h5 id="远程代码执行"><a href="#远程代码执行" class="headerlink" title="远程代码执行"></a>远程代码执行</h5><ul>
 <li>成因<br>IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代码执行。</li>
 <li>版本：<br>IIS6.0</li>
 </ul>
 <h5 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><p><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a> </p>
 <h4 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h4><h5 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h5><ul>
 <li>成因<br>配置错误导致目录遍历</li>
-<li>修复<br>修改 apache 配置文件<code>httpd.conf</code><br>找到<code>Options+Indexes+FollowSymLinks +ExecCGI</code>并修改成 <code>Options-Indexes+FollowSymLinks +ExecCGI</code>并保存<h5 id="解析漏洞-1"><a href="#解析漏洞-1" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a><h4 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h4><h5 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h5></li>
+<li>修复<br>修改 apache 配置文件<code>httpd.conf</code><br>找到<code>Options+Indexes+FollowSymLinks +ExecCGI</code>并修改成 <code>Options-Indexes+FollowSymLinks +ExecCGI</code>并保存</li>
+</ul>
+<h5 id="解析漏洞-1"><a href="#解析漏洞-1" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><p><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a></p>
+<h4 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h4><h5 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h5><ul>
 <li>成因<br>Java序列化，简而言之就是把java对象转化为字节序列的过程。而反序列话则是再把字节序列恢复为java对象的过程，然而就在这一转一变得过程中，程序员的过滤不严格，就可以导致恶意构造的代码的实现。</li>
 </ul>
 <h5 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h5><ul>
@@ -412,9 +418,12 @@
 </ul>
 <h5 id="CRLF注入"><a href="#CRLF注入" class="headerlink" title="CRLF注入"></a>CRLF注入</h5><ul>
 <li>简介<br>CRLF时“回车+换行”（\r\n）的简称。<br>HTTP Header与HTTP Body时用两个CRLF分隔的，浏览器根据两个CRLF来取出HTTP内容并显示出来。<br>通过控制HTTP消息头中的字符，注入一些恶意的换行，就能注入一些会话cookie或者html代码，由于Nginx配置不正确，导致注入的代码会被执行。</li>
-<li>漏洞复现<br>payload：<code>/%0d%0a%0d%0a&lt;img src=1 onerror=alert(/xss/)&gt;</code><br>在请求后面加上 payload 可触发弹框<h5 id="目录穿越"><a href="#目录穿越" class="headerlink" title="目录穿越"></a>目录穿越</h5></li>
-<li>成因<br>Nginx反向代理，静态文件存储在/home/下，而访问时需要在url中输入files，配置文件中/files没有用/闭合，导致可以穿越至上层目录。<h5 id="解析漏洞-2"><a href="#解析漏洞-2" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a></li>
+<li>漏洞复现<br>payload：<code>/%0d%0a%0d%0a&lt;img src=1 onerror=alert(/xss/)&gt;</code><br>在请求后面加上 payload 可触发弹框</li>
 </ul>
+<h5 id="目录穿越"><a href="#目录穿越" class="headerlink" title="目录穿越"></a>目录穿越</h5><ul>
+<li>成因<br>Nginx反向代理，静态文件存储在/home/下，而访问时需要在url中输入files，配置文件中/files没有用/闭合，导致可以穿越至上层目录。</li>
+</ul>
+<h5 id="解析漏洞-2"><a href="#解析漏洞-2" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><p><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a></p>
 <h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="FastCGI未授权访问、任意命令执行"><a href="#FastCGI未授权访问、任意命令执行" class="headerlink" title="FastCGI未授权访问、任意命令执行"></a>FastCGI未授权访问、任意命令执行</h5><ul>
 <li>成因<br>服务端使用fastcgi协议并对外网开放9000端口，可以构造fastcgi协议包内容，实现未授权访问服务端.php文件以及执行任意命令。</li>
 </ul>
