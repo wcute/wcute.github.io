@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="鸡翅儿">
 <meta property="og:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0  短文件名猜解IIS 短文件名漏洞 远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-20T05:37:59.424Z">
+<meta property="og:updated_time" content="2019-03-20T05:40:26.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web中间件常见漏洞整理">
 <meta name="twitter:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0  短文件名猜解IIS 短文件名漏洞 远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致">
@@ -410,7 +410,9 @@
 </ul>
 <h4 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h4><h5 id="远程代码执行-1"><a href="#远程代码执行-1" class="headerlink" title="远程代码执行"></a>远程代码执行</h5><ul>
 <li>成因<br>Tomcat 运行在Windows 主机上，且启用了 HTTP PUT 请求方法，可通过构造的攻击请求向服务器上传包含任意代码的 JSP 文件，造成任意代码执行。</li>
-<li>版本：<br>Apache Tomcat 7.0.0 – 7.0.81<h5 id="war后门文件部署-2"><a href="#war后门文件部署-2" class="headerlink" title="war后门文件部署"></a>war后门文件部署</h5></li>
+<li>版本：<br>Apache Tomcat 7.0.0 – 7.0.81</li>
+</ul>
+<h5 id="war后门文件部署-2"><a href="#war后门文件部署-2" class="headerlink" title="war后门文件部署"></a>war后门文件部署</h5><ul>
 <li>成因<br>Tomcat 支持在后台部署war文件，可以直接将webshell部署到web目录下。<br>若后台管理页面存在弱口令，则可以通过爆破获取密码。</li>
 </ul>
 <h4 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h4><h5 id="目录遍历-1"><a href="#目录遍历-1" class="headerlink" title="目录遍历"></a>目录遍历</h5><ul>
