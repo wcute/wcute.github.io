@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="SQLMAP 基本操作 判断是否存在注入 sqlmap.py -u “ http://url “ (注入点参数大于2时必须加双引号)   判断文本中的请求是否存在注入抓包获取http请求，将Web数据包存在test.txt中 sqlmap.py -r “test.txt”   查询当前用户下的所有数据库 sqlmap.py -u “ http://url “ –dbs   查询当前用户下A数据库的">
+<meta name="description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0短文件名猜解IIS 短文件名漏洞远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQLMAP命令操作">
-<meta property="og:url" content="http://wcute.github.io/2018/12/24/SQLMAP 命令操作/index.html">
+<meta property="og:title" content="Web中间件常见漏洞整理">
+<meta property="og:url" content="http://wcute.github.io/2019/03/20/Web中间件常见漏洞整理/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="SQLMAP 基本操作 判断是否存在注入 sqlmap.py -u “ http://url “ (注入点参数大于2时必须加双引号)   判断文本中的请求是否存在注入抓包获取http请求，将Web数据包存在test.txt中 sqlmap.py -r “test.txt”   查询当前用户下的所有数据库 sqlmap.py -u “ http://url “ –dbs   查询当前用户下A数据库的">
+<meta property="og:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0短文件名猜解IIS 短文件名漏洞远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-12T13:29:45.374Z">
+<meta property="og:updated_time" content="2019-03-20T05:29:43.192Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SQLMAP命令操作">
-<meta name="twitter:description" content="SQLMAP 基本操作 判断是否存在注入 sqlmap.py -u “ http://url “ (注入点参数大于2时必须加双引号)   判断文本中的请求是否存在注入抓包获取http请求，将Web数据包存在test.txt中 sqlmap.py -r “test.txt”   查询当前用户下的所有数据库 sqlmap.py -u “ http://url “ –dbs   查询当前用户下A数据库的">
+<meta name="twitter:title" content="Web中间件常见漏洞整理">
+<meta name="twitter:description" content="本篇主要方便自己以后查找作为记录 IISPUT漏洞 成因：IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。 版本：IIS6.0短文件名猜解IIS 短文件名漏洞远程代码执行 成因IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/12/24/SQLMAP 命令操作/">
+  <link rel="canonical" href="http://wcute.github.io/2019/03/20/Web中间件常见漏洞整理/">
 
 
 
 
 
-  <title>SQLMAP命令操作 | 鸡翅儿</title>
+  <title>Web中间件常见漏洞整理 | 鸡翅儿</title>
   
 
 
@@ -284,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/24/SQLMAP 命令操作/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/03/20/Web中间件常见漏洞整理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SQLMAP命令操作</h1>
+          <h1 class="post-title" itemprop="name headline">Web中间件常见漏洞整理</h1>
         
 
         <div class="post-meta">
@@ -313,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-24T12:31:03+08:00">
-                2018-12-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-20T13:31:03+08:00">
+                2019-03-20
               </time>
             
 
@@ -336,8 +336,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透工具/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透工具</span>
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
                   </a>
                 </span>
 
@@ -373,95 +373,49 @@
       
 
       
-        <h3 id="SQLMAP-基本操作"><a href="#SQLMAP-基本操作" class="headerlink" title="SQLMAP 基本操作"></a>SQLMAP 基本操作</h3><ol>
-<li>判断是否存在注入<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ (注入点参数大于2时必须加双引号)</p>
-</blockquote>
-</li>
-<li>判断文本中的请求是否存在注入<br>抓包获取<code>http</code>请求，将Web数据包存在<code>test.txt</code>中<blockquote>
-<p>sqlmap.py -r “test.txt”</p>
-</blockquote>
-</li>
-<li>查询当前用户下的所有数据库<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ –dbs</p>
-</blockquote>
-</li>
-<li>查询当前用户下A数据库的数据表<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ -D A –tables</p>
-</blockquote>
-</li>
-<li>查询当前用户下A数据库的B数据表的字段<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ -D A -T -B –columns</p>
-</blockquote>
-</li>
-<li>查询查询当前用户下A数据库的B数据表的c1,c2字段的内容<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ -D A -T -B -C c1,c2 –dump</p>
-</blockquote>
-</li>
-<li>获取数据库的所有用户<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ –users</p>
-</blockquote>
-</li>
-<li>获取数据库用户的密码<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ –passwords</p>
-</blockquote>
-</li>
-<li>获取当前数据库名称<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ –current-db</p>
-</blockquote>
-</li>
-<li>获取当前数据库的用户名称<blockquote>
-<p>sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ –current-user</p>
-</blockquote>
-</li>
-</ol>
-<h3 id="SQLMAP-进阶"><a href="#SQLMAP-进阶" class="headerlink" title="SQLMAP 进阶"></a>SQLMAP 进阶</h3><h4 id="命令参数使用"><a href="#命令参数使用" class="headerlink" title="命令参数使用"></a>命令参数使用</h4><ol>
-<li>探测等级：<code>--level 5</code></li>
-<li>当前用户是否为管理权限：<code>--is-dba</code></li>
-<li>列出数据库管理员角色：<code>--roles</code></li>
-<li>HTTP Referer 头：<code>--referer</code></li>
-<li>运行自定义SQL语句：<code>--sql-shell</code></li>
-<li>运行任意操作系统命令：<code>--os-cmd</code> <code>--os-shell</code></li>
-<li>从数据库服务器中读取文件：<code>--file-read</code></li>
-<li>上传文件到数据库服务器中：<code>--file-write</code> <code>--file-dest</code></li>
-</ol>
-<h4 id="tamper-参数使用"><a href="#tamper-参数使用" class="headerlink" title="tamper 参数使用"></a>tamper 参数使用</h4><p>格式： sqlmap.py -u “ <a href="http://url" target="_blank" rel="noopener">http://url</a> “ –tamper “模块名”<br>常用 tamper 脚本</p>
-<ul>
-<li>apostrophemask.py<br>将引号替换为<code>UTF-8</code>，用于过滤单引号</li>
-<li>base64encode.py<br>替换为 <code>base64</code>编码</li>
-<li>multipleaspace.py<br>围绕 SQL 关键字添加多个空格</li>
-<li>space2plus.py<br>用<code>+</code>号替换空格</li>
-<li>nonrecurisvereplacement.py<br>作为双重查询语句，用双重语句替代预定义sql关键字</li>
-<li>space2randomblank.py<br>将空格替换为其他有效字符</li>
-<li>unionalltounion.py<br>将 <code>union all select</code>替换为<code>union select</code></li>
-<li>securesphere.py<br>追加特制字符串<br>使用前：1 and 1=1<br>使用后：1 and 1=1 and ‘0having=0having’</li>
-<li>space2hash.py<br>将空格替换为<code>#</code>号，并添加一个随机字符串和换行符</li>
-<li>space2mssqlblank.py(mssql)<br>将空格替换为其他空符号</li>
-<li>space2mssqlhash.py<br>将空格替换为<code>#</code>号，并添加一个换行符</li>
-<li>between.py<br>用<code>not between 0 and</code> 替换大于号（<code>&gt;</code>）,用<code>between and</code>替换等号（<code>=</code><br>）</li>
-<li>percentage.py<br>ASP 欲奴再每个字符前面添加一个<code>%</code>号</li>
-<li>sp_password.py<br>从DBMS日志的自动模糊处理的有效载荷中追加sp_password</li>
-<li>charencode.py<br>对给定的payload全部字符使用<code>url</code>编码（已经编码字符串不处理）</li>
-<li>randomcase.py<br>随机大小写</li>
-<li>charunicodeencode.py<br>字符串<code>Unicode</code>编码</li>
-<li>space2comment.py<br>将空格替换为<code>/**/</code></li>
-<li>equaltolike.py<br>将等号替换为like</li>
-<li>greatest.py<br>绕过对<code>&gt;</code>号的过滤，用<code>greatest</code>替换<code>&gt;</code>号</li>
-<li>ifnull2ifisnull.py<br>绕过对<code>ifnull</code>的过滤，替换类似<code>ifnull(a,b</code>)为<code>if(isnull(a),b,a)</code></li>
-<li>modsecurityversioned.py<br>过滤空格，使用mysql内联注释的方式进行注入</li>
-<li>space2mysqlblank.py<br>将空格替换为其他空白符号（mysql）</li>
-<li>modsecurityzeroversioned.py<br>使用mysql内联注释的方式进行注入（mysql5.0）</li>
-<li>space2mysqldash.py<br>将空格替换为<code>--</code>,并添加一个换行符</li>
-<li>bluecoat.py<br>sql语句之后用有效的随机空白符替换空格符，随后用<code>like</code>替换<code>=</code>号</li>
-<li>versionedkeywords.py<br>注释绕过</li>
-<li>halfversionedmorekeywords.py<br>当数据库为mysql时绕过防火墙，再每个关键字之前添加mysql版本注释</li>
-<li>space2morehash.py<br>将空格替换为<code>#</code>号，并添加一个随机字符串和换行符</li>
-<li>apostrophenullencode.py<br>用非法双字节<code>Unicode</code>字符替换<code>单引号</code></li>
-<li>appendnullbyte.py<br>在有效负荷的结束为止加载零字节字符编码</li>
-<li>chardoubleencode.py<br>对给定的payload全部字符使用双重url编码（不处理已经编码的字符）</li>
-<li>unmagicquotes.py<br>用一个多字节组合（%bf%27）和末尾通用注释一起替换空格</li>
-<li>randomcomments.py<br>用/**/分割sql关键字</li>
+        <p>本篇主要方便自己以后查找作为记录</p>
+<h4 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h4><h5 id="PUT漏洞"><a href="#PUT漏洞" class="headerlink" title="PUT漏洞"></a>PUT漏洞</h5><ul>
+<li>成因：<br>IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。</li>
+<li>版本：<br>IIS6.0<h5 id="短文件名猜解"><a href="#短文件名猜解" class="headerlink" title="短文件名猜解"></a>短文件名猜解</h5><a href="https://www.jianshu.com/p/89d1826ecf07" target="_blank" rel="noopener">IIS 短文件名漏洞</a><h5 id="远程代码执行"><a href="#远程代码执行" class="headerlink" title="远程代码执行"></a>远程代码执行</h5></li>
+<li>成因<br>IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代码执行。</li>
+<li>版本：<br>IIS6.0</li>
 </ul>
+<h5 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><p><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a> </p>
+<h4 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h4><h5 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h5><ul>
+<li>成因<br>配置错误导致目录遍历</li>
+<li>修复<br>修改 apache 配置文件<code>httpd.conf</code><br>找到<code>Options+Indexes+FollowSymLinks +ExecCGI</code>并修改成 <code>Options-Indexes+FollowSymLinks +ExecCGI</code>并保存<h5 id="解析漏洞-1"><a href="#解析漏洞-1" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a><h4 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h4><h5 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h5></li>
+<li>成因<br>Java序列化，简而言之就是把java对象转化为字节序列的过程。而反序列话则是再把字节序列恢复为java对象的过程，然而就在这一转一变得过程中，程序员的过滤不严格，就可以导致恶意构造的代码的实现。</li>
+</ul>
+<h5 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h5><ul>
+<li>简介：<br>Weblogic 中存在一个SSRF漏洞，利用该漏洞可以发送任意HTTP请求，进而攻击内网中redis、fastcgi等脆弱组件</li>
+</ul>
+<h5 id="任意文件上传"><a href="#任意文件上传" class="headerlink" title="任意文件上传"></a>任意文件上传</h5><ul>
+<li>成因<br>通过访问config.do配置页面，先更改Work Home工作目录，用有效的已部署的Web应用目录替换默认的存储JKS Keystores文件的目录，之后使用”添加Keystore设置”的功能，可上传恶意的JSP脚本文件。</li>
+</ul>
+<h5 id="war后门文件部署"><a href="#war后门文件部署" class="headerlink" title="war后门文件部署"></a>war后门文件部署</h5><ul>
+<li>成因<br>由于WebLogic后台存在弱口令，可直接登陆后台上传包含后门的war包。</li>
+</ul>
+<h4 id="Jboss"><a href="#Jboss" class="headerlink" title="Jboss"></a>Jboss</h4><h5 id="war后门文件部署-1"><a href="#war后门文件部署-1" class="headerlink" title="war后门文件部署"></a>war后门文件部署</h5><ul>
+<li>成因<br>jBoss后台管理页面存在弱口令，通过爆破获得账号密码。登陆后台上传包含后门的war包。</li>
+</ul>
+<h5 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h5><ul>
+<li>成因<br>该漏洞为 Java反序列化错误类型，存在于 Jboss 的 <code>HttpInvoker</code>组件中的 <code>ReadOnlyAccessFilter</code>过滤器中。该过滤器在没有进行任何安全检查的情况下尝试将来自客户端的数据流进行反序列化，从而导致了漏洞</li>
+<li>版本：<br><code>5.x</code>和<code>6.x</code>版本的JBOSSAS</li>
+</ul>
+<h4 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h4><h5 id="远程代码执行-1"><a href="#远程代码执行-1" class="headerlink" title="远程代码执行"></a>远程代码执行</h5><ul>
+<li>成因<br>Tomcat 运行在Windows 主机上，且启用了 HTTP PUT 请求方法，可通过构造的攻击请求向服务器上传包含任意代码的 JSP 文件，造成任意代码执行。</li>
+<li>版本：<br>Apache Tomcat 7.0.0 – 7.0.81<h5 id="war后门文件部署-2"><a href="#war后门文件部署-2" class="headerlink" title="war后门文件部署"></a>war后门文件部署</h5></li>
+<li>成因<br>Tomcat 支持在后台部署war文件，可以直接将webshell部署到web目录下。<br>若后台管理页面存在弱口令，则可以通过爆破获取密码。</li>
+</ul>
+<h4 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h4><h5 id="目录遍历-1"><a href="#目录遍历-1" class="headerlink" title="目录遍历"></a>目录遍历</h5><ul>
+<li>成因<br>Nginx的目录遍历与Apache一样，属于配置方面的问题，错误的配置可到导致目录遍历与源码泄露</li>
+</ul>
+<h5 id="CRLF注入"><a href="#CRLF注入" class="headerlink" title="CRLF注入"></a>CRLF注入</h5><ul>
+<li>简介<br>CRLF时“回车+换行”（\r\n）的简称。<br>HTTP Header与HTTP Body时用两个CRLF分隔的，浏览器根据两个CRLF来取出HTTP内容并显示出来。<br>通过控制HTTP消息头中的字符，注入一些恶意的换行，就能注入一些会话cookie或者html代码，由于Nginx配置不正确，导致注入的代码会被执行。</li>
+<li>漏洞复现<br>payload：<code>/%0d%0a%0d%0a&lt;img src=1 onerror=alert(/xss/)&gt;</code><br>在请求后面加上 payload 可触发弹框<h5 id="目录穿越"><a href="#目录穿越" class="headerlink" title="目录穿越"></a>目录穿越</h5></li>
+<li>成因<br>Nginx反向代理，静态文件存储在/home/下，而访问时需要在url中输入files，配置文件中/files没有用/闭合，导致可以穿越至上层目录。<h5 id="解析漏洞-2"><a href="#解析漏洞-2" class="headerlink" title="解析漏洞"></a>解析漏洞</h5><a href="https://wcute.github.io/2018/12/09/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">解析漏洞</a><h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4></li>
+</ul>
+<p>参考链接：<br><a href="https://www.freebuf.com/articles/web/192063.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/192063.html</a></p>
 
       
     </div>
@@ -486,8 +440,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/23/利用MSF进行后渗透攻击/" rel="next" title="利用MSF进行后渗透攻击">
-                <i class="fa fa-chevron-left"></i> 利用MSF进行后渗透攻击
+              <a href="/2019/03/20/IIS 短命名文件泄露/" rel="next" title="IIS 短命名文件泄露">
+                <i class="fa fa-chevron-left"></i> IIS 短命名文件泄露
               </a>
             
           </div>
@@ -495,10 +449,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/10/Docker（一） 入门及安装/" rel="prev" title="Docker（一） 入门及安装">
-                Docker（一） 入门及安装 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -621,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLMAP-基本操作"><span class="nav-number">1.</span> <span class="nav-text">SQLMAP 基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQLMAP-进阶"><span class="nav-number">2.</span> <span class="nav-text">SQLMAP 进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#命令参数使用"><span class="nav-number">2.1.</span> <span class="nav-text">命令参数使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tamper-参数使用"><span class="nav-number">2.2.</span> <span class="nav-text">tamper 参数使用</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#IIS"><span class="nav-number">1.</span> <span class="nav-text">IIS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PUT漏洞"><span class="nav-number">1.1.</span> <span class="nav-text">PUT漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#短文件名猜解"><span class="nav-number">1.2.</span> <span class="nav-text">短文件名猜解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#远程代码执行"><span class="nav-number">1.3.</span> <span class="nav-text">远程代码执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解析漏洞"><span class="nav-number">1.4.</span> <span class="nav-text">解析漏洞</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Apache"><span class="nav-number">2.</span> <span class="nav-text">Apache</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#目录遍历"><span class="nav-number">2.1.</span> <span class="nav-text">目录遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解析漏洞-1"><span class="nav-number">2.2.</span> <span class="nav-text">解析漏洞</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Weblogic"><span class="nav-number">3.</span> <span class="nav-text">Weblogic</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#反序列化漏洞"><span class="nav-number">3.1.</span> <span class="nav-text">反序列化漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SSRF"><span class="nav-number">3.2.</span> <span class="nav-text">SSRF</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#任意文件上传"><span class="nav-number">3.3.</span> <span class="nav-text">任意文件上传</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#war后门文件部署"><span class="nav-number">3.4.</span> <span class="nav-text">war后门文件部署</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jboss"><span class="nav-number">4.</span> <span class="nav-text">Jboss</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#war后门文件部署-1"><span class="nav-number">4.1.</span> <span class="nav-text">war后门文件部署</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#反序列化"><span class="nav-number">4.2.</span> <span class="nav-text">反序列化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tomcat"><span class="nav-number">5.</span> <span class="nav-text">Tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#远程代码执行-1"><span class="nav-number">5.1.</span> <span class="nav-text">远程代码执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#war后门文件部署-2"><span class="nav-number">5.2.</span> <span class="nav-text">war后门文件部署</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nginx"><span class="nav-number">6.</span> <span class="nav-text">Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#目录遍历-1"><span class="nav-number">6.1.</span> <span class="nav-text">目录遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CRLF注入"><span class="nav-number">6.2.</span> <span class="nav-text">CRLF注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#目录穿越"><span class="nav-number">6.3.</span> <span class="nav-text">目录穿越</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解析漏洞-2"><span class="nav-number">6.4.</span> <span class="nav-text">解析漏洞</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a></li></ol></div>
             
 
           </div>
