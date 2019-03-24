@@ -79,22 +79,21 @@
 
 
 
-<meta name="description" content="Apache CouchDB是一个开源数据库，是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。 由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。 影响版本Apache CouchDB 小于 1.7.0以及 小于2.1.1">
+<meta name="description" content="首先安装模块  pip install requests  requests 模块含有许多自带的方法 使用 dir 命令可以查看属性1234import requestsprint dir(requests)&amp;gt;&amp;gt;&amp;gt; [&amp;apos;ConnectTimeout&amp;apos;, &amp;apos;ConnectionError&amp;apos;, &amp;apos;DependencyWarning&amp;a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Couchdb 垂直权限绕过漏洞（CVE-2017-12635）">
-<meta property="og:url" content="http://wcute.github.io/2019/03/04/Couchdb 垂直权限绕过漏洞（CVE-2017-12635）/index.html">
+<meta property="og:title" content="Python - requests 模块学习">
+<meta property="og:url" content="http://wcute.github.io/2019/03/24/Python - requests 模块学习/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="Apache CouchDB是一个开源数据库，是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。 由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。 影响版本Apache CouchDB 小于 1.7.0以及 小于2.1.1">
+<meta property="og:description" content="首先安装模块  pip install requests  requests 模块含有许多自带的方法 使用 dir 命令可以查看属性1234import requestsprint dir(requests)&amp;gt;&amp;gt;&amp;gt; [&amp;apos;ConnectTimeout&amp;apos;, &amp;apos;ConnectionError&amp;apos;, &amp;apos;DependencyWarning&amp;a">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-58023096dd6ba40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-24cd95338f9382f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2085081c7eb47955.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-3b03147183eca16a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-05T02:41:18.696Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-b5c1bbfdfdfbc5d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-fd8cb84eafbbf049.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-bd424bba6986aab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-24T05:54:48.638Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Couchdb 垂直权限绕过漏洞（CVE-2017-12635）">
-<meta name="twitter:description" content="Apache CouchDB是一个开源数据库，是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。 由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。 影响版本Apache CouchDB 小于 1.7.0以及 小于2.1.1">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-58023096dd6ba40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Python - requests 模块学习">
+<meta name="twitter:description" content="首先安装模块  pip install requests  requests 模块含有许多自带的方法 使用 dir 命令可以查看属性1234import requestsprint dir(requests)&amp;gt;&amp;gt;&amp;gt; [&amp;apos;ConnectTimeout&amp;apos;, &amp;apos;ConnectionError&amp;apos;, &amp;apos;DependencyWarning&amp;a">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-b5c1bbfdfdfbc5d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -124,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2019/03/04/Couchdb 垂直权限绕过漏洞（CVE-2017-12635）/">
+  <link rel="canonical" href="http://wcute.github.io/2019/03/24/Python - requests 模块学习/">
 
 
 
 
 
-  <title>Couchdb 垂直权限绕过漏洞（CVE-2017-12635） | 鸡翅儿</title>
+  <title>Python - requests 模块学习 | 鸡翅儿</title>
   
 
 
@@ -289,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/03/04/Couchdb 垂直权限绕过漏洞（CVE-2017-12635）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/03/24/Python - requests 模块学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -306,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Couchdb 垂直权限绕过漏洞（CVE-2017-12635）</h1>
+          <h1 class="post-title" itemprop="name headline">Python - requests 模块学习</h1>
         
 
         <div class="post-meta">
@@ -318,8 +317,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-04T20:59:03+08:00">
-                2019-03-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-24T13:54:00+08:00">
+                2019-03-24
               </time>
             
 
@@ -341,8 +340,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞复现</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -378,24 +377,21 @@
       
 
       
-        <p>Apache CouchDB是一个开源数据库，是一个使用JSON作为存储格式，JavaScript作为查询语言，MapReduce和HTTP作为API的NoSQL数据库。</p>
-<p>由于Erlang和JavaScript对JSON解析方式的不同，导致语句执行产生差异性导致的。这个漏洞可以让任意用户创建管理员，属于垂直权限绕过漏洞。</p>
-<h4 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h4><p>Apache CouchDB 小于 <code>1.7.0</code>以及 小于<code>2.1.1</code></p>
-<h4 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>使用 vulhub 进行复现</p>
-<ul>
-<li>启动环境<blockquote>
-<p>root@ubuntu:/home/vulhub-master/couchdb/CVE-2017-12635# <code>docker-compose up -d</code></p>
-</blockquote>
-</li>
-</ul>
-<p>访问 <a href="http://your-ip:5984/_utils/" target="_blank" rel="noopener">http://your-ip:5984/_utils/</a> 可看到一个web页面，说明Couchdb已成功启动。但不知道密码，无法登陆。<br><img src="https://upload-images.jianshu.io/upload_images/12585049-58023096dd6ba40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
-<p>发送数据包显示只有管理员可以添加用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-24cd95338f9382f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
-<p>发送包含两个roles的数据包，即可绕过限制：</p>
+        <p>首先安装模块</p>
 <blockquote>
-<p>PUT /_users/org.couchdb.user:vulhub HTTP/1.1<br>Host: ip:5984<br>Accept: <em>/</em><br>Accept-Language: en<br>User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)<br>Connection: close<br>Content-Type: application/json<br>Content-Length: 108<br>{<br>  “type”: “user”,<br>  “name”: “vulhub”,<br>  “roles”: [“_admin”],<br>  “roles”: [],<br>  “password”: “vulhub”<br>}</p>
+<p>pip install requests</p>
 </blockquote>
-<p>提交包显示新增用户成功<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2085081c7eb47955.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
-<p>返回登录页面 输入刚刚创建的用户名及密码 可成功进行登录<br><img src="https://upload-images.jianshu.io/upload_images/12585049-3b03147183eca16a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<p>requests 模块含有许多自带的方法 使用 dir 命令可以查看属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">print dir(requests)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; [&apos;ConnectTimeout&apos;, &apos;ConnectionError&apos;, &apos;DependencyWarning&apos;, &apos;FileModeWarning&apos;, &apos;HTTPError&apos;, &apos;NullHandler&apos;, &apos;PreparedRequest&apos;, &apos;ReadTimeout&apos;, &apos;Request&apos;, &apos;RequestException&apos;, &apos;RequestsDependencyWarning&apos;, &apos;Response&apos;, &apos;Session&apos;, &apos;Timeout&apos;, &apos;TooManyRedirects&apos;, &apos;URLRequired&apos;, &apos;__author__&apos;, &apos;__author_email__&apos;, &apos;__build__&apos;, &apos;__builtins__&apos;, &apos;__cake__&apos;, &apos;__copyright__&apos;, &apos;__description__&apos;, &apos;__doc__&apos;, &apos;__file__&apos;, &apos;__license__&apos;, &apos;__name__&apos;, &apos;__package__&apos;, &apos;__path__&apos;, &apos;__title__&apos;, &apos;__url__&apos;, &apos;__version__&apos;, &apos;_check_cryptography&apos;, &apos;_internal_utils&apos;, &apos;adapters&apos;, &apos;api&apos;, &apos;auth&apos;, &apos;certs&apos;, &apos;chardet&apos;, &apos;check_compatibility&apos;, &apos;codes&apos;, &apos;compat&apos;, &apos;cookies&apos;, &apos;cryptography_version&apos;, &apos;delete&apos;, &apos;exceptions&apos;, &apos;get&apos;, &apos;head&apos;, &apos;hooks&apos;, &apos;logging&apos;, &apos;models&apos;, &apos;options&apos;, &apos;packages&apos;, &apos;patch&apos;, &apos;post&apos;, &apos;put&apos;, &apos;pyopenssl&apos;, &apos;request&apos;, &apos;session&apos;, &apos;sessions&apos;, &apos;status_codes&apos;, &apos;structures&apos;, &apos;urllib3&apos;, &apos;utils&apos;, &apos;warnings&apos;]</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用-Python-编写请求包"><a href="#使用-Python-编写请求包" class="headerlink" title="使用 Python 编写请求包"></a>使用 Python 编写请求包</h3><h4 id="GET-请求包编写"><a href="#GET-请求包编写" class="headerlink" title="GET 请求包编写"></a>GET 请求包编写</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &quot;https://www.baidu.com&quot;</span><br><span class="line"></span><br><span class="line"># 设置代理地址</span><br><span class="line">proxies = &#123;</span><br><span class="line">	&quot;http&quot;:&quot;http://127.0.0.1:8080&quot;,</span><br><span class="line">	&quot;https&quot;:&quot;https://127.0.0.1:8080&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 请求包头部编写</span><br><span class="line">headers = &#123;</span><br><span class="line">	&quot;user-agent&quot; : &quot;Firefox&quot;,</span><br><span class="line">	&quot;wcute&quot; : &quot;hello wcute&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 设置 cookie</span><br><span class="line">cookies = &#123;</span><br><span class="line">	&quot;cookies&quot; : &quot;wcute-cookie&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 生成请求对象</span><br><span class="line">re = requests.get(url, proxies = proxies,verify=False, headers = headers)</span><br><span class="line"></span><br><span class="line">print re.status_code</span><br></pre></td></tr></table></figure>
+<p>打开burp，设置代理与 python 中一样，运行python程序即可看到请求包结构<br><img src="https://upload-images.jianshu.io/upload_images/12585049-b5c1bbfdfdfbc5d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<p>如果感觉burp麻烦的话也可以使用requests自带方法查看请求包结构</p>
+<blockquote>
+<p>print re.request.headers</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-fd8cb84eafbbf049.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<h4 id="POST-请求包编写"><a href="#POST-请求包编写" class="headerlink" title="POST 请求包编写"></a>POST 请求包编写</h4><p>post 型与 get 型接近想同 ，只不过可以进行数据提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &quot;https://www.baidu.com&quot;</span><br><span class="line"></span><br><span class="line">proxies = &#123;</span><br><span class="line">	&quot;http&quot;:&quot;http://127.0.0.1:8080&quot;,</span><br><span class="line">	&quot;https&quot;:&quot;https://127.0.0.1:8080&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">	&quot;user-agent&quot; : &quot;Firefox&quot;,</span><br><span class="line">	&quot;wcute&quot; : &quot;hello wcute&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cookies = &#123;</span><br><span class="line">	&quot;cookies&quot; : &quot;wcute-cookie&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#  POST 提交数据</span><br><span class="line">payload = &#123;</span><br><span class="line">	&quot;payload&quot; : &quot;how&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">re = requests.post(url, proxies = proxies,data = payload, verify=False, headers = headers, cookies = cookies)</span><br><span class="line"></span><br><span class="line">print re.status_code</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-bd424bba6986aab5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<h3 id="常用Response对象属性"><a href="#常用Response对象属性" class="headerlink" title="常用Response对象属性"></a>常用Response对象属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">re.status_code        HTTP 请求返回的状态码</span><br><span class="line">re.text               HTTP 响应内容的字符串格式，URL 对应页面内容</span><br><span class="line">re.encoding           从 HTTP header 中猜测的响应内容编码方式</span><br><span class="line">re.content            HTTP 响应内容的二进制格式</span><br><span class="line">re.json()             Requests 内置 json 解码器</span><br><span class="line">re.headers            HTTP 请求头内容</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -420,8 +416,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/28/Docker （二）容器与镜像基础使用/" rel="next" title="Docker （二）容器与镜像基础使用">
-                <i class="fa fa-chevron-left"></i> Docker （二）容器与镜像基础使用
+              <a href="/2019/03/22/msfvenom 常用生成 Payload 命令/" rel="next" title="msfvenom 常用生成 Payload 命令">
+                <i class="fa fa-chevron-left"></i> msfvenom 常用生成 Payload 命令
               </a>
             
           </div>
@@ -429,10 +425,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/14/关于ERROR 1045 (28000) Access denied for user 'root'@'localhost' (using password NO)报错解决方式/" rel="prev" title="关于ERROR 1045 (28000):Access denied for user 'root'@'localhost' (using password:NO)报错解决方式">
-                关于ERROR 1045 (28000):Access denied for user 'root'@'localhost' (using password:NO)报错解决方式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -555,7 +547,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#影响版本"><span class="nav-number">1.</span> <span class="nav-text">影响版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#漏洞复现"><span class="nav-number">2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Python-编写请求包"><span class="nav-number">1.</span> <span class="nav-text">使用 Python 编写请求包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GET-请求包编写"><span class="nav-number">1.1.</span> <span class="nav-text">GET 请求包编写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POST-请求包编写"><span class="nav-number">1.2.</span> <span class="nav-text">POST 请求包编写</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用Response对象属性"><span class="nav-number">2.</span> <span class="nav-text">常用Response对象属性</span></a></li></ol></div>
             
 
           </div>
