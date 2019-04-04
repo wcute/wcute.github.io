@@ -79,22 +79,21 @@
 
 
 
-<meta name="description" content="动态调试利用调试器跟踪软件的运行，跟踪分析相关的内存，如寄存器内容，函数执行结果，内存使用情况等等，分析函数功能，明确代码逻辑，挖掘可能存在的漏洞 dex 文件动态调试 工具：IDA调试步骤   打开IDA安装目录，进入dbgsrv，根据模拟器选择适应的android_server版本，使用adb连接上传至模拟器并运行 root@SM-G9350:/data # ./android_serverI">
+<meta name="description" content="python2 中的urlparse模块已经整合进了python3 中的 urllib.parse模块这里使用的python2 进行模块学习 urlparse模块简介urlparse模块主要是把url拆分为6部分，并返回元组。并且可以把拆分后的部分再组成一个url。主要有函数有urljoin、urlsplit、urlunsplit、urlparse等。   urlparse.urlparse将ur">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android-动态分析">
-<meta property="og:url" content="http://wcute.github.io/2019/01/16/Android-动态分析/index.html">
+<meta property="og:title" content="Python - urlparse 模块学习">
+<meta property="og:url" content="http://wcute.github.io/2019/04/04/Python - urlparse 模块学习/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="动态调试利用调试器跟踪软件的运行，跟踪分析相关的内存，如寄存器内容，函数执行结果，内存使用情况等等，分析函数功能，明确代码逻辑，挖掘可能存在的漏洞 dex 文件动态调试 工具：IDA调试步骤   打开IDA安装目录，进入dbgsrv，根据模拟器选择适应的android_server版本，使用adb连接上传至模拟器并运行 root@SM-G9350:/data # ./android_serverI">
+<meta property="og:description" content="python2 中的urlparse模块已经整合进了python3 中的 urllib.parse模块这里使用的python2 进行模块学习 urlparse模块简介urlparse模块主要是把url拆分为6部分，并返回元组。并且可以把拆分后的部分再组成一个url。主要有函数有urljoin、urlsplit、urlunsplit、urlparse等。   urlparse.urlparse将ur">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-671d3d80483e6e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-bbb231b362d6007a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-023570062bfa6371.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e8ed9f0e8460e39c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-01-16T05:07:57.190Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-fb7ee764a65c1ff8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e4a1fef8a73fe7ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ef7f8c11afb19921.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-04-04T06:18:03.111Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android-动态分析">
-<meta name="twitter:description" content="动态调试利用调试器跟踪软件的运行，跟踪分析相关的内存，如寄存器内容，函数执行结果，内存使用情况等等，分析函数功能，明确代码逻辑，挖掘可能存在的漏洞 dex 文件动态调试 工具：IDA调试步骤   打开IDA安装目录，进入dbgsrv，根据模拟器选择适应的android_server版本，使用adb连接上传至模拟器并运行 root@SM-G9350:/data # ./android_serverI">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-671d3d80483e6e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Python - urlparse 模块学习">
+<meta name="twitter:description" content="python2 中的urlparse模块已经整合进了python3 中的 urllib.parse模块这里使用的python2 进行模块学习 urlparse模块简介urlparse模块主要是把url拆分为6部分，并返回元组。并且可以把拆分后的部分再组成一个url。主要有函数有urljoin、urlsplit、urlunsplit、urlparse等。   urlparse.urlparse将ur">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-fb7ee764a65c1ff8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -124,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2019/01/16/Android-动态分析/">
+  <link rel="canonical" href="http://wcute.github.io/2019/04/04/Python - urlparse 模块学习/">
 
 
 
 
 
-  <title>Android-动态分析 | 鸡翅儿</title>
+  <title>Python - urlparse 模块学习 | 鸡翅儿</title>
   
 
 
@@ -289,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/01/16/Android-动态分析/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/04/04/Python - urlparse 模块学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -306,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android-动态分析</h1>
+          <h1 class="post-title" itemprop="name headline">Python - urlparse 模块学习</h1>
         
 
         <div class="post-meta">
@@ -318,8 +317,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-16T13:01:25+08:00">
-                2019-01-16
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-04T14:19:00+08:00">
+                2019-04-04
               </time>
             
 
@@ -341,8 +340,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -378,70 +377,20 @@
       
 
       
-        <h3 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h3><p>利用调试器跟踪软件的运行，跟踪分析相关的内存，如寄存器内容，函数执行结果，内存使用情况等等，分析函数功能，明确代码逻辑，挖掘可能存在的漏洞</p>
-<h4 id="dex-文件动态调试"><a href="#dex-文件动态调试" class="headerlink" title="dex 文件动态调试"></a>dex 文件动态调试</h4><ul>
-<li>工具：IDA<h5 id="调试步骤"><a href="#调试步骤" class="headerlink" title="调试步骤"></a>调试步骤</h5></li>
+        <p>python2 中的<code>urlparse</code>模块已经整合进了python3 中的 <code>urllib.parse</code>模块<br>这里使用的python2 进行模块学习</p>
+<h3 id="urlparse模块简介"><a href="#urlparse模块简介" class="headerlink" title="urlparse模块简介"></a>urlparse模块简介</h3><p>urlparse模块主要是把url拆分为6部分，并返回元组。并且可以把拆分后的部分再组成一个url。主要有函数有urljoin、urlsplit、urlunsplit、urlparse等。 </p>
+<ul>
+<li>urlparse.urlparse<br>将url分为6个部分，返回一个包含6个字符串项目的元组：协议、位置、路径、参数、查询、片段。<br>其中<br><code>scheme</code> 是<code>协议</code><br><code>netloc</code> 是<code>域名服务器</code><br><code>path</code> 是<code>相对路径</code><br><code>params</code>是<code>参数</code><br><code>query</code>是<code>查询的条件</code><br><code>fragment</code>是拆分文档中的特殊<code>片段</code></li>
 </ul>
-<ol>
-<li>打开<code>IDA</code>安装目录，进入<code>dbgsrv</code>，根据模拟器选择适应的<code>android_server</code>版本，使用adb连接上传至模拟器并运行<blockquote>
-<p>root@SM-G9350:/data # <code>./android_server</code><br>IDA Android 32-bit remote debug server(ST) v1.22. Hex-Rays (c) 2004-2017<br>Listening on 0.0.0.0:23946…</p>
-</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-fb7ee764a65c1ff8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<ul>
+<li><p>urlparse.urlsplit<br>和urlparse差不多，将url分为5部分，返回一个包含5个字符串项目的元组：协议、位置、路径、查询、片段。<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e4a1fef8a73fe7ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 </li>
-<li>将 apk 解压后的<code>dex</code>文件拖入<code>IDA</code>，点击<code>Debugger</code>-<code>Debugger options</code>-<code>Set specific options</code>-<code>file from AndroidMainfest.xml</code>，选择要调试的 apk (路径不能含中文字符)</li>
-<li>使用<code>adb</code>转发端口到本地<blockquote>
-<p>C:\Users\Shinelon&gt; <code>adb forward tcp:23946 tcp:23946</code></p>
-</blockquote>
+<li><p>urlparse.urljoin<br>将相对的地址组合成一个url，对于输入没有限制，开头必须是http://，否则将不组合前面。</p>
+<p>  urljoin主要是拼接URL，它以base作为其基地址，然后与url中的相对地址相结合组成一个绝对URL地址。函数 urljoin 在通过为URL基地址附加新的文件名的方式来处理同一位置处的若干文件的时候格外有用。需要注意的是，如果基地址并非以字符/结尾的话，那么URL基地址最右边部分就会被这个相对路径所替换。如果希望在该路径中保留末端目录，应确保URL基地址以字符/结尾。<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ef7f8c11afb19921.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 </li>
-<li>查询 apk 包名，以调试的方式启动（需要<code>AndroidMainfest.xml</code>里设置<code>Android:debuggable=&quot;true&quot;</code>） <blockquote>
-<p>root@SM-G9350:/data/app # <code>ls</code><br>com.gaga.sodemo-1</p>
-</blockquote>
-</li>
-</ol>
-<blockquote>
-<p>C:\Users\Shinelon&gt;<code>adb shell am start -D -n com.gaga.sodemo/com.gaga.sodemo.MainActivity</code><br>Starting: Intent { cmp=com.gaga.sodemo/.MainActivity }</p>
-<ol start="5">
-<li>进入IDA，选择<code>Debugger</code>-<code>Attach to process</code>进入调试界面<br><img src="https://upload-images.jianshu.io/upload_images/12585049-671d3d80483e6e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></li>
-</ol>
-</blockquote>
-<h4 id="dex-代码注入"><a href="#dex-代码注入" class="headerlink" title="dex 代码注入"></a>dex 代码注入</h4><ul>
-<li>工具：frida</li>
-<li>frida 安装：</li>
 </ul>
-<ol>
-<li>安装 python 环境（这里用的 python3.7）</li>
-<li>根据 python 下载相应的<code>frida-server</code>（下载地址：<a href="https://github.com/frida/frida/releases）" target="_blank" rel="noopener">https://github.com/frida/frida/releases）</a></li>
-<li>使用 adb 将<code>frida-server</code>上传至模拟器<blockquote>
-<p>C:\Users\Shinelon&gt;<code>adb push frida-server-12.2.29-android-x86 /data/local/tmp</code></p>
-</blockquote>
-</li>
-<li>赋予权限，开启<code>frida-server</code><blockquote>
-<p>root@SM-G9350:/data/local/tmp # <code>chmod 777 frida-server</code><br>root@SM-G9350:/data/local/tmp # <code>./frida-server</code></p>
-</blockquote>
-</li>
-<li>使用<code>firda-ps -U</code>查看 frida 是否安装成功<blockquote>
-<p>C:\Users\Shinelon&gt;<code>frida-ps -U</code><br>PID  Name<br>3082  android.process.acore<br>1700  android_server</p>
-</blockquote>
-</li>
-</ol>
-<h5 id="使用-frida-对-dex-文件代码进行注入"><a href="#使用-frida-对-dex-文件代码进行注入" class="headerlink" title="使用 frida 对 dex 文件代码进行注入"></a>使用 frida 对 dex 文件代码进行注入</h5><ol>
-<li>分析代码，发现checkFlag方法对签名信息进行校验，校验成功app弹出’success’提示，因此需要使’checkFlag’方法返回<code>true</code>来触发弹框<br><img src="https://upload-images.jianshu.io/upload_images/12585049-bbb231b362d6007a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></li>
-<li>使用<code>adb</code>连接模拟器，并开启<code>frida-server</code>，运行<code>apk</code>程序，使用<code>frida-ps -U</code>查看运行的包名（需要注入的程序包名必须存在）</li>
-<li>编写脚本<code>hook</code>到<code>checkFlag</code>方法，修改返回值为<code>true</code>运行脚本，发现 <code>app check</code> 成功，<code>frida</code>脚本 <code>hook</code> 成功，此时运行程序显示成功<br><img src="https://upload-images.jianshu.io/upload_images/12585049-023570062bfa6371.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></li>
-</ol>
-<h4 id="so-文件动态调试"><a href="#so-文件动态调试" class="headerlink" title="so 文件动态调试"></a>so 文件动态调试</h4><ul>
-<li>工具：<code>IDA</code> <code>gdb</code><h5 id="调试步骤-1"><a href="#调试步骤-1" class="headerlink" title="调试步骤"></a>调试步骤</h5></li>
-</ul>
-<ol>
-<li>打开<code>IDA</code>安装目录，进入<code>dbgsrv</code>，根据模拟器选择适应的<code>android_server</code>版本，使用adb连接上传至模拟器并运行<blockquote>
-<p>root@SM-G9350:/data # <code>./android_server</code><br>IDA Android 32-bit remote debug server(ST) v1.22. Hex-Rays (c) 2004-2017<br>Listening on 0.0.0.0:23946…</p>
-</blockquote>
-</li>
-<li>端口转发本地<blockquote>
-<p>C:\Users\Shinelon&gt;<code>adb forward tcp:23946 tcp:23946</code></p>
-</blockquote>
-</li>
-<li>将 apk 解压后的<code>so</code>文件拖入<code>IDA</code>，选择<code>Debugger</code>-<code>select</code>-<code>Remote ARM LINUX</code>填写对应<code>ip</code>及端口 <code>Debugger</code>- <code>process options</code>-<code>hostname:127.0.0.1</code> <code>port:23946</code> 点击<code>Debugger</code>-<code>attach to process</code>选择要调试的应用，开始进行调试<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e8ed9f0e8460e39c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></li>
-</ol>
+<p>参考链接：<br><a href="https://www.cnblogs.com/cemaster/p/6435711.html" target="_blank" rel="noopener">https://www.cnblogs.com/cemaster/p/6435711.html</a><br><a href="https://www.cnblogs.com/xie-kun/p/7858358.html" target="_blank" rel="noopener">https://www.cnblogs.com/xie-kun/p/7858358.html</a></p>
 
       
     </div>
@@ -466,8 +415,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/13/Android-静态分析/" rel="next" title="Android-静态分析">
-                <i class="fa fa-chevron-left"></i> Android-静态分析
+              <a href="/2019/04/01/Mysql 提权(UDF提权)/" rel="next" title="Mysql 提权(UDF提权)">
+                <i class="fa fa-chevron-left"></i> Mysql 提权(UDF提权)
               </a>
             
           </div>
@@ -475,10 +424,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/28/Docker （二）容器与镜像基础使用/" rel="prev" title="Docker （二）容器与镜像基础使用">
-                Docker （二）容器与镜像基础使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -601,7 +546,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态调试"><span class="nav-number">1.</span> <span class="nav-text">动态调试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dex-文件动态调试"><span class="nav-number">1.1.</span> <span class="nav-text">dex 文件动态调试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调试步骤"><span class="nav-number">1.1.1.</span> <span class="nav-text">调试步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dex-代码注入"><span class="nav-number">1.2.</span> <span class="nav-text">dex 代码注入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用-frida-对-dex-文件代码进行注入"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用 frida 对 dex 文件代码进行注入</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#so-文件动态调试"><span class="nav-number">1.3.</span> <span class="nav-text">so 文件动态调试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调试步骤-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">调试步骤</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#urlparse模块简介"><span class="nav-number">1.</span> <span class="nav-text">urlparse模块简介</span></a></li></ol></div>
             
 
           </div>

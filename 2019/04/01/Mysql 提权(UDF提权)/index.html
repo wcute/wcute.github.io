@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-51452d8d3b0eaf83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-bdcd9ade85e54f44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-1ed00c4a5b47f024.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-04-01T05:26:19.481Z">
+<meta property="og:updated_time" content="2019-04-03T14:56:23.320Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql 提权(UDF提权)">
 <meta name="twitter:description" content="Mysql 安装以 Centos 7 为例  wget下载安装包 wget http://repo.mysql.com/mysql57-community-release-el7-10.noarch.rpm   安装软件源 rpm -Uvh mysql57-community-release-el7-10.noarch.rpm    安装 mysql 服务端 yum install  -y  my">
@@ -425,7 +425,7 @@
 <h4 id="MYSQL-利用udf提权"><a href="#MYSQL-利用udf提权" class="headerlink" title="MYSQL 利用udf提权"></a>MYSQL 利用<code>udf</code>提权</h4><h5 id="提权思路："><a href="#提权思路：" class="headerlink" title="提权思路："></a>提权思路：</h5><blockquote>
 <ol>
 <li>将<code>udf</code>文件放到指定位置（<code>mysql版本 &gt; 5.1</code>，<code>udf.dll</code>导出到安装路径<code>MySQL\Lib\Plugin</code>，<code>mysql版本 &lt; 5.1</code> , <code>udf.dll</code>文件在<code>win server 2003</code>下放置于<code>c:\windows\system32</code>目录，在<code>win server 2000</code>下放置在<code>c:\winnt\system32</code>目录）</li>
-<li>从 udf (user defined function) 文件中引入自定义函数(<code>linux</code>环境下导出<code>lib_mysqludf_sys.so</code>，<code>Windows</code>下导出<code>dll</code>文件)</li>
+<li>从udf(user defined function) 文件中引入自定义函数(<code>linux</code>环境下导出<code>lib_mysqludf_sys.so</code>，<code>Windows</code>下导出<code>dll</code>文件)</li>
 <li>执行自定义函数</li>
 </ol>
 </blockquote>
@@ -518,6 +518,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/04/04/Python - urlparse 模块学习/" rel="prev" title="Python - urlparse 模块学习">
+                Python - urlparse 模块学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -593,7 +597,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
