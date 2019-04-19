@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2afcac744de47cba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-b2b30d90cf834f99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-465b4774120b0578.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-29T01:06:17.013Z">
+<meta property="og:updated_time" content="2019-04-17T08:25:45.369Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nmap 常用命令总结">
 <meta name="twitter:description" content="基本命令使用 格式：nmap [ &amp;lt;扫描类型&amp;gt; …] [ &amp;lt;选项&amp;gt; ] { &amp;lt;扫描目标说明&amp;gt; }  常用命令  全面扫描：nmap-T4 -A targetip主机发现：nmap-T4 -sn targetip端口扫描：nmap-T4 targetip服务扫描：nmap-T4 -sV targetip操作系统扫描：nmap-T4 -O targetip   扫描">
@@ -424,7 +424,10 @@
 <p>nmap -p 445  –script smb-ls –script-args ‘share=e$,path=\,smbuser=test,smbpass=test’ 192.168.137.4</p>
 </blockquote>
 </li>
-<li>smb-psexec: 用登陆凭据作为脚本参数，在目标机器上运行一系列程序（注：需要下载nmap_service）<br>$nmap –script smb-psexec.nse –script-args=smbuser=<username>,smbpass=<password>[,config=<config>] -p445 <hosts></hosts></config></password></username></li>
+<li>smb-psexec: 用登陆凭据作为脚本参数，在目标机器上运行一系列程序（注：需要下载nmap_service）<blockquote>
+<p>nmap –script smb-psexec.nse –script-args=smbuser=<username>,smbpass=<password>[,config=<config>] -p445 <hosts></hosts></config></password></username></p>
+</blockquote>
+</li>
 <li>查看会话<blockquote>
 <p>nmap -n -p445 –script=smb-enum-sessions.nse –script-args=smbuser=test,smbpass=test 192.168.137.4   </p>
 </blockquote>
@@ -595,7 +598,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
