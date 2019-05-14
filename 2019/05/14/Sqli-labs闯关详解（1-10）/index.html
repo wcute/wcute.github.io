@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 i">
+<meta name="description" content="感觉sql注入忘的都差不多了 跑来把sqli-labs过一遍 也算是复习巩固个知识吧  考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sqli-labs闯关详解（1-10）">
 <meta property="og:url" content="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（1-10）/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 i">
+<meta property="og:description" content="感觉sql注入忘的都差不多了 跑来把sqli-labs过一遍 也算是复习巩固个知识吧  考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-642b2dde70081ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-5acbefb626815602.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -119,10 +119,10 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-13ae1373ded37e1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0c906e23dace6bf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-246367f5a91a09b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-05-14T11:52:00.698Z">
+<meta property="og:updated_time" content="2019-05-14T12:00:39.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sqli-labs闯关详解（1-10）">
-<meta name="twitter:description" content="考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 i">
+<meta name="twitter:description" content="感觉sql注入忘的都差不多了 跑来把sqli-labs过一遍 也算是复习巩固个知识吧  考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-642b2dde70081ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -407,7 +407,8 @@
       
 
       
-        <ul>
+        <p>感觉sql注入忘的都差不多了 跑来把sqli-labs过一遍 也算是复习巩固个知识吧</p>
+<ul>
 <li>考查点：UNION联合查询注入（Less-1-5）<h4 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h4></li>
 </ul>
 <p><img src="https://upload-images.jianshu.io/upload_images/12585049-642b2dde70081ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"><br>首先看到题目要求传一个id参数，且为数字型<br>因此传入<code>?id=1</code>开始测试，<br><img src="https://upload-images.jianshu.io/upload_images/12585049-5acbefb626815602.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"><br>加单引号报错，两个单引号正常显示，判断为字符型注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-60fe8aac4f3b44c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
