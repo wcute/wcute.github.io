@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[使用VsCode编写并远程调试服务器代码]]></title>
     <url>%2F2019%2F07%2F28%2F%E4%BD%BF%E7%94%A8VsCode%E7%BC%96%E5%86%99%E5%B9%B6%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%A3%E7%A0%81%2F</url>
-    <content type="text"><![CDATA[个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装安装完后，左下角会出现一个绿色的终端小框点击小框，弹出一个框，选择连接到主机（Remote-SSH:Connect to Host...）输入你要连接的服务器ip与用户确认后会弹出一个新的会话框，文本框下方提示输入服务器的密码好像需要两次输入，如图表示连接成功现在就可以开始编写你的代码了，可以选择新建项目或者打开已有的目录我这里选择新建一个文件（New file），ctrl+s进行保存的时候会弹出一个存储文件目录及名称的框进行选择F5进行代码的调试运行，但是由于这是一个新的终端，可能之前在本地装的插件无法使用，需要重新添加插件，比如运行python脚本的插件（其他语言自行安装插件）插件安装好，就可以进行调试运行了，F5选择调试环境文件如图，成功运行py脚本]]></content>
+    <content type="text"><![CDATA[个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remote Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remote Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务 搭建过程首先安装remote Development插件，如下图搜索插件名称直接安装安装完后，左下角会出现一个绿色的终端小框点击小框，弹出一个框，选择连接到主机（Remote-SSH:Connect to Host...）输入你要连接的服务器ip与用户确认后会弹出一个新的会话框，文本框下方提示输入服务器的密码好像需要两次输入，如图表示连接成功现在就可以开始编写你的代码了，可以选择新建项目或者打开已有的目录我这里选择新建一个文件（New file），ctrl+s进行保存的时候会弹出一个存储文件目录及名称的框进行选择F5进行代码的调试运行，但是由于这是一个新的终端，可能之前在本地装的插件无法使用，需要重新添加插件，比如运行python脚本的插件（其他语言自行安装插件）插件安装好，就可以进行调试运行了，F5选择调试环境文件如图，成功运行py脚本]]></content>
       <categories>
         <category>Python</category>
       </categories>

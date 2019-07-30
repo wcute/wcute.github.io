@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装">
+<meta name="description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remote Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remote Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务  搭建过程首先安装remote Development插件，如下图搜索插件名称直接">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用VsCode编写并远程调试服务器代码">
 <meta property="og:url" content="http://wcute.github.io/2019/07/28/使用VsCode编写并远程调试服务器代码/index.html">
 <meta property="og:site_name" content="鸡翅儿">
-<meta property="og:description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装">
+<meta property="og:description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remote Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remote Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务  搭建过程首先安装remote Development插件，如下图搜索插件名称直接">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2a2106f6eba8d895.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -97,10 +97,10 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4123352af81104be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-215bf8850bd94c05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-20760808d4d9f743.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-07-30T02:10:26.387Z">
+<meta property="og:updated_time" content="2019-07-30T02:15:07.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用VsCode编写并远程调试服务器代码">
-<meta name="twitter:description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装">
+<meta name="twitter:description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remote Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remote Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务  搭建过程首先安装remote Development插件，如下图搜索插件名称直接">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -385,11 +385,12 @@
       
 
       
-        <p>个人记录一下，虽然很简单但是网上文章还是踩了不少坑。<br>编辑器：<code>VsCode</code><br>插件：<code>remate Development</code><br>服务器：<code>Linux（Centos）</code></p>
+        <p>个人记录一下，虽然很简单但是网上文章还是踩了不少坑。<br>编辑器：<code>VsCode</code><br>插件：<code>remote Development</code><br>服务器：<code>Linux（Centos）</code></p>
 <h3 id="安装要求"><a href="#安装要求" class="headerlink" title="安装要求"></a>安装要求</h3><ul>
-<li>VsCode 客户端只需要安装<code>remate Development</code>插件即可</li>
-<li>服务器端必须要开启<code>SSH</code>服务，这个可以各自根据自己的服务器系统自行搭建<code>SSH</code>服务<h3 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h3>首先安装<code>remate Development</code>插件，如下图搜索插件名称直接安装<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>安装完后，左下角会出现一个绿色的终端小框<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2a2106f6eba8d895.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>点击小框，弹出一个框，选择连接到主机（<code>Remote-SSH:Connect to Host...</code>）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a529e76dcaec8973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>输入你要连接的服务器ip与用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0b59d7683b3eb215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>确认后会弹出一个新的会话框，文本框下方提示输入服务器的密码<br><img src="https://upload-images.jianshu.io/upload_images/12585049-c2400575468d6075.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>好像需要两次输入，如图表示连接成功<br><img src="https://upload-images.jianshu.io/upload_images/12585049-73ba0cca01d29e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>现在就可以开始编写你的代码了，可以选择新建项目或者打开已有的目录<br><img src="https://upload-images.jianshu.io/upload_images/12585049-363b824c694a4fbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>我这里选择新建一个文件（New file），<code>ctrl+s</code>进行保存的时候会弹出一个存储文件目录及名称的框进行选择<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9b9f42dd8f82bfd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>F5进行代码的调试运行，但是由于这是一个新的终端，可能之前在本地装的插件无法使用，需要重新添加插件，比如运行python脚本的插件（其他语言自行安装插件）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4123352af81104be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>插件安装好，就可以进行调试运行了，F5选择调试环境文件<br><img src="https://upload-images.jianshu.io/upload_images/12585049-215bf8850bd94c05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>如图，成功运行py脚本<br><img src="https://upload-images.jianshu.io/upload_images/12585049-20760808d4d9f743.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+<li>VsCode 客户端只需要安装<code>remote Development</code>插件即可</li>
+<li>服务器端必须要开启<code>SSH</code>服务，这个可以各自根据自己的服务器系统自行搭建<code>SSH</code>服务</li>
 </ul>
+<h3 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h3><p>首先安装<code>remote Development</code>插件，如下图搜索插件名称直接安装<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>安装完后，左下角会出现一个绿色的终端小框<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2a2106f6eba8d895.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>点击小框，弹出一个框，选择连接到主机（<code>Remote-SSH:Connect to Host...</code>）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a529e76dcaec8973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>输入你要连接的服务器ip与用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0b59d7683b3eb215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>确认后会弹出一个新的会话框，文本框下方提示输入服务器的密码<br><img src="https://upload-images.jianshu.io/upload_images/12585049-c2400575468d6075.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>好像需要两次输入，如图表示连接成功<br><img src="https://upload-images.jianshu.io/upload_images/12585049-73ba0cca01d29e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>现在就可以开始编写你的代码了，可以选择新建项目或者打开已有的目录<br><img src="https://upload-images.jianshu.io/upload_images/12585049-363b824c694a4fbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>我这里选择新建一个文件（New file），<code>ctrl+s</code>进行保存的时候会弹出一个存储文件目录及名称的框进行选择<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9b9f42dd8f82bfd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>F5进行代码的调试运行，但是由于这是一个新的终端，可能之前在本地装的插件无法使用，需要重新添加插件，比如运行python脚本的插件（其他语言自行安装插件）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4123352af81104be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>插件安装好，就可以进行调试运行了，F5选择调试环境文件<br><img src="https://upload-images.jianshu.io/upload_images/12585049-215bf8850bd94c05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>如图，成功运行py脚本<br><img src="https://upload-images.jianshu.io/upload_images/12585049-20760808d4d9f743.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
 
       
     </div>
