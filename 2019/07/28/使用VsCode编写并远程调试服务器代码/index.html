@@ -79,13 +79,29 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="鸡翅儿">
-<meta property="og:url" content="http://wcute.github.io/categories/数据库学习/index.html">
+<meta name="description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用VsCode编写并远程调试服务器代码">
+<meta property="og:url" content="http://wcute.github.io/2019/07/28/使用VsCode编写并远程调试服务器代码/index.html">
 <meta property="og:site_name" content="鸡翅儿">
+<meta property="og:description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-2a2106f6eba8d895.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-a529e76dcaec8973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-0b59d7683b3eb215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-c2400575468d6075.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-73ba0cca01d29e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-363b824c694a4fbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-9b9f42dd8f82bfd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-4123352af81104be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-215bf8850bd94c05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-20760808d4d9f743.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-07-30T02:10:26.387Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="鸡翅儿">
+<meta name="twitter:title" content="使用VsCode编写并远程调试服务器代码">
+<meta name="twitter:description" content="个人记录一下，虽然很简单但是网上文章还是踩了不少坑。编辑器：VsCode插件：remate Development服务器：Linux（Centos） 安装要求 VsCode 客户端只需要安装remate Development插件即可 服务器端必须要开启SSH服务，这个可以各自根据自己的服务器系统自行搭建SSH服务搭建过程首先安装remate Development插件，如下图搜索插件名称直接安装">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -115,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://wcute.github.io/categories/数据库学习/">
+  <link rel="canonical" href="http://wcute.github.io/2019/07/28/使用VsCode编写并远程调试服务器代码/">
 
 
 
 
 
-  <title>Category: 数据库学习 | 鸡翅儿</title>
+  <title>使用VsCode编写并远程调试服务器代码 | 鸡翅儿</title>
   
 
 
@@ -140,7 +156,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -266,79 +282,167 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>数据库学习<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2019/07/28/使用VsCode编写并远程调试服务器代码/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/03/14/关于ERROR 1045 (28000) Access denied for user 'root'@'localhost' (using password NO)报错解决方式/" itemprop="url">
-              
-                <span itemprop="name">关于ERROR 1045 (28000):Access denied for user 'root'@'localhost' (using password:NO)报错解决方式</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">使用VsCode编写并远程调试服务器代码</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-14T18:32:05+08:00" content="2019-03-14">
-          03-14
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-28T19:54:00+08:00">
+                2019-07-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/09/数据库信息/" itemprop="url">
-              
-                <span itemprop="name">数据库信息</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-09T12:33:03+08:00" content="2018-12-09">
-          12-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>个人记录一下，虽然很简单但是网上文章还是踩了不少坑。<br>编辑器：<code>VsCode</code><br>插件：<code>remate Development</code><br>服务器：<code>Linux（Centos）</code></p>
+<h3 id="安装要求"><a href="#安装要求" class="headerlink" title="安装要求"></a>安装要求</h3><ul>
+<li>VsCode 客户端只需要安装<code>remate Development</code>插件即可</li>
+<li>服务器端必须要开启<code>SSH</code>服务，这个可以各自根据自己的服务器系统自行搭建<code>SSH</code>服务<h3 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h3>首先安装<code>remate Development</code>插件，如下图搜索插件名称直接安装<br><img src="https://upload-images.jianshu.io/upload_images/12585049-ec6bd9b1bd388a95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>安装完后，左下角会出现一个绿色的终端小框<br><img src="https://upload-images.jianshu.io/upload_images/12585049-2a2106f6eba8d895.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>点击小框，弹出一个框，选择连接到主机（<code>Remote-SSH:Connect to Host...</code>）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-a529e76dcaec8973.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>输入你要连接的服务器ip与用户<br><img src="https://upload-images.jianshu.io/upload_images/12585049-0b59d7683b3eb215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>确认后会弹出一个新的会话框，文本框下方提示输入服务器的密码<br><img src="https://upload-images.jianshu.io/upload_images/12585049-c2400575468d6075.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>好像需要两次输入，如图表示连接成功<br><img src="https://upload-images.jianshu.io/upload_images/12585049-73ba0cca01d29e16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>现在就可以开始编写你的代码了，可以选择新建项目或者打开已有的目录<br><img src="https://upload-images.jianshu.io/upload_images/12585049-363b824c694a4fbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>我这里选择新建一个文件（New file），<code>ctrl+s</code>进行保存的时候会弹出一个存储文件目录及名称的框进行选择<br><img src="https://upload-images.jianshu.io/upload_images/12585049-9b9f42dd8f82bfd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>F5进行代码的调试运行，但是由于这是一个新的终端，可能之前在本地装的插件无法使用，需要重新添加插件，比如运行python脚本的插件（其他语言自行安装插件）<br><img src="https://upload-images.jianshu.io/upload_images/12585049-4123352af81104be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>插件安装好，就可以进行调试运行了，F5选择调试环境文件<br><img src="https://upload-images.jianshu.io/upload_images/12585049-215bf8850bd94c05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"><br>如图，成功运行py脚本<br><img src="https://upload-images.jianshu.io/upload_images/12585049-20760808d4d9f743.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/02/邮件注入攻击/" rel="next" title="邮件注入攻击">
+                <i class="fa fa-chevron-left"></i> 邮件注入攻击
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -346,6 +450,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -366,8 +474,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -418,6 +535,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装要求"><span class="nav-number">1.</span> <span class="nav-text">安装要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建过程"><span class="nav-number">2.</span> <span class="nav-text">搭建过程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -552,6 +685,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
