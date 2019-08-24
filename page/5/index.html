@@ -438,7 +438,7 @@ Models 创建
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/MS17-010漏洞复现/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/10/Django--（Templates）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -457,7 +457,7 @@ Models 创建
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/MS17-010漏洞复现/" itemprop="url">MS17-010漏洞复现</a></h1>
+                <a class="post-title-link" href="/2018/12/10/Django--（Templates）/" itemprop="url">Django--（Templates）</a></h1>
         
 
         <div class="post-meta">
@@ -469,8 +469,8 @@ Models 创建
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-10T12:33:03+08:00">
+                2018-12-10
               </time>
             
 
@@ -492,8 +492,8 @@ Models 创建
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞复现</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -531,28 +531,17 @@ Models 创建
       
         
           
-          复现环境攻击机 kali靶机 Windows7（需要关闭防火墙）
-漏洞复现过程
-启动msf终端
-msfconsole
+          
+在APP的根目录（应用）下创建名叫 Templates 的目录
+在 Templates 目录下创建 HTML 文件
+在 views.py 中返回 render（）
 
 
-
-
-
-搜索与ms17-010漏洞有关的代码库
-search ms17_010
-
-
-
-
-
-使用exp代码
-use exploit/windows/smb/ms17_010_eter
+views.py12345678from django.shortcuts import renderfrom django.ht
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/MS17-010漏洞复现/#more" rel="contents">
+            <a class="btn" href="/2018/12/10/Django--（Templates）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -603,7 +592,7 @@ use exploit/windows/smb/ms17_010_eter
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/python3-学习（2）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Python3-学习（爬虫实例）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -622,7 +611,7 @@ use exploit/windows/smb/ms17_010_eter
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/python3-学习（2）/" itemprop="url">python3-学习（2）</a></h1>
+                <a class="post-title-link" href="/2018/12/09/Python3-学习（爬虫实例）/" itemprop="url">Python3-学习（爬虫实例）</a></h1>
         
 
         <div class="post-meta">
@@ -696,19 +685,18 @@ use exploit/windows/smb/ms17_010_eter
       
         
           
-          python类的继承实例：
+          爬虫
+bs4参考链接：https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html
 
-class people:
-    name=&apos;&apos;
-    age=0
-    __weight=0    #定义私有属性,私有属性在类外部无法直接进行访问
+实例1：利用百度搜索接口，编写url采集器
+import requests
+from bs4 import BeautifulSoup
 
-    def __init__(self,n,a,w):
-        self.na
+h
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/python3-学习（2）/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/Python3-学习（爬虫实例）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1063,7 +1051,7 @@ exploit/multi/samba/user
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/XSS漏洞学习/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/文件解析漏洞/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -1082,7 +1070,7 @@ exploit/multi/samba/user
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/XSS漏洞学习/" itemprop="url">XSS漏洞学习</a></h1>
+                <a class="post-title-link" href="/2018/12/09/文件解析漏洞/" itemprop="url">文件解析漏洞</a></h1>
         
 
         <div class="post-meta">
@@ -1156,20 +1144,14 @@ exploit/multi/samba/user
       
         
           
-          XSS漏洞的原理XSS漏洞是发生在目标网站中目标用户的浏览层面上，当用户浏览器渲染整个HTML文档的过程中，出现了不被预期的脚本指令并执行时，XSS就会发生。
-XSS漏洞的危害
-获取用户或者管理员的Cookie
-XSS蠕虫
-钓鱼攻击
-挂马
-键盘记录等
-
-以下是可能嵌入跨源的资源的一些示例：
- 标签嵌
+          解析漏洞　　一些特殊文件被IIS Apache Nginx在某种情况下解析成脚本文件格式的漏洞
+IIS 6.0解析漏洞
+目录解析漏洞 /xx.asp/xx.jpg
+在网站下创建文件夹名字为.asp .asa的文件夹，其目录内的任何扩展名的文件都被iis当做asp文件来解析并执行。因此只要攻击者可以通
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/XSS漏洞学习/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/文件解析漏洞/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1375,7 +1357,7 @@ wget 获取 redis 安装包
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Python3-学习（爬虫实例）/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/XSS漏洞学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -1394,7 +1376,164 @@ wget 获取 redis 安装包
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Python3-学习（爬虫实例）/" itemprop="url">Python3-学习（爬虫实例）</a></h1>
+                <a class="post-title-link" href="/2018/12/09/XSS漏洞学习/" itemprop="url">XSS漏洞学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
+                2018-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞学习/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          XSS漏洞的原理XSS漏洞是发生在目标网站中目标用户的浏览层面上，当用户浏览器渲染整个HTML文档的过程中，出现了不被预期的脚本指令并执行时，XSS就会发生。
+XSS漏洞的危害
+获取用户或者管理员的Cookie
+XSS蠕虫
+钓鱼攻击
+挂马
+键盘记录等
+
+以下是可能嵌入跨源的资源的一些示例：
+ 标签嵌
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/09/XSS漏洞学习/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（2）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wcute">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="鸡翅儿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（2）/" itemprop="url">Django---简单博客搭建（2）</a></h1>
         
 
         <div class="post-meta">
@@ -1468,18 +1607,20 @@ wget 获取 redis 安装包
       
         
           
-          爬虫
-bs4参考链接：https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html
+          博客页面分类：1.博客主页面2.博客文章内容页面3.博客撰写页面
+主页面内容：
+文章标题列表，超链接
+取出数据库中所有文章对象
+将文章对象打包成列表，传递到前端
+前端页面把文章以标题超链接的形式逐个列出
 
-实例1：利用百度搜索接口，编写url采集器
-import requests
-from bs4 import BeautifulSoup
 
-h
+后端 views.py
+123456789# -*- coding:utf-8 -*-fro
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Python3-学习（爬虫实例）/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/Django---简单博客搭建（2）/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1530,7 +1671,7 @@ h
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Web扫描器-Metasploit'-Wmap/">
+    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/数据库信息/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wcute">
@@ -1549,7 +1690,7 @@ h
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/" itemprop="url">Web扫描器-Metasploit'-Wmap</a></h1>
+                <a class="post-title-link" href="/2018/12/09/数据库信息/" itemprop="url">数据库信息</a></h1>
         
 
         <div class="post-meta">
@@ -1584,8 +1725,8 @@ h
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Metasploit-渗透测试/" itemprop="url" rel="index">
-                    <span itemprop="name">Metasploit 渗透测试</span>
+                  <a href="/categories/数据库学习/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库学习</span>
                   </a>
                 </span>
 
@@ -1623,181 +1764,11 @@ h
       
         
           
-          Metasploit’Wmap Web扫描器使用第一次使用需要初始化并启动数据库
- 
-
-启动 metasploit root@kaili:~# msfconsole
-进入控制台，加载wmap模块 msf &gt; load_wmap成功加载如下图
-
-help 查看 wmap 参数 msf &gt; 
+          一些 CMS 数据库安装配置信息123dedecms			/data/common.inc.phpDiscuz			/config_global_default.php、config /config_ucenter.php、config.inc.phpPHPCMS V9		caches/config
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Web扫描器-Metasploit'-Wmap/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wcute.github.io/2018/12/09/Django---简单博客搭建（Django安装）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wcute">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="鸡翅儿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/Django---简单博客搭建（Django安装）/" itemprop="url">Django---简单博客搭建（Django安装）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-09T12:33:03+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Django 安装
-安装
-pip install Django==1.10.2
-
-
-查看是否安装成功
-python -m django version
-
-
-创建新项目
-D:\python&gt;django-admin startproject myblog
-
-
-
-此时自建项目目录生成
-
-目录结构:
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/Django---简单博客搭建（Django安装）/#more" rel="contents">
+            <a class="btn" href="/2018/12/09/数据库信息/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1839,7 +1810,7 @@ D:\python&gt;django-admin startproject myblog
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1885,7 +1856,7 @@ D:\python&gt;django-admin startproject myblog
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1896,7 +1867,7 @@ D:\python&gt;django-admin startproject myblog
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

